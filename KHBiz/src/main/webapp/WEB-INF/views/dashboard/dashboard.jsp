@@ -42,16 +42,6 @@
 <script type="text/javascript">
     	$(document).ready(function(){
 
-        	demo.initChartist();
-
-        	$.notify({
-            	icon: 'pe-7s-gift',
-            	message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
-            },{
-                type: 'info',
-                timer: 4000
-            });
 
     	});
 	</script>
@@ -88,34 +78,34 @@
 
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="http://www.creative-tim.com" class="simple-text">
-						Creative Tim </a>
+					<a href="/erp/index" class="simple-text">
+						KH Biz </a>
 				</div>
 
 				<ul class="nav">
-					<li class="active"><a href="dashboard.html"> <i
+					<li class="active"><a href="/erp/index"> <i
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href="user.html"> <i class="pe-7s-user"></i>
-							<p>User Profile</p>
+					<li><a href=""> <i class="pe-7s-user"></i>
+							<p>근태관리</p>
 					</a></li>
-					<li><a href="table.html"> <i class="pe-7s-note2"></i>
-							<p>Table List</p>
+					<li><a href="/erp/draft/draft_main"> <i class="pe-7s-note2"></i>
+							<p>전자결재</p>
 					</a></li>
-					<li><a href="typography.html"> <i class="pe-7s-news-paper"></i>
-							<p>Typography</p>
+					<li><a href=""> <i class="pe-7s-news-paper"></i>
+							<p>메신저</p>
 					</a></li>
-					<li><a href="icons.html"> <i class="pe-7s-science"></i>
-							<p>Icons</p>
+					<li><a href=""> <i class="pe-7s-science"></i>
+							<p>일정관리</p>
 					</a></li>
-					<li><a href="maps.html"> <i class="pe-7s-map-marker"></i>
-							<p>Maps</p>
+					<li><a href=""> <i class="pe-7s-map-marker"></i>
+							<p>급여관리</p>
 					</a></li>
-					<li><a href="notifications.html"> <i class="pe-7s-bell"></i>
+					<li><a href=""> <i class="pe-7s-bell"></i>
 							<p>Notifications</p>
 					</a></li>
-					<li class="active-pro"><a href="upgrade.html"> <i
+					<li class="active-pro"><a href=""> <i
 							class="pe-7s-rocket"></i>
 							<p>Upgrade to PRO</p>
 					</a></li>
