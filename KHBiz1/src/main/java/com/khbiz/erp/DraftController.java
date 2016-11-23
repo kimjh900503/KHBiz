@@ -20,6 +20,15 @@ public class DraftController {
 	@Autowired
 	private DraftService dService;
 	
+	@RequestMapping(value="draftForm1")
+	public void go_Form1(){}
+	
+	@RequestMapping(value="draftForm2")
+	public void go_Form2(){}
+	
+	@RequestMapping(value="draftForm3")
+	public void go_Form3(){}
+	
 	@RequestMapping(value="/draft_main", method =RequestMethod.GET )
 	public void draftMain(){}
 
@@ -32,7 +41,12 @@ public class DraftController {
 		String path = dService.outboxList(model);
 		return path;
 	}
-
+	//상신함이동
+	@RequestMapping(value="/draftReportBox", method = RequestMethod.GET)
+	public String reportboxList(Model model) throws Exception{
+		String path = dService.reportboxList(model);
+		return path;
+	}
 	
 	@RequestMapping(value="/draftWrite") 
 	public String write (Model model, DraftDTO draftDTO) throws Exception{	

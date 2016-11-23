@@ -6,7 +6,7 @@
 	
 	<insert id="draftWrite" parameterType="com.erp.draft.DraftDTO">
 		insert into draft 	values(d_num_seq.nextval,#{code}, #{title}, #{contents},sysdate,	#{due_date},#{kind},1,#{sheet_code}, #{sheet_kind})
-	</insert>
+	</insert> 
 
 	<!-- 임시보관함 LIST -->
 	<select id="outboxList" resultType="com.erp.draft.DraftDTO">

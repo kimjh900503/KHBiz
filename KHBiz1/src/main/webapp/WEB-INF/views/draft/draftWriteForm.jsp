@@ -15,10 +15,26 @@
  
 <script>
 $(function() {
-$( "#datepicker" ).datepicker();
+	$( "#datepicker" ).datepicker();
+});
+
+$(function(){
+	$("#btn").click(function(){
+		
+		var kind = $("#sheet_kind").val();
+		if(kind=="기안문"){
+			$("#sheet").load("draftForm1");		
+		}else if(kind=="지출서"){
+			$("#sheet").load("draftForm2");
+		}else{
+			$("#sheet").load("draftForm3");
+		}
+		
+		
+		
+	});
 });
 </script>
-
 </head>
 <body>
 <h2>기안서 작성</h2>
@@ -30,19 +46,19 @@ $( "#datepicker" ).datepicker();
 <select name="sheet_kind" id="sheet_kind">
 	<option value="기안문">기안문</option>
 	<option value="지출서">지출서</option>
-	<option value="휴가서">휴가서</option>
-</select><br>
-<button id="btn" value="문서 작성" onclick="openPopup(${data.surIdx},'/test2');"></button>
-<div id="popupWrapper">
-
-
-
+	<option value="휴가서">휴가신청서</option>
+</select>
+<input type = "button" id="btn" value="문서작성하기">
+<div id ="sheet">
 
 
 </div>
-내용<br><textarea rows="" cols="" name = "contents"></textarea><br>
+
+내용<br>
+<textarea rows="" cols="" name = "contents"></textarea><br>
+
 <!-- 마감 날짜<br><input type = "date" name="due_date"><br> -->
-<input type="text" name="due_date" id="datepicker" /><br>
+마감 날짜<br><input type="text" name="due_date" id="datepicker" /><br>
 -------------------------------------------------------<br>
 임시보관<input type="radio" id="kind"  name = "kind" value="임시보관">
 상신<input type="radio" name = "kind" id="kind" value="상신"><br>
