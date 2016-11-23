@@ -20,6 +20,7 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- socket -->
 		<!-- javax.websocket-api -->
 		<dependency>
 			<groupId>javax.websocket</groupId>

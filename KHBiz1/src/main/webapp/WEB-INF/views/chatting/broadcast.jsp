@@ -79,6 +79,8 @@ body {
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
+		
+		//시작
 		var webSocket = new WebSocket('ws://localhost:8089/erp/broadcasting');
 		var inputMessage = document.getElementById('inputMessage');
 		webSocket.onerror = function(event) {
@@ -94,7 +96,6 @@ body {
 			$("#messageWindow").append(
 					"<span>상대: </span><br><div class='bubble'>" + event.data
 							+ "</div>");
-			
 		}
 		function onOpen(event) {
 			$("#messageWindow").append("<p>연결 성공</p>");

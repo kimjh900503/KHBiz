@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AttendMapper">
+	<update id="checkIn">
+		update ATTEND set 
+	</update>
+	<insert id="memberIn">
+		insert into ATTEND VALUES(1111,TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null);
+	</insert>
+</mapper>
