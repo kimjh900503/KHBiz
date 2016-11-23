@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
-        <%@taglib prefix="fmt" uri = "http://java.sun.com/jsp/jstl/fmt"%>
+         <%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+          <%@taglib prefix="fmt" uri = "http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,7 +15,7 @@
 </style>
 </head>
 <body>
-<h2>임시보관함</h2>
+<h2>상신함</h2>
 
 <table>
 	<tr>
@@ -25,20 +25,15 @@
 		<td>문서유형</td>
 		<td>문서코드</td>
 	</tr>
-	<c:forEach items="${outboxList}" var="obl">
+	<c:forEach items="${reportboxList}" var="rbl">
 	<tr>
-		<td>${obl.code}</td>
-		<td><a href ="">${obl.title }</a></td>
-		<td><fmt:formatDate value="${obl.up_date}" pattern="yyyy-MM-dd"/>  </td>
-		<td>${obl.sheet_kind}</td>
-		<td>${obl.sheet_code}</td>		 
+		<td>${rbl.code}</td>
+		<td><a href ="">${rbl.title }</a></td>
+		<td><fmt:formatDate value="${rbl.up_date}" pattern="yyyy-MM-dd"/></td>
+		<td>${rbl.sheet_kind}</td>
+		<td>${rbl.sheet_code}</td>		 
 	</tr>
 	</c:forEach>	
 </table>
-
-
-
-
-
 </body>
 </html>

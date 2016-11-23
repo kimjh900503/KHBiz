@@ -12,7 +12,7 @@
 
 <a href = "draftWriteForm">문서작성</a>
 <a href ="draftOutBox">임시보관함</a>
-<a href ="">상신함</a>
+<a href ="draftReportBox">상신함</a>
 <a href ="">반려함</a>
 
 

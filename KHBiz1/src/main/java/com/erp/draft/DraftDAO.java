@@ -33,5 +33,9 @@ public class DraftDAO {
 		return sqlSession.selectList(namespace+"outboxList");
 	}
 	
+	public List<DraftDTO> reportboxList(){
+		return sqlSession.selectList(namespace+"reportboxList");
+	}
+	
 	
 }
