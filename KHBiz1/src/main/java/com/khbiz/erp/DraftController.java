@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.erp.draft.DraftDTO;
 import com.erp.draft.DraftService;
+import com.erp.draft.Draft_1DTO;
 
 @Controller
 @RequestMapping(value = "/draft")
@@ -28,6 +29,10 @@ public class DraftController {
 	
 	@RequestMapping(value="draftForm3")
 	public void go_Form3(){}
+	
+	
+	
+	
 	
 	@RequestMapping(value="/draft_main", method =RequestMethod.GET )
 	public void draftMain(){}
@@ -48,8 +53,14 @@ public class DraftController {
 		return path;
 	}
 	
-	@RequestMapping(value="/draftWrite") 
-	public String write (Model model, DraftDTO draftDTO) throws Exception{	
-		return dService.draftWrite(draftDTO, model);
+	@RequestMapping(value="/draftWrite", method = RequestMethod.POST) 
+	public String write (Model model, DraftDTO draftDTO, Draft_1DTO draft_1dto) throws Exception{	
+		return dService.draftWrite(draftDTO, model, draft_1dto);
 	}
+	
+	/*@RequestMapping(value="/draftWrite", method = RequestMethod.POST) 
+	public String d_1write (Model model, DraftDTO draftDTO, Draft_1DTO draft_1dto) throws Exception{	
+		return dService.draft_1Write(draftDTO, draft_1dto, model);
+	}*/
+	
 }

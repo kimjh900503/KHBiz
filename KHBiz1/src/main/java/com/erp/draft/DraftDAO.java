@@ -21,14 +21,20 @@ public class DraftDAO {
 	private SqlSession sqlSession;
 	private String namespace="DraftMapper.";
 	
+	//문서 write
 	public int draftWrite(DraftDTO draftDTO){
-		DraftDAO draftDAO = new DraftDAO();
-		System.out.println(draftDTO.getSheet_code());
-	
 		int result =sqlSession.insert(namespace+"draftWrite",draftDTO);
 		return result;
 	}
 
+/*	//기안문(draft_1) write
+	public int draft_1Write(Draft_1DTO draft_1dto){
+		int result = sqlSession.insert(namespace+"draft_1Write", draft_1dto);
+		return result;	
+	}*/
+	
+	
+	
 	public List<DraftDTO> outboxList(){
 		return sqlSession.selectList(namespace+"outboxList");
 	}
@@ -37,5 +43,9 @@ public class DraftDAO {
 		return sqlSession.selectList(namespace+"reportboxList");
 	}
 	
+	public DraftDTO outboxView(int d_num)throws Exception{
+		return 	sqlSession.selectOne(namespace+"outboxView", d_num);
+		
+	}
 	
 }

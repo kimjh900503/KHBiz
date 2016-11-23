@@ -24,6 +24,7 @@
 		<td>저장 날짜</td>
 		<td>문서유형</td>
 		<td>문서코드</td>
+		<td>상태</td>
 	</tr>
 	<c:forEach items="${reportboxList}" var="rbl">
 	<tr>
@@ -31,7 +32,8 @@
 		<td><a href ="">${rbl.title }</a></td>
 		<td><fmt:formatDate value="${rbl.up_date}" pattern="yyyy-MM-dd"/></td>
 		<td>${rbl.sheet_kind}</td>
-		<td>${rbl.sheet_code}</td>		 
+		<td>${rbl.sheet_code}</td>	
+		<td><button>상태</button></td>	 
 	</tr>
 	</c:forEach>	
 </table>
