@@ -33,14 +33,13 @@ public class Broadsocket {
 
 	@OnOpen
 	public void onOpen(Session session) {
-		// Add session to the connected sessions set
+		
 		System.out.println(session);
 		clients.add(session);
 	}
 
 	@OnClose
 	public void onClose(Session session) {
-		// Remove session from the connected sessions set
 		clients.remove(session);
 	}
 }
