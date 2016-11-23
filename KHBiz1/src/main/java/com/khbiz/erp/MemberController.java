@@ -15,6 +15,6 @@ public class MemberController {
 	
 	@RequestMapping(value="/memberList")
 	public String memberList(String type,String str,Model model){
-		return "";
+		return null;
 	}
 }

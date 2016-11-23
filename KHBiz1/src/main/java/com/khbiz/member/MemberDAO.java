@@ -34,7 +34,7 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+"memberIdCheck", id);
 	}
 	
-	//회원 리스트 
+	//회원 검색, 리스트 
 	public List<MemberDTO> memberList(String type,String str){
 		HashMap<String,String> find = new HashMap<String,String>();
 		find.put("type", type);

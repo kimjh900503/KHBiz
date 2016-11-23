@@ -3,6 +3,7 @@ package com.khbiz.member;
 import java.sql.Date;
 
 public class MemberDTO {
+	//멤버변수
 	private String code;
 	private String department;
 	private String position;

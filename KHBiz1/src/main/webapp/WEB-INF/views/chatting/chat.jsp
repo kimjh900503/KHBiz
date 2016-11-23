@@ -181,6 +181,7 @@
 	}
 
 	$(document).ready(function() {
+		//시작
 		//검은 막 띄우기
 		$('#ask').click(function(e) {
 			e.preventDefault();
