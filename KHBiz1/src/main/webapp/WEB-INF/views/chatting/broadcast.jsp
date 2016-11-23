@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Testing websockets</title>
+<title>Testing</title>
 <style type="text/css">
 body {
 	background-color: #D9E5FF;
@@ -79,8 +79,7 @@ body {
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		//var textarea = document.getElementById("messageWindow");
-		var webSocket = new WebSocket('ws://localhost:8077/t1/broadcasting');
+		var webSocket = new WebSocket('ws://localhost:8089/erp/broadcasting');
 		var inputMessage = document.getElementById('inputMessage');
 		webSocket.onerror = function(event) {
 			onError(event)
@@ -95,11 +94,11 @@ body {
 			$("#messageWindow").append(
 					"<span>상대: </span><br><div class='bubble'>" + event.data
 							+ "</div>");
-			// textarea.value += "상대 : " + event.data + "\n";
+			
 		}
 		function onOpen(event) {
 			$("#messageWindow").append("<p>연결 성공</p>");
-			//textarea.value += "연결 성공\n";
+			
 		}
 		function onError(event) {
 			alert(event.data);
@@ -109,7 +108,7 @@ body {
 					$("#messageWindow").append(
 							"<span class='my'>나 : </span><br><div class='bubble2'>"
 									+ inputMessage.value + "</div>");
-					// textarea.value += "나 : " + inputMessage.value + "\n";
+					
 					webSocket.send(inputMessage.value);
 					inputMessage.value = "";
 				});
