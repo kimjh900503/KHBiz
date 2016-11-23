@@ -4,9 +4,25 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AttendMapper">
 	<update id="checkIn">
-		update ATTEND set 
+		UPDATE attend SET starttime =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,ENDTIME=null,OVERTIME=null,BREAKING=0,VACATION=0 
+		where CODE=1111
+	</update>
+	<select id="checking">
+		select TO_DATE(starttime,'YYMMDD/HH24MI') - sysdate from attend where code=1111
+	</select>
+	<update id="checkOut">
+		UPDATE attend SET ENDTIME =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,OVERTIME=null,BREAKING=0,VACATION=0 
+		where CODE=1111
 	</update>
 	<insert id="memberIn">
-		insert into ATTEND VALUES(1111,TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null);
+		insert into ATTEND 
+		VALUES(1111,TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null)
 	</insert>
+	<select id="workingtime">
+		SELECT
+ 		TO_CHAR(
+     	TO_DATE(TRUNC(MOD(  TO_DATE(ENDTIME,'YYMMDD/HH24MI')
+		- TO_DATE(starttime,'YYMMDD/HH24MI'),1)* 24 * 60 * 60), 'SSSSS'),'HH24MI')
+		FROM attend where code=1111
+	</select>
 </mapper>

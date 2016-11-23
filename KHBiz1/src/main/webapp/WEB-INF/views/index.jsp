@@ -21,6 +21,8 @@
 <link href="/erp/css/main.css" rel="stylesheet" />
 <!-- Count To javascript -->
 <script type="text/javascript" src="/erp/js/jquery.countTo.js"></script>
+<!-- ip check -->
+<script type="text/javascript" src="http://jsgetip.appspot.com"></script>
 <script type="text/javascript">
 	$(function() {
 		var height = $('body').height();
@@ -42,6 +44,7 @@
 	        /* always close responsive nav after click */
 	        $('.navbar-toggle:visible').click();
 	    });
+	    alert('접속 ip:'+ip());
 	});
 </script>
 </head>

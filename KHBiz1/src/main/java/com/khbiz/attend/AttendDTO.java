@@ -2,7 +2,7 @@ package com.khbiz.attend;
 import java.sql.Date;
 
 public class AttendDTO {
-	private int code; //회원코드
+	private String code; //회원코드
 	private Date startTime; //출근시간
 	private Date endTime; //퇴근시간
 	private Date overTime; //OT
@@ -10,10 +10,10 @@ public class AttendDTO {
 	private int businessTrip; //출장
 	private int vacation; //유급휴가
 	private int breaking; //무급휴가
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	public Date getStartTime() {
