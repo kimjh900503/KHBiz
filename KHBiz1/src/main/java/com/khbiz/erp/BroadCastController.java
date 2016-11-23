@@ -11,5 +11,10 @@ public class BroadCastController {
 		return "chatting/broadcast";
 	}
 	
+	@RequestMapping(value="/chat")
+	public String chat(){
+		return "chatting/chat";
+	}
+	
 
 }

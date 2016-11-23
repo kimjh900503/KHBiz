@@ -94,7 +94,6 @@ body {
 			$("#messageWindow").append(
 					"<span>상대: </span><br><div class='bubble'>" + event.data
 							+ "</div>");
-			
 		}
 		function onOpen(event) {
 			$("#messageWindow").append("<p>연결 성공</p>");
