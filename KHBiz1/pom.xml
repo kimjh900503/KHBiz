@@ -20,6 +20,18 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<!-- javax.websocket-api -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!--spring-websocket -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.3.3.RELEASE</version>
+		</dependency>
 		<!-- Transaction -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-tx -->
 		<dependency>

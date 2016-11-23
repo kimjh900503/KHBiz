@@ -80,7 +80,7 @@ body {
 <script type="text/javascript">
 	$(function() {
 		//var textarea = document.getElementById("messageWindow");
-		var webSocket = new WebSocket('ws://localhost:8077/t1/broadcasting');
+		var webSocket = new WebSocket('ws://localhost:8089/erp/broadcasting');
 		var inputMessage = document.getElementById('inputMessage');
 		webSocket.onerror = function(event) {
 			onError(event)
