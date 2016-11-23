@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Testing websockets</title>
+<title>Testing</title>
 <style type="text/css">
 body {
 	background-color: #D9E5FF;
