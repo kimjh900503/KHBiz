@@ -9,42 +9,44 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="/erp/images/favicon.ico">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
 <link href="/erp/css/bootstrap.css" rel="stylesheet" />
-<link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" rel="stylesheet" />
+<link
+	href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css"
+	rel="stylesheet" />
 <link href="/erp/css/navi.css" rel="stylesheet" />
 <link href="/erp/css/main.css" rel="stylesheet" />
 <!-- Count To javascript -->
 <script type="text/javascript" src="/erp/js/jquery.countTo.js"></script>
-<!-- ip check -->
-<script type="text/javascript" src="http://jsgetip.appspot.com"></script>
 <script type="text/javascript">
 	$(function() {
 		var height = $('body').height();
-		var docH       = $(document).height();
-	    var wHeight    = $(window).height();
-		var newHeight = $(window).height();
-	    var scrollBtm  = docH - wHeight;
-	    $('.parallax-bg').css("height",newHeight+"px");
-	    $('body').scrollspy({
-	        target: '.navbar-fixed-top',
-	        offset: 60
-	    });
-	    $('#topNav').affix({
-	        offset: {
-	            top: 200
-	        }
-	    });
-	    $('.navbar-collapse ul li a').click(function() {
-	        /* always close responsive nav after click */
-	        $('.navbar-toggle:visible').click();
-	    });
-	    alert('접속 ip:'+ip());
+		var docH = $(document).height();
+		var wHeight = $(window).height();
+		var newHeight = $(window).height() - 150;
+		var scrollBtm = docH - wHeight;
+		$('.parallax-bg').css("height", newHeight + "px");
+		$('body').scrollspy({
+			target : '.navbar-fixed-top',
+			offset : 60
+		});
+		$('#topNav').affix({
+			offset : {
+				top : 200
+			}
+		});
+		$('.navbar-collapse ul li a').click(function() {
+			/* always close responsive nav after click */
+			$('.navbar-toggle:visible').click();
+		});
 	});
 </script>
 </head>
@@ -59,7 +61,7 @@
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand page-scroll" href="#first"><i
-					class="ion-ios-analytics-outline"></i> Landing Zero</a>
+					class="ion-ios-analytics-outline"></i> KH Biz</a>
 			</div>
 			<div class="navbar-collapse collapse" id="bs-navbar">
 				<ul class="nav navbar-nav">
@@ -85,9 +87,13 @@
 		</div>
 	</nav>
 	<div class="content" id="first">
-		<div class="scrollToTop circle"><i class="icon-up-open-big"></i></div>
+		<div class="scrollToTop circle">
+			<i class="icon-up-open-big"></i>
+		</div>
 		<div class="parallax-bg">
-			<video id="video-elem" preload="auto" loop="100" muted="muted" autoplay="autoplay" poster="${pageContext.session.servletContext.contextPath }/images/31a43150.main_image.png">
+			<video id="video-elem" preload="auto" loop="100" muted="muted"
+				autoplay="autoplay"
+				poster="${pageContext.session.servletContext.contextPath }/images/31a43150.main_image.png">
 				<%-- <source
 					src="${pageContext.session.servletContext.contextPath }/images/2015121711353535351ba.mp4"
 					type="video/mp4">
@@ -96,205 +102,271 @@
 					type="video/mp4"> --%>
 			</video>
 			<div class="media video-overlay">
-				<div>
-					<h2 id="hello">
-						<small style="color: #0000a0">HELLO</small><br> JANDI++
-					</h2>
-					<h1>
-						효과적인 업무. 잔디++ 를 시작하세요
-					</h1>
-					<h3>
-						간편한 소통, 원하던 기능을 전부 담았습니다.
-					</h3>
-
-				</div>
+				<section>
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 text-center">
+								<div class="feature">
+									<h2 style="color: #fff">
+										<small style="color: #0000a0">HELLO</small><br> KH Biz
+									</h2>
+									<h1 style="color: #fff" class="text-faded">효과적인 업무.<br>
+									 KH Biz 를 시작하세요</h1>
+									<h3 style="color: #fff" class="text-faded">간편한 소통, 원하던 기능을
+										전부 담았습니다.</h3>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 text-center">
+								<div class="modal-content">
+									<h3>로그인</h2>
+									<form class="login-form" action="member/memberLogin" method="post">
+										<div class="form-group has-feedback modal-body text-left">
+											<label class="control-label">아이디</label> <input
+												type="text" class="form-control lowercase ng-invalid ng-invalid-required ng-touched" placeholder="아이디"> <i
+												class="fa fa-user form-control-feedback"></i>
+										</div>
+										<div class="form-group has-feedback modal-body text-left">
+											<label class="control-label">비밀번호</label> <input
+												type="password" class="form-control" placeholder="비밀번호">
+											<i class="fa fa-lock form-control-feedback"></i>
+										</div>
+										<div class="modal-body text-center">
+											<button type="submit" class="btn btn-default btn-sm"
+												aria-hidden="true">Log In</button>
+											<span class="pl-5 pr-5">or</span>
+											<button type="submit" class="btn btn-default btn-sm"
+												aria-hidden="true">Sing Up</button>
+										</div>
+										<ul>
+											<li class="text-center"><a href="#"
+												aria-hidden="true">Forgot your password?</a></li>
+										</ul>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
 			</div>
 		</div>
 	</div>
 	<section class="bg-primary" id="one">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 text-center">
-                    <h2 class="margin-top-0 text-primary">Built On The Bootstrap Grid</h2>
-                    <br>
-                    <p class="text-faded">
-                        Bootstrap's responsive grid comes in 4 sizes or "breakpoints": tiny (xs), small(sm), medium(md) and large(lg). These 4 grid sizes enable you create responsive layouts that behave accordingly on different devices.
-                    </p>
-                    <a href="#three" class="btn btn-default btn-xl page-scroll">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="two">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="margin-top-0 text-primary">Flexible Layouts</h2>
-                    <hr class="primary">
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 text-center">
-                    <div class="feature">
-                        <i class="icon-lg ion-android-laptop wow fadeIn" data-wow-delay=".3s"></i>
-                        <h3>Responsive</h3>
-                        <p class="text-muted">Your site looks good everywhere</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 text-center">
-                    <div class="feature">
-                        <i class="icon-lg ion-social-sass wow fadeInUp" data-wow-delay=".2s"></i>
-                        <h3>Customizable</h3>
-                        <p class="text-muted">Easy to theme and customize with SASS</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 text-center">
-                    <div class="feature">
-                        <i class="icon-lg ion-ios-star-outline wow fadeIn" data-wow-delay=".3s"></i>
-                        <h3>Consistent</h3>
-                        <p class="text-muted">A mature, well-tested, stable codebase</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="three" class="no-padding">
-        <div class="container-fluid">
-            <div class="row no-gutter">
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1430916273432-273c2db881a0%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3Df047e8284d2fdc1df0fd57a5d294614d">
-                        <img src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1430916273432-273c2db881a0%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3Df047e8284d2fdc1df0fd57a5d294614d" class="img-responsive" alt="Image 1">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/getrefe/regular/tumblr_nqune4OGHl1slhhf0o1_1280.jpg">
-                        <img src="//splashbase.s3.amazonaws.com/getrefe/regular/tumblr_nqune4OGHl1slhhf0o1_1280.jpg" class="img-responsive" alt="Image 2">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1433959352364-9314c5b6eb0b%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3D3b9bc6caa190332e91472b6828a120a4">
-                        <img src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1433959352364-9314c5b6eb0b%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3D3b9bc6caa190332e91472b6828a120a4" class="img-responsive" alt="Image 3">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-moto-drawing-illusion-nabeel-1440x960.jpg">
-                        <img src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-moto-drawing-illusion-nabeel-1440x960.jpg" class="img-responsive" alt="Image 4">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-new-york-crosswalk-nabeel-1440x960.jpg">
-                        <img src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-new-york-crosswalk-nabeel-1440x960.jpg" class="img-responsive" alt="Image 5">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-4 col-sm-6">
-                    <a href="#galleryModal" class="gallery-box" data-toggle="modal" data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-clothes-exotic-travel-nabeel-1440x960.jpg">
-                        <img src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-clothes-exotic-travel-nabeel-1440x960.jpg" class="img-responsive" alt="Image 6">
-                        <div class="gallery-box-caption">
-                            <div class="gallery-box-content">
-                                <div>
-                                    <i class="icon-lg ion-ios-search"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="container-fluid" id="four">
-        <div class="row">
-            <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                <h2 class="text-center text-primary">Features</h2>
-                <hr>
-                <div class="media wow fadeInRight">
-                    <h3>Simple</h3>
-                    <div class="media-body media-middle">
-                        <p>What could be easier? Get started fast with this landing page starter theme.</p>
-                    </div>
-                    <div class="media-right">
-                        <i class="icon-lg ion-ios-bolt-outline"></i>
-                    </div>
-                </div>
-                <hr>
-                <div class="media wow fadeIn">
-                    <h3>Free</h3>
-                    <div class="media-left">
-                        <a href="#alertModal" data-toggle="modal" data-target="#alertModal"><i class="icon-lg ion-ios-cloud-download-outline"></i></a>
-                    </div>
-                    <div class="media-body media-middle">
-                        <p>Yes, please. Grab it for yourself, and make something awesome with this.</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="media wow fadeInRight">
-                    <h3>Unique</h3>
-                    <div class="media-body media-middle">
-                        <p>Because you don't want your Bootstrap site, to look like a Bootstrap site.</p>
-                    </div>
-                    <div class="media-right">
-                        <i class="icon-lg ion-ios-snowy"></i>
-                    </div>
-                </div>
-                <hr>
-                <div class="media wow fadeIn">
-                    <h3>Popular</h3>
-                    <div class="media-left">
-                        <i class="icon-lg ion-ios-heart-outline"></i>
-                    </div>
-                    <div class="media-body media-middle">
-                        <p>There's good reason why Bootstrap is the most used frontend framework in the world.</p>
-                    </div>
-                </div>
-                <hr>
-                <div class="media wow fadeInRight">
-                    <h3>Tested</h3>
-                    <div class="media-body media-middle">
-                        <p>Bootstrap is matured and well-tested. It's a stable codebase that provides consistency.</p>
-                    </div>
-                    <div class="media-right">
-                        <i class="icon-lg ion-ios-flask-outline"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+		<div class="container">
+			<div class="row">
+				<div
+					class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 text-center">
+					<h2 class="margin-top-0 text-primary">Built On The Bootstrap
+						Grid</h2>
+					<br>
+					<p class="text-faded">Bootstrap's responsive grid comes in 4
+						sizes or "breakpoints": tiny (xs), small(sm), medium(md) and
+						large(lg). These 4 grid sizes enable you create responsive layouts
+						that behave accordingly on different devices.</p>
+					<a href="#three" class="btn btn-default btn-xl page-scroll">Learn
+						More</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="two">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<h2 class="margin-top-0 text-primary">Flexible Layouts</h2>
+					<hr class="primary">
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 text-center">
+					<div class="feature">
+						<i class="icon-lg ion-android-laptop wow fadeIn"
+							data-wow-delay=".3s"></i>
+						<h3>Responsive</h3>
+						<p class="text-muted">Your site looks good everywhere</p>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 text-center">
+					<div class="feature">
+						<i class="icon-lg ion-social-sass wow fadeInUp"
+							data-wow-delay=".2s"></i>
+						<h3>Customizable</h3>
+						<p class="text-muted">Easy to theme and customize with SASS</p>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 text-center">
+					<div class="feature">
+						<i class="icon-lg ion-ios-star-outline wow fadeIn"
+							data-wow-delay=".3s"></i>
+						<h3>Consistent</h3>
+						<p class="text-muted">A mature, well-tested, stable codebase</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="three" class="no-padding">
+		<div class="container-fluid">
+			<div class="row no-gutter">
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1430916273432-273c2db881a0%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3Df047e8284d2fdc1df0fd57a5d294614d">
+						<img
+						src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1430916273432-273c2db881a0%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3Df047e8284d2fdc1df0fd57a5d294614d"
+						class="img-responsive" alt="Image 1">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/getrefe/regular/tumblr_nqune4OGHl1slhhf0o1_1280.jpg">
+						<img
+						src="//splashbase.s3.amazonaws.com/getrefe/regular/tumblr_nqune4OGHl1slhhf0o1_1280.jpg"
+						class="img-responsive" alt="Image 2">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1433959352364-9314c5b6eb0b%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3D3b9bc6caa190332e91472b6828a120a4">
+						<img
+						src="//splashbase.s3.amazonaws.com/unsplash/regular/photo-1433959352364-9314c5b6eb0b%3Fq%3D75%26fm%3Djpg%26w%3D1080%26fit%3Dmax%26s%3D3b9bc6caa190332e91472b6828a120a4"
+						class="img-responsive" alt="Image 3">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-moto-drawing-illusion-nabeel-1440x960.jpg">
+						<img
+						src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-moto-drawing-illusion-nabeel-1440x960.jpg"
+						class="img-responsive" alt="Image 4">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-new-york-crosswalk-nabeel-1440x960.jpg">
+						<img
+						src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-new-york-crosswalk-nabeel-1440x960.jpg"
+						class="img-responsive" alt="Image 5">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<a href="#galleryModal" class="gallery-box" data-toggle="modal"
+						data-src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-clothes-exotic-travel-nabeel-1440x960.jpg">
+						<img
+						src="//splashbase.s3.amazonaws.com/lifeofpix/regular/Life-of-Pix-free-stock-photos-clothes-exotic-travel-nabeel-1440x960.jpg"
+						class="img-responsive" alt="Image 6">
+						<div class="gallery-box-caption">
+							<div class="gallery-box-content">
+								<div>
+									<i class="icon-lg ion-ios-search"></i>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="container-fluid" id="four">
+		<div class="row">
+			<div
+				class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+				<h2 class="text-center text-primary">Features</h2>
+				<hr>
+				<div class="media wow fadeInRight">
+					<h3>Simple</h3>
+					<div class="media-body media-middle">
+						<p>What could be easier? Get started fast with this landing
+							page starter theme.</p>
+					</div>
+					<div class="media-right">
+						<i class="icon-lg ion-ios-bolt-outline"></i>
+					</div>
+				</div>
+				<hr>
+				<div class="media wow fadeIn">
+					<h3>Free</h3>
+					<div class="media-left">
+						<a href="#alertModal" data-toggle="modal"
+							data-target="#alertModal"><i
+							class="icon-lg ion-ios-cloud-download-outline"></i></a>
+					</div>
+					<div class="media-body media-middle">
+						<p>Yes, please. Grab it for yourself, and make something
+							awesome with this.</p>
+					</div>
+				</div>
+				<hr>
+				<div class="media wow fadeInRight">
+					<h3>Unique</h3>
+					<div class="media-body media-middle">
+						<p>Because you don't want your Bootstrap site, to look like a
+							Bootstrap site.</p>
+					</div>
+					<div class="media-right">
+						<i class="icon-lg ion-ios-snowy"></i>
+					</div>
+				</div>
+				<hr>
+				<div class="media wow fadeIn">
+					<h3>Popular</h3>
+					<div class="media-left">
+						<i class="icon-lg ion-ios-heart-outline"></i>
+					</div>
+					<div class="media-body media-middle">
+						<p>There's good reason why Bootstrap is the most used frontend
+							framework in the world.</p>
+					</div>
+				</div>
+				<hr>
+				<div class="media wow fadeInRight">
+					<h3>Tested</h3>
+					<div class="media-body media-middle">
+						<p>Bootstrap is matured and well-tested. It's a stable
+							codebase that provides consistency.</p>
+					</div>
+					<div class="media-right">
+						<i class="icon-lg ion-ios-flask-outline"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<footer id="footer">
 		<div class="container-fluid">
 			<div class="row">
@@ -374,39 +446,43 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade in" id="login-form" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal fade in" id="login-form" tabindex="-1" role="dialog"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-		<form class="login-form">
-			<div class="form-group has-feedback modal-body">
-				<label class="control-label">Username</label> <input type="text"
-					class="form-control" placeholder=""> <i
-					class="fa fa-user form-control-feedback"></i>
+				<form class="login-form">
+					<div class="form-group has-feedback modal-body">
+						<label class="control-label">Username</label> <input type="text"
+							class="form-control" placeholder=""> <i
+							class="fa fa-user form-control-feedback"></i>
+					</div>
+					<div class="form-group has-feedback modal-body">
+						<label class="control-label">Password</label> <input
+							type="password" class="form-control" placeholder=""> <i
+							class="fa fa-lock form-control-feedback"></i>
+					</div>
+					<div class="modal-body text-center">
+						<button type="submit" class="btn btn-gray btn-sm"
+							data-dismiss="modal" aria-hidden="true">Log In</button>
+						<span class="pl-5 pr-5">or</span>
+						<button type="submit" class="btn btn-default btn-sm"
+							data-dismiss="modal" aria-hidden="true">Sing Up</button>
+					</div>
+					<ul>
+						<li class="text-center"><a href="#" data-dismiss="modal"
+							aria-hidden="true">Forgot your password?</a></li>
+					</ul>
+					<span class="text-center">Login with</span>
+					<ul class="social-links circle small colored clearfix">
+						<li class="facebook"><a target="_blank"
+							href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+						<li class="twitter"><a target="_blank"
+							href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+						<li class="googleplus"><a target="_blank"
+							href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+					</ul>
+				</form>
 			</div>
-			<div class="form-group has-feedback modal-body">
-				<label class="control-label">Password</label> <input type="password"
-					class="form-control" placeholder=""> <i
-					class="fa fa-lock form-control-feedback"></i>
-			</div>
-			<div class="modal-body text-center">
-			<button type="submit" class="btn btn-gray btn-sm" data-dismiss="modal" aria-hidden="true">Log In</button>
-			<span class="pl-5 pr-5">or</span>
-			<button type="submit" class="btn btn-default btn-sm" data-dismiss="modal" aria-hidden="true">Sing Up</button>
-			</div>
-			<ul>
-				<li class="text-center"><a href="#" data-dismiss="modal" aria-hidden="true">Forgot your password?</a></li>
-			</ul>
-			<span class="text-center">Login with</span>
-			<ul class="social-links circle small colored clearfix">
-				<li class="facebook"><a target="_blank"
-					href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-				<li class="twitter"><a target="_blank"
-					href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-				<li class="googleplus"><a target="_blank"
-					href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-			</ul>
-		</form>
-		</div>
 		</div>
 	</div>
 </body>
