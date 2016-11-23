@@ -40,7 +40,6 @@ public class Broadsocket {
 
 	@OnClose
 	public void onClose(Session session) {
-		
 		clients.remove(session);
 	}
 }

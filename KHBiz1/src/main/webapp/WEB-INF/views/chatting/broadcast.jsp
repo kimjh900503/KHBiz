@@ -79,7 +79,6 @@ body {
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
 		var webSocket = new WebSocket('ws://localhost:8089/erp/broadcasting');
 		var inputMessage = document.getElementById('inputMessage');
 		webSocket.onerror = function(event) {
