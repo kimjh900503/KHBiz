@@ -36,7 +36,7 @@ video::-webkit-media-controls {
 	transition: opacity 0.3s ease;
 }
 
-.video-overlay #hello {
+/* .video-overlay #hello {
 	position: absolute;
 	left: 10%;
 	top: 20%;
@@ -58,7 +58,7 @@ video::-webkit-media-controls {
 	transform: translateX(-50%) translateY(-50%);
 	color: #fff;
 	font-weight: bold;
-}
+} */
 
 .btn-default .badge {
     color: #fff;
