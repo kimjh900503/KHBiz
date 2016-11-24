@@ -3,7 +3,6 @@ package com.khbiz.member;
 import java.sql.Date;
 
 public class MemberDTO {
-	//멤버변수
 	private String code;
 	private String department;
 	private String position;
@@ -16,6 +15,8 @@ public class MemberDTO {
 	private String address1;
 	private String address2;
 	private Date hired_date;
+	
+	
 	
 	public String getAddress1() {
 		return address1;
@@ -35,6 +36,7 @@ public class MemberDTO {
 	public void setHired_date(Date hired_date) {
 		this.hired_date = hired_date;
 	}
+	
 	public String getCode() {
 		return code;
 	}

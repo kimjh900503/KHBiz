@@ -1,8 +1,5 @@
 package com.khbiz.member;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,12 +31,13 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+"memberIdCheck", id);
 	}
 	
-	//회원 검색, 리스트 
-	public List<MemberDTO> memberList(String type,String str){
-		HashMap<String,String> find = new HashMap<String,String>();
-		find.put("type", type);
-		find.put("str",str);
-		
-		return sqlSession.selectList(namespace+"memberList",find);
+	//회원수정
+	public int memberMod(MemberDTO memberDTO)throws Exception{
+		return sqlSession.update(namespace+"memberMod", memberDTO);
+	}
+	
+	//회원탈퇴
+	public int memberDelete(MemberDTO memberDTO)throws Exception{
+		return sqlSession.delete(namespace+"memberDelete",memberDTO);
 	}
 }
