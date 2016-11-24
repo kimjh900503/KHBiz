@@ -7,7 +7,9 @@
 .content {
 	background-color: #fff5ec;
 }
-
+li{
+	list-style: none;
+}
 .parallax-bg {
 	background-size: cover;
 	background-attachment: fixed;

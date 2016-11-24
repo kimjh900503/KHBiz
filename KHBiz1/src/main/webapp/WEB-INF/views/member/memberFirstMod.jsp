@@ -214,11 +214,11 @@
 										</div>
 										<div id="id"
 											class="form-group has-feedback text-left input-group form-inline">
-											<input type="text" name="id" class="form-control" id="id_1"
+											<input type="text" name="id_1" class="form-control" id="id_1"
 												placeholder="아이디">
 											<div class="input-group-addon" id="basic-addon1">@</div>
 											<input type="text" class="form-control"
-												placeholder="mail.com" id="id_2"
+												placeholder="mail.com" id="id_2" name="id_2"
 												aria-describedby="basic-addon1"> <span
 												class="input-group-btn">
 												<button class="btn btn-info" type="button" id="idCheck">중복확인</button>
@@ -235,7 +235,7 @@
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group has-feedback text-left">
-											<label>이름</label> <input type="text" id="pwCheck" name="name"
+											<label>이름</label> <input type="text" id="name" name="name"
 												class="form-control" id="name">
 										</div>
 										<div class="form-group has-feedback text-left">
