@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <style type="text/css">
-	td, table,#wrap{
+	#gian_table,#wrap{
 		border : 1px solid black;
 	}
 </style>
@@ -11,7 +12,7 @@
 <h4>기안문</h4>
 
 
-	<table>
+	<table id="gian_tab">
 		<tr>
 			<td colspan="4" style = "text-align: center;">기안용폼</td>
 		</tr>

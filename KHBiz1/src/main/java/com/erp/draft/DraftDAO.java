@@ -14,6 +14,8 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 
+import com.khbiz.member.MemberDTO;
+
 @Repository
 public class DraftDAO {
 
@@ -26,26 +28,36 @@ public class DraftDAO {
 		int result =sqlSession.insert(namespace+"draftWrite",draftDTO);
 		return result;
 	}
-
-/*	//기안문(draft_1) write
-	public int draft_1Write(Draft_1DTO draft_1dto){
-		int result = sqlSession.insert(namespace+"draft_1Write", draft_1dto);
-		return result;	
-	}*/
-	
-	
 	
 	public List<DraftDTO> outboxList(){
 		return sqlSession.selectList(namespace+"outboxList");
 	}
 	
+	public List<MemberDTO> approverList() {
+		return sqlSession.selectList(namespace+"approverList");
+	}
+	
 	public List<DraftDTO> reportboxList(){
 		return sqlSession.selectList(namespace+"reportboxList");
 	}
-	
-	public DraftDTO outboxView(int d_num)throws Exception{
-		return 	sqlSession.selectOne(namespace+"outboxView", d_num);
 		
+	public DraftDTO outboxView(int d_num)throws Exception{
+		return sqlSession.selectOne(namespace+"outboxView", d_num);
 	}
 	
+	public DraftDTO reportboxView(int d_num) throws Exception{
+		return sqlSession.selectOne(namespace+"reportboxView", d_num);
+	}
+	//outboxDelete
+	public int outboxDelete(int d_num) throws Exception{
+		return sqlSession.delete(namespace+"outboxDelete",d_num);
+	}
+	//reportboxDelete
+	public int reportboxDelete(int d_num) throws Exception{
+		return sqlSession.delete(namespace+"reportboxDelete",d_num);
+	}
+	//outboxReport
+	public int outboxReport(int d_num)throws Exception{
+		return sqlSession.update(namespace+"outboxReport", d_num);
+	}
 }

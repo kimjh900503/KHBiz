@@ -8,11 +8,6 @@
 		insert into draft 	values(d_num_seq.nextval,#{code}, #{title}, #{contents},sysdate,	#{due_date},#{kind},1,#{sheet_code}, #{sheet_kind})
 	</insert> 
 
-<!--	<insert id="draft_1Write" parameterType="com.erp.draft.Draft_1DTO">
-		insert into draft_1 values(#{sheet_code},#{code},#{title},#{contents},sysdate, #{start_date})
-	</insert>  -->
-
-
 	<!-- 임시보관함 LIST -->
 	<select id="outboxList" resultType="com.erp.draft.DraftDTO">
 		select * from draft where kind='임시보관' order by d_num desc
@@ -23,4 +18,35 @@
 		select * from draft where kind='상신' order by d_num desc
 	</select>
 
+	<!-- 팀장인 사람들 list -->
+	 <select id="approverList" resultType = "com.khbiz.member.MemberDTO">
+		select * from member where position='팀장' or position='사장' order by code desc
+	</select> 
+	
+	<!-- 임시보관함 VIEW -->
+	<select id="outboxView" resultType="com.erp.draft.DraftDTO" parameterType="int" >
+		select * from draft where kind='임시보관' and d_num=#{d_num}
+	</select>
+	<!-- 상신함 view -->
+	<select id="reportboxView" resultType="com.erp.draft.DraftDTO" parameterType="int">
+		select * from draft where kind='상신' and d_num=#{d_num}
+	</select>
+	
+	<!-- 임보 delete -->
+	<delete id="outboxDelete">
+		delete draft where d_num=#{d_num}	
+	</delete>
+	<!-- 상신 delete --> 
+	<delete id="reportboxDelete">
+		delete draft where d_num=#{d_num}	
+	</delete>
+	
+	<!-- 임보 상신 update -->
+	<update id="outboxReport">
+		update draft set kind='상신',up_date=sysdate where d_num=#{d_num}	
+	</update>		
+	
+	
+	
+	
 </mapper>

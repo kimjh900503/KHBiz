@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.khbiz.member.MemberDTO;
+
 
 @Service
 public class DraftService {
@@ -37,8 +39,6 @@ public class DraftService {
 		draft_1dto.setSheet_code(code);
 	}
 	
-
-	
 	//write
 	public String draftWrite(DraftDTO draftDTO, Model model,Draft_1DTO draft_1dto) throws Exception{
 		this.sheet_code(draftDTO, draft_1dto);
@@ -55,23 +55,6 @@ public class DraftService {
 		model.addAttribute("message", message);
 		return path;
 	}
-
-/*	//draft_1 Write
-	public String draft_1Write(DraftDTO draftDTO, Draft_1DTO draft_1dto, Model model) throws Exception{
-		int result = draftDAO.draft_1Write(draft_1dto);
-		String message = "";
-		String path = "";
-		if (result>0){
-			message = "성공적으로 상신하였습니다.";
-			path ="redirect:/";
-		}else {
-			message = "상신을 실패하였습니다.";
-			path = "redirect:/";
-		} 
-		model.addAttribute("message", message);
-		return path;		
-	}*/
-	
 	
 	//outbox(임시보관함) list
 	public String outboxList(Model model) throws Exception{
@@ -86,6 +69,71 @@ public class DraftService {
 		model.addAttribute("reportboxList", ar);
 		return "draft/draftReportBox";
 	}
-	
+	//outboxView
+	public String outboxView(Model model, int d_num)throws Exception{
+		DraftDTO draftDTO = draftDAO.outboxView(d_num);
+		System.out.println(draftDTO.getD_num());
+		model.addAttribute("outboxView", draftDTO);
+		return "draft/outboxView";
+	}
+	//reportboxView
+	public String reportboxView(Model model, int d_num)throws Exception{
+		DraftDTO draftDTO = draftDAO.reportboxView(d_num);
+		model.addAttribute("reportboxView", draftDTO);
+		return "draft/reportboxView";
+	}
 
+	//approverList
+	public String approverList(Model model) throws Exception{
+		List<MemberDTO> ar = draftDAO.approverList();
+		System.out.println(ar.get(0).getCode());
+		model.addAttribute("approverList", ar);
+		return "draft/approverList";
+	}
+	
+	//outboxDelete
+	public String outboxDelete(Model model, int d_num) throws Exception{
+		int result = draftDAO.outboxDelete(d_num);
+		String message = "";
+		String path = "";
+		if (result>0){
+			message = "성공적으로 삭제하였습니다.";
+			path ="redirect:/";
+		}else {
+			message = "삭제를 실패하였습니다.";
+			path = "redirect:/";
+		} 
+		model.addAttribute("message", message);
+		return path;		
+		}
+	//reportboxDelete
+	public String reportboxDelete(Model model, int d_num) throws Exception{
+		int result = draftDAO.reportboxDelete(d_num);
+		String message = "";
+		String path = "";
+		if (result>0){
+			message = "성공적으로 삭제하였습니다.";
+			path ="redirect:/";
+		}else {
+			message = "삭제를 실패하였습니다.";
+			path = "redirect:/";
+		} 
+		model.addAttribute("message", message);
+		return path;		
+		}
+	//outboxReport
+	public String outboxReport(Model model, int d_num) throws Exception{
+		int result = draftDAO.outboxReport(d_num);
+		String message = "";
+		String path = "";
+		if (result>0){
+			message = "성공적으로 상신하였습니다.";
+			path ="redirect:/";
+		}else {
+			message = "상신을 실패하였습니다.";
+			path = "redirect:/";
+		} 
+		model.addAttribute("message", message);
+		return path;		
+		}
 }
