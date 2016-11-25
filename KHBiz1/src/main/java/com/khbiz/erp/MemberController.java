@@ -50,7 +50,10 @@ public class MemberController {
 	
 	//로그인 form
 	@RequestMapping(value="/memberLogin",method=RequestMethod.GET)
-	public void memberLogin(){}
+	public String memberLogin(){
+		
+		return "redirect:/";
+	}
 	
 	
 	//로그인

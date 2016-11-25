@@ -38,10 +38,10 @@ public class HomeController {
 		
 		return "index";
 	}
-	@RequestMapping(value="/index")
+	@RequestMapping(value="/home")
 	public void index(HttpServletRequest request){
 	}
-	@RequestMapping(value="/free")
+	@RequestMapping(value="/dash")
 	public String dashboard(){
 		return "dashboard/dashboard";
 	}

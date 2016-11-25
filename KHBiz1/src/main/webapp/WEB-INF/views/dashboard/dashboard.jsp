@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta
@@ -9,7 +10,9 @@
 <link rel="icon" type="image/png" href="assets/img/favicon.ico">
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>KHBiz_DashBoard</title>
+<!-- Favicon -->
+<link rel="shortcut icon" href="/erp/images/favicon.ico">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -66,6 +69,9 @@
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300'
 	rel='stylesheet' type='text/css'>
 <link href="/erp/css/dashboard/pe-icon-7-stroke.css" rel="stylesheet" />
+<!-- alert -->
+<script src="/erp/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -78,12 +84,12 @@
 
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="/erp/index" class="simple-text">
+					<a href="/erp/dash" class="simple-text">
 						KH Biz </a>
 				</div>
 
 				<ul class="nav">
-					<li class="active"><a href="/erp/index"> <i
+					<li class="active"><a href="/erp/dash"> <i
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
@@ -105,10 +111,11 @@
 					<li><a href=""> <i class="pe-7s-bell"></i>
 							<p>Notifications</p>
 					</a></li>
-					<li class="active-pro"><a href=""> <i
-							class="pe-7s-rocket"></i>
-							<p>Upgrade to PRO</p>
+					<%-- <c:if test="${member.position=='사장'}"> --%>
+					<li><a href=""> <i class="pe-7s-rocket"></i>
+							<p>관리자 모드</p>
 					</a></li>
+					<%-- </c:if> --%>
 				</ul>
 			</div>
 		</div>
@@ -123,7 +130,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Dashboard</a>
+					<a class="navbar-brand" href="/erp/dash">Dashboard</a>
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-left">
@@ -146,7 +153,7 @@
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href=""> Account </a></li>
+						<li><a href="/erp/member/memberView"> 정보 보기 </a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"> Dropdown <b class="caret"></b>
 						</a>
@@ -159,7 +166,7 @@
 								<li class="divider"></li>
 								<li><a href="#">Separated link</a></li>
 							</ul></li>
-						<li><a href="#"> Log out </a></li>
+						<li><a href="/erp/member/memberLogout"> Log out </a></li>
 					</ul>
 				</div>
 			</div>
@@ -378,14 +385,13 @@
 			<div class="container-fluid">
 				<nav class="pull-left">
 				<ul>
-					<li><a href="#"> Home </a></li>
+					<li><a href="/erp/home"> Home </a></li>
 					<li><a href="#"> Company </a></li>
-					<li><a href="#"> Portfolio </a></li>
-					<li><a href="#"> Blog </a></li>
 				</ul>
 				</nav>
-				<p class="copyright pull-right">
-					&copy; 2016 <a href="http://www.creative-tim.com">Creative Tim</a>,
+				<p class="pull-right">
+				<!-- <a href="http://www.creative-tim.com">Creative Tim</a> -->
+					&copy; 2016 <a href="/erp/home">2ㄱㄹㅇ</a>,
 					made with love for a better web
 				</p>
 			</div>

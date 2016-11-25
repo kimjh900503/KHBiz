@@ -158,7 +158,7 @@
 			</div>
 		</div>
 	</div>
-	<section class="bg-primary" id="one">
+	<section class="content" id="one">
 		<div class="container">
 			<div class="row">
 				<div
