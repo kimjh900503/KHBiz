@@ -34,35 +34,66 @@
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="/erp/js/light-bootstrap-dashboard.js"></script>
-
-<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<!-- <script src="assets/js/demo.js"></script> -->
-
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#modify').click(function () {
-			swal({
-				title: "수정", 
-				text: "비밀번호를 재입력 하세요", 
-				type: "input",
-				inputType: "password",
-				showCancelButton: true,
-				closeOnConfirm: false
-			}, function(typedPassword) {
-				if (typedPassword === "") {
-				    swal.showInputError("비밀번호를 입력하세요");
-				    return false;
-				  }
-				if (typedPassword != '${member.pw}'){
-					swal.showInputError("잘못된 비밀번호 입니다");
-					return false;
-				}else{
-					location.href="memberMod";
-				}
-			});
-		});
-	});
+	$(function() {
+		var phone = '${member.phone}';
 
+		var ph = phone.split("-");
+		$("#phone1").val(ph[1]);
+		$("#phone2").val(ph[2]);
+
+		$("#modBtn").click(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			var name = $("#name").val()
+			var phone1 = $("#phone1").val();
+			var phone2 = $("#phone2").val();
+
+			var chk1 = /[a-z]/i; //적어도 한개의 a-z가 있는지 확인
+			var chk2 = /\d/; //적어도 한개의 0-9가 있는지 확인
+			var chk3 = /^[가-힣]*$/;
+
+			if (pw.length < 6 || pw == '') {
+				swal("에러", "비밀번호는 6자 이상으로 입력하세요", "error");
+				return false;
+
+			} else if (!(chk1.test(pw) && chk2.test(pw))) {
+				swal("에러", "비밀번호는 영문 숫자 조합으로 입력하세요", "error");
+				return false;
+			} else if (pw != pwCheck) {
+				swal("에러", "비밀번호가 일치하지 않습니다", "error");
+				return false;
+			} else if (name == '') {
+				swal("에러", "이름을 입력하세요", "error");
+				return false;
+			} else if (!chk3.test(name)) {
+				swal("에러", "이름을 한글로 입력하세요", "error");
+				return false;
+			}  else if (name.length < 2) {
+				swal("에러", "이름을 2글자 이상 입력하세요", "error");
+				return false;
+			} else if (phone1 == '') {
+				swal("에러", "핸드폰 번호를 입력하세요", "error");
+				return false;
+			} else if (phone2 == '') {
+				swal("에러", "핸드폰 번호를 입력하세요", "error");
+				return false;
+			} else if (isNaN(phone1) || phone1.length != 4) {
+				swal("에러", "핸드폰 번호를 다시 확인하세요", "error");
+				return false;
+			} else if (isNaN(phone2) || phone2.length != 4) {
+				swal("에러", "핸드폰 번호를 다시 확인하세요", "error");
+				return false;
+			} else if (address == '') {
+				swal("에러", "주소를 입력하세요", "error");
+				return false;
+			} else {
+				$("#frm").submit();
+			}
+
+		});
+
+	})
 </script>
 <!-- Bootstrap core CSS     -->
 <link href="/erp/css/dashboard/bootstrap.min.css" rel="stylesheet" />
@@ -74,11 +105,6 @@
 <link href="/erp/css/dashboard/light-bootstrap-dashboard.css"
 	rel="stylesheet" />
 
-
-<!--  CSS for Demo Purpose, don't include it in your project     -->
-<!-- <link href="/erp/css/demo.css" rel="stylesheet" /> -->
-
-
 <!--     Fonts and icons     -->
 <link
 	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
@@ -89,6 +115,7 @@
 <!-- alert -->
 <script src="/erp/js/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="/erp/css/dashboard.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -104,18 +131,22 @@
 					<a href="/erp/dash" class="simple-text"> KH Biz </a>
 				</div>
 
-				<ul class="nav">
-					<li><a href="/erp/dash"> <i
-							class="pe-7s-graph"></i>
+				<ul class="nav side-navi">
+					<li><a href="/erp/dash"> <i class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
 					<li><a href=""> <i class="pe-7s-user"></i>
 							<p>근태관리</p>
 					</a></li>
-					<li><a href="/erp/draft/draft_main"> <i
-							class="pe-7s-note2"></i>
-							<p>전자결재</p>
-					</a></li>
+					<li><a> <i class="pe-7s-note2"></i>
+							<p>
+								전자결재<span class="sub-arrow"></span>
+							</p>
+					</a>
+						<ul>
+							<li><a href="#">기안문서</a></li>
+							<li><a href="#">결재문서</a></li>
+						</ul></li>
 					<li><a href=""> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
@@ -196,20 +227,29 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="header">
-									<h4 class="title">회원 정보</h4>
+									<h4 class="title">회원 정보 수정</h4>
 									<p class="category"></p>
 								</div>
-								<div class="content">
-									<div class="table-full-width">
-										<table class="table table-hover">
-											<tbody>
+								<form action="/erp/member/memberMod" method="post" id="frm">
+								<input type="hidden" value="${member.code}" name="code">
+								<input type="hidden" value="${member.department}"
+									name="department"> <input type="hidden"
+									value="${member.position}" name="position"> <input
+									type="hidden" value="${member.hired_date}" name="hired_date">
+								<input type="hidden" value="${member.id}" name="id"> <input
+									type="hidden" value="${member.birth}" name="birth"> <input
+									type="hidden" value="${member.gender}" name="gender">
+									<div class="content">
+										<div class="table-full-width">
+											<table class="table">
 												<tr>
-													<td>사원번호</td>
+													<td class="col-md-4">사원번호</td>
 													<td>${member.code}</td>
 												</tr>
 												<tr>
 													<td>부서</td>
 													<td>${member.department}</td>
+
 												</tr>
 												<tr>
 													<td>직급</td>
@@ -220,12 +260,19 @@
 													<td>${member.id}</td>
 												</tr>
 												<tr>
-													<td>이름</td>
-													<td>${member.name}</td>
+													<td>비밀번호</td>
+													<td><input type="password" class="form-control"
+														name="pw" id="pw"></td>
 												</tr>
 												<tr>
-													<td>성별</td>
-													<td>${member.gender}</td>
+													<td>비밀번호 확인</td>
+													<td><input type="password" class="form-control"
+														id="pwCheck"></td>
+												</tr>
+												<tr>
+													<td>이름</td>
+													<td><input type="text" value="${member.name}"
+														class="form-control" name="name" id="name"></td>
 												</tr>
 												<tr>
 													<td>생년월일</td>
@@ -233,22 +280,58 @@
 												</tr>
 												<tr>
 													<td>핸드폰 번호</td>
-													<td>${member.phone}</td>
+													<td
+														class="form-group has-feedback text-left input-group form-inline">
+														<input type="text" class="form-control phone" value="010"
+														readonly>
+														<div class="input-group-addon" id="basic-addon1">-</div> <input
+														type="text" name="phone1" class="form-control phone"
+														maxlength="4" id="phone1">
+														<div class="input-group-addon" id="basic-addon1">-</div> <input
+														type="text" name="phone2" class="form-control phone"
+														maxlength="4" id="phone2">
 												</tr>
-											</tbody>
-										</table>
-									</div>
+												<tr>
+													<td rowspan="2">주소</td>
+													<td
+														class="form-group has-feedback text-left input-group form-inline">
+														<input type="text" id="sample4_postcode"
+														placeholder="우편번호" class="form-control"> <span
+														class="input-group-btn">
+															<button class="btn btn-info " type="button"
+																id="join_btn2" onclick="sample4_execDaumPostcode()">우편번호
+																찾기</button>
+													</span>
+												</tr>
+												<tr>
+													<td><label>도로명 주소</label> <input type="hidden"
+														id="sample4_roadAddress1" name="address1"
+														value="${member.address1}"> <input
+														class="join_text form-control" type="text"
+														value="${member.address1}" id="sample4_roadAddress2"
+														placeholder="도로명주소" disabled="disabled"> <input
+														type="hidden" id="sample4_jibunAddress1" name="address2"
+														value="${member.address2}"> <input
+														class="join_text form-control" type="hidden"
+														value="${member.address2}" id="sample4_jibunAddress2"
+														placeholder="지번주소" disabled="disabled"></td>
+												</tr>
+											</table>
+										</div>
 
-									<div class="footer">
-										<div class="legend col-md-offset-11">
-											<button class="btn btn-info" id="modify">수정</button>
-										</div>
-										<hr>
-										<div class="stats">
-											<i class="fa fa-clock-o"></i> ${member.hired_date}
+										<div class="footer">
+											<div class="legend col-md-offset-10">
+												<button class="btn btn-info" id="modBtn">등록</button>
+												<button class="btn btn-default" id="backBtn" onclick="location.href='/erp/member/memberMod'; return false;">다시쓰기</button>
+												<button class="btn btn-default" id="cancle" onclick="location.href='/erp/member/memberView'; return false;">취소</button>
+											</div>
+											<hr>
+											<div class="stats">
+												<i class="fa fa-clock-o"></i> ${member.hired_date}
+											</div>
 										</div>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -273,5 +356,67 @@
 
 		</div>
 	</div>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script>
+		//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+		function sample4_execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+							var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraRoadAddr += data.bname;
+							}
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraRoadAddr += (extraRoadAddr !== '' ? ', '
+										+ data.buildingName : data.buildingName);
+							}
+							// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+							if (extraRoadAddr !== '') {
+								extraRoadAddr = ' (' + extraRoadAddr + ')';
+							}
+							// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+							if (fullRoadAddr !== '') {
+								fullRoadAddr += extraRoadAddr;
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
+							document.getElementById('sample4_roadAddress1').value = fullRoadAddr;
+							document.getElementById('sample4_roadAddress2').value = fullRoadAddr;
+							document.getElementById('sample4_jibunAddress1').value = data.jibunAddress;
+							document.getElementById('sample4_jibunAddress2').value = data.jibunAddress;
+
+							// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+							if (data.autoRoadAddress) {
+								//예상되는 도로명 주소에 조합형 주소를 추가한다.
+								var expRoadAddr = data.autoRoadAddress
+										+ extraRoadAddr;
+								document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
+										+ expRoadAddr + ')';
+
+							} else if (data.autoJibunAddress) {
+								var expJibunAddr = data.autoJibunAddress;
+								document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
+										+ expJibunAddr + ')';
+
+							} else {
+								document.getElementById('guide').innerHTML = '';
+							}
+						}
+					}).open();
+		}
+	</script>
 </body>
 </html>

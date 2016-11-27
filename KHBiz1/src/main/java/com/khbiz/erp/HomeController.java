@@ -42,8 +42,12 @@ public class HomeController {
 	public void index(HttpServletRequest request){
 	}
 	@RequestMapping(value="/dash")
-	public String dashboard(){
-		return "dashboard/dashboard";
+	public String dashboard(HttpServletRequest request){
+		String path ="dashboard/dashboard";
+		if(request.getSession().getAttribute("member") ==null){
+			path ="redirect:/";
+		}
+		return path;
 	}
 	
 }

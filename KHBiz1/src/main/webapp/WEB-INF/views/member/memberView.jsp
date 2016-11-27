@@ -89,6 +89,7 @@
 <!-- alert -->
 <script src="/erp/js/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
+<link rel="stylesheet" type="text/css" href="/erp/css/dashboard.css">
 </head>
 <body>
 	<div class="wrapper">
@@ -104,7 +105,7 @@
 					<a href="/erp/dash" class="simple-text"> KH Biz </a>
 				</div>
 
-				<ul class="nav">
+				<ul class="nav side-navi">
 					<li><a href="/erp/dash"> <i
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
@@ -112,10 +113,15 @@
 					<li><a href=""> <i class="pe-7s-user"></i>
 							<p>근태관리</p>
 					</a></li>
-					<li><a href="/erp/draft/draft_main"> <i
-							class="pe-7s-note2"></i>
-							<p>전자결재</p>
-					</a></li>
+					<li><a> <i class="pe-7s-note2"></i>
+							<p>
+								전자결재<span class="sub-arrow"></span>
+							</p>
+					</a>
+						<ul>
+							<li><a href="#">기안문서</a></li>
+							<li><a href="#">결재문서</a></li>
+						</ul></li>
 					<li><a href=""> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>

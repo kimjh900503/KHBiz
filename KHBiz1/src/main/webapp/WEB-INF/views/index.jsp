@@ -55,6 +55,7 @@
 		if(message !=""){
 			swal(message);
 		}
+		$('#id').focus();
 	});
 </script>
 </head>
@@ -131,7 +132,7 @@
 									method="post">
 									<div class="form-group has-feedback text-left">
 										<label class="control-label" style="color: #fff">아이디</label> <input
-											type="text" style="height: 45px;" name="id"
+											type="text" style="height: 45px;" name="id" id="id"
 											class="form-control lowercase ng-invalid ng-invalid-required ng-touched"
 											placeholder="아이디"> <i
 											class="fa fa-user form-control-feedback"></i>

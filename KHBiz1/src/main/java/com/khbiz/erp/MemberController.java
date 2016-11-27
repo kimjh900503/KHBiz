@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.khbiz.attend.AttendService;
 import com.khbiz.member.MemberDTO;
 import com.khbiz.member.MemberService;
 
@@ -20,6 +21,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private AttendService attendService;
 	
 	//회원가입(admin) form
 	@RequestMapping(value="/memberJoin",method=RequestMethod.GET)
@@ -79,9 +82,8 @@ public class MemberController {
 			return "member/memberFirstMod";
 		}
 		else{
-			message=memberDTO.getName()+"님";
-			rd.addFlashAttribute("message", message);
 			request.getSession().setAttribute("member", memberDTO);
+			attendService.checkIn(memberDTO);
 			return "dashboard/dashboard";
 		}
 		
