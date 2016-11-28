@@ -38,12 +38,16 @@ public class HomeController {
 		
 		return "index";
 	}
-	@RequestMapping(value="/index")
+	@RequestMapping(value="/home")
 	public void index(HttpServletRequest request){
 	}
-	@RequestMapping(value="/free")
-	public String dashboard(){
-		return "dashboard/dashboard";
+	@RequestMapping(value="/dash")
+	public String dashboard(HttpServletRequest request){
+		String path ="dashboard/dashboard";
+		if(request.getSession().getAttribute("member") ==null){
+			path ="redirect:/";
+		}
+		return path;
 	}
 	
 }

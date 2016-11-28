@@ -33,6 +33,12 @@ public class MemberDAO {
 	
 	//회원수정
 	public int memberMod(MemberDTO memberDTO)throws Exception{
+		System.out.println(memberDTO.getId());
+		System.out.println(memberDTO.getPw());
+		System.out.println(memberDTO.getAddress1());
+		System.out.println(memberDTO.getAddress2());
+		System.out.println(memberDTO.getName());
+		System.out.println(memberDTO.getPhone());
 		return sqlSession.update(namespace+"memberMod", memberDTO);
 	}
 	

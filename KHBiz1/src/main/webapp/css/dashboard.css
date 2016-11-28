@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+li{
+	list-style: none;
+}
+.side-navi ul{
+	display: none;
+}
+.side-navi li:HOVER ul{
+	display: block;
+}
+.side-navi .sub-arrow:AFTER {
+	content: '\203A';
+	float: right;
+	margin-right: 10px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+}
