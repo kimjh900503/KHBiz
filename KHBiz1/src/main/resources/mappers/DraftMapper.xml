@@ -20,7 +20,8 @@
 	<!-- gian -->
 	<insert id="gian" parameterType="com.erp.draft.GianDTO">
 		insert into gian
-		values(#{sheet_code},#{code},#{title1},#{contents1},#{write_date},#{start_date})
+		values(#{sheet_code},#{code},#{title1},#{contents1},sysdate
+		,#{start_date})
 	</insert>
 
 	<!-- expense -->

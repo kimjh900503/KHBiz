@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -140,24 +141,5 @@ public class DraftController {
 	public String test(){
 		return "redirect:/";
 	}
-	
-	//fileUpload
-	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-	 public String fileUpload(Model model, MultipartRequest multipartRequest) throws Exception{
-	  MultipartFile file = multipartRequest.getFile("upload");   //뷰에서 form으로 넘어올 때 name에 적어준 이름입니다.
-	  Calendar cal = Calendar.getInstance();
-	  String fileName = file.getOriginalFilename();
-	  String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-	  String replaceName = cal.getTimeInMillis() + fileType;  //파일 이름의 중복을 막기 위해서 이름을 재설정합니다.
-	  
-	  String path = "/upload"; 
-	  dService.fileUpload(file, path, replaceName);
-	  return "redirect:/";
-	 }
-	
-	/*@RequestMapping(value="/draftWrite", method = RequestMethod.POST) 
-	public String d_1write (Model model, DraftDTO draftDTO, Draft_1DTO draft_1dto) throws Exception{	
-		return dService.draft_1Write(draftDTO, draft_1dto, model);
-	}*/
-	
+
 }
