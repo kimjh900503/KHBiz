@@ -1,5 +1,9 @@
 package com.erp.draft;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +13,8 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.khbiz.member.MemberDTO;
@@ -21,7 +27,7 @@ public class DraftService {
 	private DraftDAO draftDAO;
 
 	//sheet_code 부여 
-	private void sheet_code(DraftDTO draftDTO,Draft_1DTO draft_1dto) throws Exception{
+	private void sheet_code(DraftDTO draftDTO, ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO) throws Exception{
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMddkkmmss");
 		String sheet_kind = draftDTO.getSheet_kind();
@@ -36,12 +42,102 @@ public class DraftService {
 			String sheet_code=null;
 		}
 		draftDTO.setSheet_code(code);
-		draft_1dto.setSheet_code(code);
+		approveDTO.setSheet_code(code);
+		expenseDTO.setSheet_code(code);
+		leaveDTO.setSheet_code(code);
+		gianDTO.setSheet_code(code);
+		
+	}
+	//gian_write
+	public String gianWrite(DraftDTO draftDTO, RedirectAttributes rd,ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO){
+		
+		String kind = draftDTO.getKind();
+		
+		try {
+			this.sheet_code(draftDTO, approveDTO, expenseDTO, leaveDTO, gianDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int result = draftDAO.draftWrite(draftDTO);			
+	
+		int result2 = draftDAO.gian(gianDTO);
+		int result3 = draftDAO.approve(approveDTO);
+		
+		String message = "";
+		String path ="draft/draft_main";
+		if (result>0 && result2>0&&result3>0){
+			message = "성공적으로 상신하였습니다.";
+		}else {
+			message = "상신을 실패하였습니다.";
+		} 
+		rd.addFlashAttribute("message", message);
+		return path;
 	}
 	
-	//write
-	public String draftWrite(DraftDTO draftDTO, Model model,Draft_1DTO draft_1dto) throws Exception{
-		this.sheet_code(draftDTO, draft_1dto);
+	//expense
+	public String expenseWrite(DraftDTO draftDTO, RedirectAttributes rd,ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO){
+
+		String kind = draftDTO.getKind();
+		try {
+			this.sheet_code(draftDTO, approveDTO, expenseDTO, leaveDTO, gianDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+			int result = draftDAO.draftWrite(draftDTO);			
+		
+		int result2 = draftDAO.expense(expenseDTO);
+		int result3 = draftDAO.approve(approveDTO);
+		
+		String message = "";
+		String path ="draft/draft_main";
+		if (result>0 && result2>0&&result3>0){
+			message = "성공적으로 상신하였습니다.";
+			
+		}else {
+			message = "상신을 실패하였습니다.";
+			
+		} 
+		rd.addFlashAttribute("message", message);
+		return path;
+	}
+	
+	//leave
+	public String leaveWrite(DraftDTO draftDTO,RedirectAttributes rd,ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO){
+
+		String kind = draftDTO.getKind();
+
+		try {
+			this.sheet_code(draftDTO, approveDTO, expenseDTO, leaveDTO, gianDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		int result = draftDAO.draftWrite(draftDTO);			
+		int result2 = draftDAO.leave(leaveDTO);
+		int result3 = draftDAO.approve(approveDTO);
+		
+		String message = "";
+		String path ="draft/draft_main";
+		if (result>0 && result2>0&&result3>0){
+			message = "성공적으로 상신하였습니다.";
+			
+		}else {
+			message = "상신을 실패하였습니다.";
+			
+		} 
+		rd.addFlashAttribute("message", message);
+		
+		return path;
+	}
+	
+/*	//base_write
+	public String draftWrite(DraftDTO draftDTO, Model model,ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO) throws Exception{
+		this.sheet_code(draftDTO, approveDTO, expenseDTO, leaveDTO, gianDTO);
 		int result = draftDAO.draftWrite(draftDTO);
 		String message = "";
 		String path = "";
@@ -54,7 +150,7 @@ public class DraftService {
 		} 
 		model.addAttribute("message", message);
 		return path;
-	}
+	}*/
 	
 	//outbox(임시보관함) list
 	public String outboxList(Model model) throws Exception{
@@ -136,4 +232,39 @@ public class DraftService {
 		model.addAttribute("message", message);
 		return path;		
 		}
+	
+	//file upload
+	public static void fileUpload(MultipartFile fileData, String path, String fileName) throws Exception {
+		  String originalFileName = fileData.getOriginalFilename();
+		  String contentType = fileData.getContentType();
+		  long fileSize = fileData.getSize();
+		/*
+		  System.out.println("file Info");
+		  System.out.println("fileName " + fileName);
+		  System.out.println("originalFileName :" + originalFileName);
+		  System.out.println("contentType :" + contentType);
+		  System.out.println("fileSize :" + fileSize);
+		*/
+		  InputStream is = null;
+		  OutputStream out = null;
+		  try {
+		   if (fileSize > 0) {
+		    is = fileData.getInputStream();
+		    File realUploadDir = new File(path);
+		    if (!realUploadDir.exists()) {             //경로에 폴더가 존재하지 않으면 생성합니다.
+		     realUploadDir.mkdirs();
+		    }
+		    out = new FileOutputStream(path +"/"+ fileName);
+		    FileCopyUtils.copy(is, out);            //InputStream에서 온 파일을 outputStream으로 복사
+		   }else{
+		    new Exception("잘못된 파일을 업로드 하셨습니다.");
+		   }
+		  } catch (Exception e) {
+		   e.printStackTrace();
+		   new Exception("파일 업로드에 실패하였습니다.");
+		  }finally{
+		   if(out != null){out.close();}
+		   if(is != null){is.close();}
+		  }
+		 }
 }

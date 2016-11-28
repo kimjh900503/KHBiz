@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DraftMapper">
+ 	
+	<insert id="draftWrite" parameterType="com.erp.draft.DraftDTO">
+		insert into draft 	values(d_num_seq.nextval,#{code}, #{title}, #{contents},sysdate,	#{due_date},#{kind},1,#{sheet_code}, #{sheet_kind})
+	</insert> 
+
+<!--	<insert id="draft_1Write" parameterType="com.erp.draft.Draft_1DTO">
+		insert into draft_1 values(#{sheet_code},#{code},#{title},#{contents},sysdate, #{start_date})
+	</insert>  -->
+
+
+	<!-- 임시보관함 LIST -->
+	<select id="outboxList" resultType="com.erp.draft.DraftDTO">
+		select * from draft where kind='임시보관' order by d_num desc
+	</select>
+	
+	<!-- 상신함 LIST -->
+	<select id="reportboxList" resultType="com.erp.draft.DraftDTO">
+		select * from draft where kind='상신' order by d_num desc
+	</select>
+
+</mapper>

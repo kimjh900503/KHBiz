@@ -3,50 +3,84 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DraftMapper">
- 	
+
+	<!-- 기안문 base 상신 -->
 	<insert id="draftWrite" parameterType="com.erp.draft.DraftDTO">
-		insert into draft 	values(d_num_seq.nextval,#{code}, #{title}, #{contents},sysdate,	#{due_date},#{kind},1,#{sheet_code}, #{sheet_kind})
-	</insert> 
+		insert into draft
+		values(d_num_seq.nextval,#{code},#{title},#{contents},sysdate,#{due_date},#{kind},1,#{sheet_code},
+		#{sheet_kind} )
+	</insert>
+
+	<!-- approve -->
+	<insert id="approve" parameterType="com.erp.draft.ApproveDTO">
+		insert into approve
+		values(#{code},#{code2},#{due_per_date},#{ranking},#{sheet_code})
+	</insert>
+
+	<!-- gian -->
+	<insert id="gian" parameterType="com.erp.draft.GianDTO">
+		insert into gian
+		values(#{sheet_code},#{code},#{title1},#{contents1},#{write_date},#{start_date})
+	</insert>
+
+	<!-- expense -->
+	<insert id="expense" parameterType="com.erp.draft.ExpenseDTO">
+		insert into expense
+		values(#{sheet_code},#{code},#{price},#{contents2},sysdate)
+	</insert>
+
+	<!-- leave -->
+	<insert id="leave" parameterType="com.erp.draft.LeaveDTO">
+		insert into leave
+		values(#{sheet_code},#{code},#{category},#{contents3},#{start_date},#{fin_date},#{during},#{proxy_name},#{proxy_position},#{contact},sysdate,#{start_time},#{fin_time})
+	</insert>
 
 	<!-- 임시보관함 LIST -->
 	<select id="outboxList" resultType="com.erp.draft.DraftDTO">
-		select * from draft where kind='임시보관' order by d_num desc
+		select * from draft where
+		kind='임시보관' order by d_num desc
 	</select>
-	
+
 	<!-- 상신함 LIST -->
 	<select id="reportboxList" resultType="com.erp.draft.DraftDTO">
-		select * from draft where kind='상신' order by d_num desc
+		select * from draft where
+		kind='상신' order by d_num desc
 	</select>
 
 	<!-- 팀장인 사람들 list -->
-	 <select id="approverList" resultType = "com.khbiz.member.MemberDTO">
-		select * from member where position='팀장' or position='사장' order by code desc
-	</select> 
-	
+	<select id="approverList" resultType="com.khbiz.member.MemberDTO">
+		select * from member where
+		position='팀장' or position='사장' order by code asc
+	</select>
+
 	<!-- 임시보관함 VIEW -->
-	<select id="outboxView" resultType="com.erp.draft.DraftDTO" parameterType="int" >
-		select * from draft where kind='임시보관' and d_num=#{d_num}
+	<select id="outboxView" resultType="com.erp.draft.DraftDTO"
+		parameterType="int">
+		select * from draft where kind='임시보관' and
+		d_num=#{d_num}
 	</select>
 	<!-- 상신함 view -->
-	<select id="reportboxView" resultType="com.erp.draft.DraftDTO" parameterType="int">
+	<select id="reportboxView" resultType="com.erp.draft.DraftDTO"
+		parameterType="int">
 		select * from draft where kind='상신' and d_num=#{d_num}
 	</select>
-	
+
 	<!-- 임보 delete -->
 	<delete id="outboxDelete">
-		delete draft where d_num=#{d_num}	
+		delete draft where d_num=#{d_num}
 	</delete>
-	<!-- 상신 delete --> 
+	<!-- 상신 delete -->
 	<delete id="reportboxDelete">
-		delete draft where d_num=#{d_num}	
+		delete draft where d_num=#{d_num}
 	</delete>
-	
+
 	<!-- 임보 상신 update -->
 	<update id="outboxReport">
-		update draft set kind='상신',up_date=sysdate where d_num=#{d_num}	
+		update draft set kind='상신',up_date=sysdate where
+		d_num=#{d_num}
 	</update>		
 	
-	
+
 	
 	
 </mapper>

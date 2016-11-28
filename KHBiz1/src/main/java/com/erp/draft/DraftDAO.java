@@ -23,9 +23,31 @@ public class DraftDAO {
 	private SqlSession sqlSession;
 	private String namespace="DraftMapper.";
 	
-	//문서 write
+	//write 1. 문서 write
 	public int draftWrite(DraftDTO draftDTO){
 		int result =sqlSession.insert(namespace+"draftWrite",draftDTO);
+		return result;
+	}
+
+	//2. 
+	public int approve(ApproveDTO approveDTO){
+		int result =sqlSession.insert(namespace+"approve",approveDTO);
+		
+		return result;
+	}
+	//3.
+	public int gian(GianDTO gianDTO){
+		int result =sqlSession.insert(namespace+"gian",gianDTO);
+		return result;
+	}
+	//4.
+	public int expense(ExpenseDTO expenseDTO){
+		int result =sqlSession.insert(namespace+"expense",expenseDTO);
+		return result;
+	}
+	//5.
+	public int leave(LeaveDTO leaveDTO){
+		int result =sqlSession.insert(namespace+"leave",leaveDTO);
 		return result;
 	}
 	

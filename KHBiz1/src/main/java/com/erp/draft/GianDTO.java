@@ -2,24 +2,23 @@ package com.erp.draft;
 
 import java.util.Date;
 
-public class Draft_1DTO {
+public class GianDTO {
 	private String sheet_code;
-	private int code; 
+	private String code; 
 	private String title1; 
 	private String contents1;
-	private Date write_date;
-	private Date start_date;
-	
+	private String write_date;
+	private String start_date;
 	public String getSheet_code() {
 		return sheet_code;
 	}
 	public void setSheet_code(String sheet_code) {
 		this.sheet_code = sheet_code;
 	}
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	public String getTitle1() {
@@ -34,17 +33,18 @@ public class Draft_1DTO {
 	public void setContents1(String contents1) {
 		this.contents1 = contents1;
 	}
-	public Date getWrite_date() {
+	public String getWrite_date() {
 		return write_date;
 	}
-	public void setWrite_date(Date write_date) {
+	public void setWrite_date(String write_date) {
 		this.write_date = write_date;
 	}
-	public Date getStart_date() {
+	public String getStart_date() {
 		return start_date;
 	}
-	public void setStart_date(Date start_date) {
+	public void setStart_date(String start_date) {
 		this.start_date = start_date;
 	}
+	
 	
 }

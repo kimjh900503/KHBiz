@@ -9,31 +9,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+
 <title>Insert title here</title>
 <!-- 1. jQuery 및 jQuery-ui.css 로드 -->
-<link rel="stylesheet" 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.12.4.js"></script> 
-<script src="//code.jquery.com/jquery.min.js">
-<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script> -->
+<script src="//code.jquery.com/jquery.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<link rel="stylesheet" 	href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
 <script>
 	$(function() {
-
+		 $("#datepicker1").datepicker({
+			
+		 });
 		  
 		$("#btn").click(function() {
 
 			var kind = $("#sheet_kind").val();
 			if (kind == "기안문") {
-				$("#sheet").load("draftForm1");
-
+				$("#sheet").load("gianForm");
 			} else if (kind == "지출서") {
-				$("#sheet").load("draftForm2");
+				$("#sheet").load("expenseForm");
 			} else {
-				$("#sheet").load("draftForm3");
+				$("#sheet").load("leaveForm");
 			}
 
 			
@@ -42,19 +42,33 @@
 				var kind = $("#sheet_kind").val();
 
 				if (kind == "기안문") {
-					$("#go_form").attr("action", gooooo)
-
+					$("#go_form").attr("action", "gian");
 				} else if (kind == "지출서") {
-					$("#sheet").load("draftForm2");
+					$("#go_form").attr("action", "expense");
 				} else {
-					$("#sheet").load("draftForm3");
+					$("#go_form").attr("action", "leave");
 				}
 
 				$("#go_form").submit();
 			}); //
 
 		});
+		//임시보관
+		$("#imbo").click(function(){
+			var kind = $("#sheet_kind").val();
 
+			if (kind == "기안문") {
+				$("#go_form").attr("action", "gian");
+			} else if (kind == "지출서") {
+				$("#go_form").attr("action", "expense");
+			} else {
+				$("#go_form").attr("action", "leave");
+			}
+
+			$("#go_form").submit();
+			
+		});
+		
 	
 	
 		$("#ap_btn").click(function() {
@@ -64,15 +78,16 @@
 			});
 		
 		$("#app_list").on("click","#app_btn",function(){
-			var result="<table>";
+			var result='<div class="container"><table class="table table-striped"><tr><td>사원번호</td><td>부서</td><td>직책</td><td>이름</td><td>개인마감일</td><td>순위</td></tr>';
 			$(".app_ch").each(function(){
 				if($(this).prop("checked")){
 					var cla = $(this).attr("id");
 					result=result+"<tr>";
 					$("."+cla).each(function () {
-					result=result+'<td><input type ="text" name="tab" value="'+$(this).text()+'">';					
+						
+					result=result+'<td><input type ="text" name="tab" readonly="readonly" value="'+$(this).text()+'"></td>';					
 					});
-					result=result+'<input type ="text" name="tt"></td>';
+					result=result+'<td><input type = "text" name="due_per_date"></td><td><input type ="number" name="ranking"><input type="text" name="code2" placeholder="code2"> </td>';
 					result=result+"</tr>";
 				}
 				
@@ -107,9 +122,9 @@
 <body>
 	<h2>기안서 작성</h2>
 
-	<form id="go_form" action="draftWrite" method ="post">
-		직원코드<input type="number" name="code"><br>
-		==================================<br> 
+	<form id="go_form" method ="post">
+		직원코드<input type="text" name="code" value="${member.code }" readonly="readonly"><br>
+		====================================================================<br> 
 		<input type = "button" value="결재자 선택" id = "ap_btn"><br>
 
 		<div id = "app_list">
@@ -117,7 +132,8 @@
 		</div>
 		<div id="selectList">
 		</div>
-		==================================<br> 제목<br> 
+		====================================================================<br> 
+		제목<br> 
 		<input	type="text" name="title"><br> 
 		문서 선택 <br> 
 		<select name="sheet_kind" id="sheet_kind">
@@ -135,12 +151,12 @@
 
 		<!-- 마감 날짜<br><input type = "date" name="due_date"><br> -->
 		마감 날짜<br> 
-		<input type="text" name="due_date" id="datepicker"><br>
-		-------------------------------------------------------<br>
-		 임시보관<input type="radio" id="kind" name="kind" value="임시보관"> 
-		 상신<input  type="radio" name="kind" id="kind" value="상신"><br>
-		-------------------------------------------------------<br> 
-		<input	type="submit" id="btn2" value="완료">
+		<input type="date" name="due_date" id="datepicker1"><br>
+		-----------------------------------------------------------------------------------------------------------------------<br> 
+		<input type ="file" name="upload">
+		-----------------------------------------------------------------------------------------------------------------------<br> 
+		<input type ="submit" id = "imbo" name="kind" value="임시보관">
+		<input	type="submit" id="btn2" name="kind" value="상신">
 
 	</form>
 

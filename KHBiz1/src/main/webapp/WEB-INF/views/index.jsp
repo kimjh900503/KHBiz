@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,9 @@
 	rel="stylesheet" />
 <link href="/erp/css/navi.css" rel="stylesheet" />
 <link href="/erp/css/main.css" rel="stylesheet" />
+<!-- alert -->
+<script src="/erp/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
 <!-- Count To javascript -->
 <script type="text/javascript" src="/erp/js/jquery.countTo.js"></script>
 <script type="text/javascript">
@@ -47,6 +51,10 @@
 			/* always close responsive nav after click */
 			$('.navbar-toggle:visible').click();
 		});
+		var message="${message}";
+		if(message !=""){
+			swal(message);
+		}
 	});
 </script>
 </head>
@@ -92,57 +100,57 @@
 		</div>
 		<div class="parallax-bg">
 			<video id="video-elem" preload="auto" loop="100" muted="muted"
-				autoplay="autoplay"
-				poster="${pageContext.session.servletContext.contextPath }/images/31a43150.main_image.png">
+				autoplay="autoplay" poster="/erp/images/31a43150.main_image.png">
 				<%-- <source
-					src="${pageContext.session.servletContext.contextPath }/images/2015121711353535351ba.mp4"
+					src="/erp/images/2015121711353535351ba.mp4"
 					type="video/mp4">
 				<source
-					src="${pageContext.session.servletContext.contextPath }/images/201512180103383381qk.mp4"
+					src="/erp/images/201512180103383381qk.mp4"
 					type="video/mp4"> --%>
 			</video>
 			<div class="media video-overlay">
 				<section>
 					<div class="container">
 						<div class="row">
-							<div class="col-lg-6 col-md-6 text-center">
+							<div class="col-lg-12 col-md-12 text-center">
 								<div class="feature">
 									<h2 style="color: #fff">
 										<small style="color: #0000a0">HELLO</small><br> KH Biz
 									</h2>
-									<h1 style="color: #fff" class="text-faded">효과적인 업무.<br>
-									 KH Biz 를 시작하세요</h1>
+									<h1 style="color: #fff" class="text-faded">효과적인 업무. KH Biz
+										를 시작하세요</h1>
 									<h3 style="color: #fff" class="text-faded">간편한 소통, 원하던 기능을
 										전부 담았습니다.</h3>
 								</div>
+
 							</div>
-							<div class="col-lg-6 col-md-6 text-center">
-								<div class="modal-content">
-									<h3>로그인</h2>
-									<form class="login-form" action="member/memberLogin" method="post">
-										<div class="form-group has-feedback modal-body text-left">
-											<label class="control-label">아이디</label> <input
-												type="text" class="form-control lowercase ng-invalid ng-invalid-required ng-touched" placeholder="아이디"> <i
-												class="fa fa-user form-control-feedback"></i>
-										</div>
-										<div class="form-group has-feedback modal-body text-left">
-											<label class="control-label">비밀번호</label> <input
-												type="password" class="form-control" placeholder="비밀번호">
-											<i class="fa fa-lock form-control-feedback"></i>
-										</div>
-										<div class="modal-body text-center">
-											<button type="submit" class="btn btn-default btn-sm"
-												aria-hidden="true">Log In</button>
-											<span class="pl-5 pr-5">or</span>
-											<button type="submit" class="btn btn-default btn-sm"
-												aria-hidden="true">Sing Up</button>
-										</div>
-										<ul>
-											<li class="text-center"><a href="#"
-												aria-hidden="true">Forgot your password?</a></li>
-										</ul>
-									</form>
-								</div>
+						</div>
+						<div class="row" style="margin-top: 5%">
+							<div class="col-lg-5 col-md-5 col-lg-offset-3 col-md-offset-3">
+								<form class="login-form" action="member/memberLogin"
+									method="post">
+									<div class="form-group has-feedback text-left">
+										<label class="control-label" style="color: #fff">아이디</label> <input
+											type="text" style="height: 45px;" name="id"
+											class="form-control lowercase ng-invalid ng-invalid-required ng-touched"
+											placeholder="아이디"> <i
+											class="fa fa-user form-control-feedback"></i>
+									</div>
+									<div class="form-group has-feedback text-left">
+										<label class="control-label" style="color: #fff">비밀번호</label>
+										<input style="height: 45px;" name="pw" type="password"
+											class="form-control" placeholder="비밀번호"> <i
+											class="fa fa-lock form-control-feedback"></i>
+									</div>
+									<div class="text-center">
+										<button type="submit" class="btn btn-info btn-lg" aria-hidden="true">Log
+											In</button>
+									</div>
+									<ul>
+										<li class="text-center"><a href="#" aria-hidden="true">Forgot
+												your password?</a></li>
+									</ul>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -446,44 +454,33 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade in" id="login-form" tabindex="-1" role="dialog"
-		aria-hidden="true">
+	<div id="messageModal" class="modal fade in" tabindex="-1"
+		role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form class="login-form">
-					<div class="form-group has-feedback modal-body">
-						<label class="control-label">Username</label> <input type="text"
-							class="form-control" placeholder=""> <i
-							class="fa fa-user form-control-feedback"></i>
-					</div>
-					<div class="form-group has-feedback modal-body">
-						<label class="control-label">Password</label> <input
-							type="password" class="form-control" placeholder=""> <i
-							class="fa fa-lock form-control-feedback"></i>
-					</div>
-					<div class="modal-body text-center">
-						<button type="submit" class="btn btn-gray btn-sm"
-							data-dismiss="modal" aria-hidden="true">Log In</button>
-						<span class="pl-5 pr-5">or</span>
-						<button type="submit" class="btn btn-default btn-sm"
-							data-dismiss="modal" aria-hidden="true">Sing Up</button>
-					</div>
-					<ul>
-						<li class="text-center"><a href="#" data-dismiss="modal"
-							aria-hidden="true">Forgot your password?</a></li>
-					</ul>
-					<span class="text-center">Login with</span>
-					<ul class="social-links circle small colored clearfix">
-						<li class="facebook"><a target="_blank"
-							href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
-						<li class="twitter"><a target="_blank"
-							href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
-						<li class="googleplus"><a target="_blank"
-							href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
-					</ul>
-				</form>
+				<div class="modal-body">
+					<h2 class="text-center">Landing Zero Theme</h2>
+					<h5 class="text-center">A free, responsive landing page theme
+						built by BootstrapZero.</h5>
+					<p class="text-justify">This is a single-page Bootstrap
+						template with a sleek dark/grey color scheme, accent color and
+						smooth scrolling. There are vertical content sections with subtle
+						animations that are activated when scrolled into view using the
+						jQuery WOW plugin. There is also a gallery with modals that work
+						nicely to showcase your work portfolio. Other features include a
+						contact form, email subscribe form, multi-column footer. Uses
+						Questrial Google Font and Ionicons.</p>
+					<p class="text-center">
+						<a href="http://www.bootstrapzero.com">Download at
+							BootstrapZero</a>
+					</p>
+					<br />
+					<button class="btn btn-primary btn-lg center-block"
+						data-dismiss="modal" aria-hidden="true">OK</button>
+				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

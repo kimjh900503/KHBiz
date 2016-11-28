@@ -7,9 +7,12 @@
 .content {
 	background-color: #fff5ec;
 }
-li{
-	list-style: none;
+#content {
+	padding:15px;
+	background-color: rgba(255, 255, 255, 0.7);
+	border-radius: 50px;
 }
+
 .parallax-bg {
 	background-size: cover;
 	background-attachment: fixed;
@@ -33,9 +36,8 @@ video::-webkit-media-controls {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: rgba(255, 255, 255, 0);
+	background-color: rgba(255, 255, 255, 0.3);
 	opacity: 1;
-	transition: opacity 0.3s ease;
 }
 
 /* .video-overlay #hello {
@@ -82,7 +84,7 @@ video::-webkit-media-controls {
 
 .btn {
     border: 0;
-    border-radius: 200px;
+    /* border-radius: 290px; */
     font-family: 'Helvetica Neue',Arial,sans-serif;
 }
 @media(min-width:768px) {

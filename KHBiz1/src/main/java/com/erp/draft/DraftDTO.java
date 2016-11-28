@@ -5,7 +5,7 @@ import java.util.Date;
 public class DraftDTO {
 
 	private int d_num;
-	private int code;
+	private String code;
 	private String sheet_kind;
 	private String title;
 	private String contents;
@@ -51,10 +51,10 @@ public class DraftDTO {
 	public void setD_num(int d_num) {
 		this.d_num = d_num;
 	}
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	public String getTitle() {

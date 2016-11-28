@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberMapper">
+
+	<insert id="memberJoin" parameterType="com.khbiz.member.MemberDTO">
+		insert into member 
+		values(#{code},#{department},#{position},null, #{pw}, null,null, null,null,null,null,sysdate)
+	</insert>
+	
+	<select id="memberLogin" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.member.MemberDTO">
+		select * from member where id =#{id} or code = #{id} and pw=#{pw}
+	</select>
+	
+	<select id="memberIdCheck" parameterType="java.lang.String" resultType="com.khbiz.member.MemberDTO">
+		select * from member where id=#{id}
+	</select>
+	 <update id="memberFirstMod" parameterType="com.khbiz.member.MemberDTO">
+		update member set 
+		id=#{id},pw=#{pw},name=#{name},gender=#{gender},birth=#{birth},phone=#{phone},address1=#{address1},address2=#{address2}
+		where  code = #{code}
+	</update> 
+	<update id="memberMod" parameterType="com.khbiz.member.MemberDTO">
+		update member set 
+		pw=#{pw},name=#{name},phone=#{phone},address1=#{address1},address2=#{address2}
+		where  id = #{id}
+	</update> 
+	
+</mapper>

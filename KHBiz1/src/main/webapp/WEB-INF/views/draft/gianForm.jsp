@@ -3,7 +3,7 @@
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <style type="text/css">
-	#gian_table,#wrap{
+	#gian_table,#wrap,td{
 		border : 1px solid black;
 	}
 </style>
@@ -16,23 +16,20 @@
 		<tr>
 			<td colspan="4" style = "text-align: center;">기안용폼</td>
 		</tr>
-		<tr>	
-			<td>문서번호</td>
-			<td></td>
-		</tr>	
+		
 		<tr>
 			<td>기안부서</td>
-			<td></td>
-			<td>기안자(우선코드)</td>
-			<td><input type ="text" name =""></td>
+			<td>${member.department }</td>
+<!-- 			<td>기안자(우선코드)</td>
+			<td><input type ="text" name ="code"></td> -->
 		</tr>
 		<tr>
 			<td>제목</td>
-			<td colspan="2"><input type = "text" name = "title"></td>
+			<td colspan="2"><input type = "text" name = "title1"></td>
 		</tr>
 		<tr>
-			<td>기안 일자</td>
-			<td><input type = "text" name = "write_date"></td>
+			<!-- <td>기안 일자</td>
+			<td><input type = "text" name = "write_date"></td> -->
 			<td>시행 일자</td>
 			<td><input type = "text" name = "start_date"  id="datepicker" ></td>
 		</tr>
@@ -40,7 +37,7 @@
 			<td colspan="4" style = "text-align: center;">내용</td>
 		</tr>
 		<tr>
-			<td colspan="4"><input type = "text" name = "contents"></td>
+			<td colspan="4"><input type = "text" name = "contents1"></td>
 		</tr>
 
 	</table>
