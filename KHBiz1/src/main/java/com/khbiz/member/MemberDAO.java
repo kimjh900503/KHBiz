@@ -1,11 +1,15 @@
 package com.khbiz.member;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberDAO {
+
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -45,5 +49,25 @@ public class MemberDAO {
 	//회원탈퇴
 	public int memberDelete(MemberDTO memberDTO)throws Exception{
 		return sqlSession.delete(namespace+"memberDelete",memberDTO);
+	}
+
+	// 회원 검색, 리스트
+	public List<MemberDTO> memberList(String type, String str, String code) {
+		System.out.println("dao code : "+code);
+		if (type != null && str != null) {
+			str = "%" + str + "%";
+		}
+		if (str == null || str.equals(' ')) {
+			str = "%";
+		}
+		HashMap<String, String> find = new HashMap<String, String>();
+
+		find.put("type", type);
+		find.put("str", str);
+		find.put("code", code);
+
+		List<MemberDTO> list = sqlSession.selectList(namespace+"memberList", find);
+
+		return list;
 	}
 }

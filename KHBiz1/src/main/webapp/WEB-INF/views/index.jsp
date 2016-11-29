@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +59,7 @@
 </script>
 </head>
 <body>
+
 	<nav id="topNav" class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">

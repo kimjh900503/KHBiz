@@ -1,11 +1,14 @@
 package com.khbiz.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class MemberService {
-	
+
 	@Autowired
 	private MemberDAO memberDAO;
 	
@@ -45,5 +48,24 @@ public class MemberService {
 	public int memberDelete(MemberDTO memberDTO)throws Exception{
 		return memberDAO.memberDelete(memberDTO);
 	}
-		
+
+	// 회원 리스트
+	public void memberList(String type, String str, Model model, String code) {
+		System.out.println("service code : "+code);
+		List<MemberDTO> list = memberDAO.memberList(type, str, code);
+		model.addAttribute("type", type);
+		model.addAttribute("str", str);
+		model.addAttribute("memberList", list);
+	}
+
+	// 초대 후 회원 리스트
+	public void memberList2(String type, String str, Model model, List<String> codes, String code) {
+		System.out.println("service code : "+code);
+		List<MemberDTO> list = memberDAO.memberList(type, str, code);
+		model.addAttribute("type", type);
+		model.addAttribute("str", str);
+		model.addAttribute("memberList", list);
+		model.addAttribute("codes", codes);
+	}
+
 }

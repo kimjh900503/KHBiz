@@ -5,6 +5,7 @@
 
 <mapper namespace="MemberMapper">
 
+
 	<insert id="memberJoin" parameterType="com.khbiz.member.MemberDTO">
 		insert into member 
 		values(#{code},#{department},#{position},null, #{pw}, null,null, null,null,null,null,sysdate)
@@ -27,5 +28,28 @@
 		pw=#{pw},name=#{name},phone=#{phone},address1=#{address1},address2=#{address2}
 		where  id = #{id}
 	</update> 
+	
+	<select id="memberList" parameterType="java.util.HashMap" resultType="com.khbiz.member.MemberDTO">
+		select * from member
+		where code !=#{code}
+		<if test="type != null">
+			and
+				<if test="type=='name'">
+					name like #{str}
+				</if>
+				<if test="type=='department'">
+					department like #{str}
+				</if>
+				<if test="type=='position'">
+					position like #{str}
+				</if>
+				<if test="type=='id'">
+					id like #{str}
+				</if>
+				<if test="type=='phone'">
+					phone like #{str}
+				</if>
+		</if>
+	</select>
 	
 </mapper>
