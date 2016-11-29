@@ -81,5 +81,50 @@ public class DraftDAO {
 	//outboxReport
 	public int outboxReport(int d_num)throws Exception{
 		return sqlSession.update(namespace+"outboxReport", d_num);
+	}  
+	//getWaitList 결재대기 리스트
+	public List<GetListDTO> getWaitList(String code2) throws Exception{
+		System.out.println("code : "+ code2);
+		return sqlSession.selectList(namespace+"getWaitList",code2);
 	}
+	//getFinList
+	public List<GetListDTO> getFinList(String code2) throws Exception{
+		return sqlSession.selectList(namespace+"getFinList", code2);
+	}
+	
+	//getBackList
+		public List<GetListDTO> getBackList(String code2) throws Exception{
+			return sqlSession.selectList(namespace+"getBackList", code2);
+		}
+	
+		//getWateView
+		public GetListDTO getWaitView(int d_num)throws Exception{
+			return sqlSession.selectOne(namespace+"getWaitView", d_num);
+		}
+		//getFinView
+		public GetListDTO getFinView(int d_num)throws Exception{
+			return sqlSession.selectOne(namespace+"getFinView", d_num);
+		}
+		
+		//getBackView
+		public GetListDTO getBackView(int d_num)throws Exception{
+			return sqlSession.selectOne(namespace+"getBackView", d_num);
+		}
+		
+		
+		
+		
+		
+		
+		
+	/*페이징한거
+	 * //getAllList
+	public List<DraftDTO> getAllList(DraftDTO draftDTO, PageMaker pageMaker) throws Exception{
+		return sqlSession.selectList(namespace+"getAllList", pageMaker);
+	}
+	
+	//getAllCount
+	public int getAllCount()throws Exception{
+		return sqlSession.selectOne(namespace+"getAllCount");
+	}*/
 }

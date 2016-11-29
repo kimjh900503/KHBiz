@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -19,10 +19,6 @@
 		<tr>
 			<td colspan="6" style = "text-align: center;">휴가신청서폼</td>
 		</tr>
-		<tr>
-			<td>신청자(우선코드)</td>
-			<td><input type ="text" name ="code"></td>
-		<tr>
 			<td>휴가사유</td>
 			<td><select name="category">
 				<option value="경조사">경조사</option>
@@ -37,9 +33,9 @@
 		</tr>
 		<tr>
 			<td>휴가 시작일</td>
-			<td><input type="text" name="start_date"></td>
+			<td><input type="date" name="start_date"></td>
 			<td>휴가 종료일</td>
-			<td><input type="text" name="fin_date"></td>
+			<td><input type="date" name="fin_date"></td>
 			<td>기간</td>
 			<td><input type="text" name="during" placeholder="ex)1박 2일, 반차 ..."></td>
 		</tr>
@@ -57,9 +53,9 @@
 		</tr>
 		<tr>
 			<td>직무대행자</td>
-			<td><input type="text" name=proxy_name"></td>
+			<td><input type="text" name="proxy_name"></td>
 			<td>직무대행자 직위</td>
-			<td><input type="text" name=proxy_position"></td>
+			<td><input type="text" name="proxy_position"></td>
 		</tr>
 		<tr>
 			<td>비상연락처</td>

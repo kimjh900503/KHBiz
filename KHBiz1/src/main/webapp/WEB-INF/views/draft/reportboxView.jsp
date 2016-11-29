@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,7 +25,7 @@
 			<td>${reportboxView.sheet_code }</td>
 			<td>문서유형</td>
 			<td>${reportboxView.sheet_kind }</td>
-			<td>이름(우선코드)</td>
+			<td>사원코드</td>
 			<td>${reportboxView.code }</td>
 		</tr>	
 
@@ -34,7 +35,7 @@
 		</tr>
 		<tr>
 			<td>작성날짜</td>
-			<td>${reportboxView.up_date}</td>
+			<td><fmt:formatDate value="${reportboxView.up_date}" pattern="yyyy-MM-dd" /></td>
 			<td>만료날짜</td>
 			<td>${reportboxView.due_date}</td>
 		</tr>

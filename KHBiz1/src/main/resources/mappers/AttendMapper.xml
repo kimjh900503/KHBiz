@@ -3,26 +3,26 @@
    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AttendMapper">
-	<update id="checkIn">
+	<update id="checkIn" parameterType="com.khbiz.member.MemberDTO">
 		UPDATE attend SET starttime =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,ENDTIME=null,OVERTIME=null,BREAKING=0,VACATION=0 
-		where CODE=1111
+		where CODE=#{code}
 	</update>
-	<select id="checking">
-		select TO_DATE(starttime,'YYMMDD/HH24MI') - sysdate from attend where code=1111
+	<select id="checking" parameterType="com.khbiz.member.MemberDTO" resultType="int">
+		select TO_DATE(starttime,'YYMMDD/HH24MI') - sysdate from attend where code=#{code}
 	</select>
-	<update id="checkOut">
-		UPDATE attend SET ENDTIME =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,OVERTIME=null,BREAKING=0,VACATION=0 
-		where CODE=1111
+	<update id="checkOut"  parameterType="com.khbiz.member.MemberDTO">
+		UPDATE attend SET ENDTIME =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,OVERTIME=#{overtime},BREAKING=0,VACATION=0 
+		where CODE=#{code}
 	</update>
-	<insert id="memberIn">
+	<insert id="memberIn" parameterType="com.khbiz.member.MemberDTO">
 		insert into ATTEND 
-		VALUES(1111,TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null)
+		VALUES(#{code},TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null)
 	</insert>
-	<select id="workingtime">
+	<select id="workingtime" parameterType="com.khbiz.member.MemberDTO">
 		SELECT
  		TO_CHAR(
      	TO_DATE(TRUNC(MOD(  TO_DATE(ENDTIME,'YYMMDD/HH24MI')
 		- TO_DATE(starttime,'YYMMDD/HH24MI'),1)* 24 * 60 * 60), 'SSSSS'),'HH24MI')
-		FROM attend where code=1111
+		FROM attend where code=#{code}
 	</select>
 </mapper>

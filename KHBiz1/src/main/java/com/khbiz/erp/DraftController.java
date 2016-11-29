@@ -52,6 +52,9 @@ public class DraftController {
 	@RequestMapping(value="/draftWriteForm", method=RequestMethod.GET)
 	public void draftWriteForm(){}
 	
+	@RequestMapping(value="/draft_main2",method = RequestMethod.GET)
+	public void draftMain2(){}
+	
 	//임시보관함이동
 	@RequestMapping(value="/draftOutBox", method = RequestMethod.GET)
 	public String draftList(Model model) throws Exception{
@@ -137,9 +140,71 @@ public class DraftController {
 		return path;
 	}
 	
-	@RequestMapping(value="/test")
+	//getWaitList
+	@RequestMapping(value="/getWaitList")
+	public String getWaitList( Model model, String code2){
+		String path ="";
+		try {
+			path =dService.getWaitList(code2, model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return path;
+	}
+	
+	//getFinList
+		@RequestMapping(value="/getFinList")
+		public String getFinList( Model model, String code2){
+			String path ="";
+			try {
+				path =dService.getFinList(code2, model);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return path;
+		}
+		
+		//getBackList
+		@RequestMapping(value="/getBackList")
+		public String getBackList( Model model, String code2){
+			String path ="";
+			try {
+				path =dService.getBackList(code2, model);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return path;
+		}
+	
+		//getWaitView Modal
+		@RequestMapping(value="/getWaitView", method=RequestMethod.GET)
+		public String getWaitView(HttpServletRequest request, @RequestParam int d_num, Model model)throws Exception{
+			System.out.println("num : "+d_num);
+			String path= dService.getWaitView(model, d_num);
+		    return path;
+		}
+	
+		//getFinView
+		@RequestMapping(value="/getFinView", method=RequestMethod.GET)
+		public String getFinView(HttpServletRequest request, @RequestParam int d_num, Model model)throws Exception{
+			String path= dService.getFinView(model, d_num);
+		    return path;
+		}
+		
+		//getBackView
+		@RequestMapping(value="/getBackView", method=RequestMethod.GET)
+		public String getBackView(HttpServletRequest request, @RequestParam int d_num, Model model)throws Exception{
+			String path= dService.getBackView(model, d_num);
+		    return path;
+		}
+	
+	/*@RequestMapping(value="/test")
 	public String test(){
 		return "redirect:/";
-	}
+	}*/
 
 }
+

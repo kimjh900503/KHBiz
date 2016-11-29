@@ -8,9 +8,8 @@
 </head>
 <body>
 
-	<h2>기안문서</h2>
+	<h2>보낸 결재함</h2>
 
-<a href = "draftWriteForm">문서작성</a>
 <a href ="draftOutBox">임시보관함</a>
 <a href ="draftReportBox">상신함</a>
 <a href ="">반려함</a>

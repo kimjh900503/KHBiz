@@ -20,18 +20,16 @@
 		<tr>
 			<td>기안부서</td>
 			<td>${member.department }</td>
-<!-- 			<td>기안자(우선코드)</td>
-			<td><input type ="text" name ="code"></td> -->
+			<td>기안자(우선코드)</td>
+			<input type ="hidden" value="${member.code}">
 		</tr>
 		<tr>
 			<td>제목</td>
 			<td colspan="2"><input type = "text" name = "title1"></td>
 		</tr>
 		<tr>
-			<!-- <td>기안 일자</td>
-			<td><input type = "text" name = "write_date"></td> -->
 			<td>시행 일자</td>
-			<td><input type = "text" name = "start_date"  id="datepicker" ></td>
+			<td><input type = "date" name = "start_date"  ></td>
 		</tr>
 		<tr>
 			<td colspan="4" style = "text-align: center;">내용</td>

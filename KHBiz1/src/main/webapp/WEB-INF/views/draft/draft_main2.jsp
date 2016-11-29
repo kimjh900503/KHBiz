@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>결재문서</h2>
-	
-	<a href="">미결함</a>
-	<a href= "">완결함</a>
+	<h2>받은 결재함</h2>
+	<a href="getWaitList?code2=${member.code}">결재대기</a>
+	<a href="getFinList?code2=${member.code}">결재완료</a>
+	<a href="getBackList?code2=${member.code}">반려함</a>
 </body>
 </html>

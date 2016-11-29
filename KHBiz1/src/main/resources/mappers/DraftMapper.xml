@@ -27,13 +27,14 @@
 	<!-- expense -->
 	<insert id="expense" parameterType="com.erp.draft.ExpenseDTO">
 		insert into expense
-		values(#{sheet_code},#{code},#{price},#{contents2},sysdate)
+		values(#{sheet_code},#{code},#{price},sysdate,#{items})
 	</insert>
 
 	<!-- leave -->
 	<insert id="leave" parameterType="com.erp.draft.LeaveDTO">
-		insert into leave
-		values(#{sheet_code},#{code},#{category},#{contents3},#{start_date},#{fin_date},#{during},#{proxy_name},#{proxy_position},#{contact},sysdate,#{start_time},#{fin_time})
+		insert into leave values(#{sheet_code},#{code},#{category},
+		 #{contents3},#{start_date},#{fin_date},#{during},
+		 #{proxy_name},#{proxy_position},#{contact},sysdate,#{start_time},#{fin_time})
 	</insert>
 
 	<!-- 임시보관함 LIST -->
@@ -60,6 +61,7 @@
 		select * from draft where kind='임시보관' and
 		d_num=#{d_num}
 	</select>
+	
 	<!-- 상신함 view -->
 	<select id="reportboxView" resultType="com.erp.draft.DraftDTO"
 		parameterType="int">
@@ -79,9 +81,46 @@
 	<update id="outboxReport">
 		update draft set kind='상신',up_date=sysdate where
 		d_num=#{d_num}
-	</update>		
-	
+	</update>
 
+	<!--  받은결재함 결재대기 List....kind =1-->
+	<select id="getWaitList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=1 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
+	</select> 
+	
+	<!--  받은결재함 결재완료 List.....kind =2-->
+	<select id="getFinList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=2 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
+	</select> 
+	
+	<!--  받은결재함 반려함 List.....kind =3-->
+	<select id="getBackList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=3 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
+	</select>
+	
+	<!-- 받은 )결재대기 view -->
+	<select id="getWaitView" resultType="com.erp.draft.GetListDTO" parameterType="int">
+		select d.*,a.*, m.name from draft d, approve a, member m where kind2=1 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
+	</select>
+
+	<!-- 받은 )결재완료 view -->
+	<select id="getFinView" resultType="com.erp.draft.GetListDTO" parameterType="int">
+		select d.*,a.*, m.name from draft d, approve a, member m where kind2=2 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
+	</select>
+	
+	<!--받은 )반려함 view -->
+	<select id="getBackView" resultType="com.erp.draft.GetListDTO" parameterType="int">
+		select d.*,a.*, m.name from draft d, approve a, member m where kind2=3 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
+	</select>
 	
 	
+	
+	
+	 <!-- 받은결재함 전체 count
+	<select id="getAllCount" resultType="int" parameterType="java.util.HashMap">
+		Select count(d_num) from draft
+	</select>  -->
+
+
+
 </mapper>

@@ -6,7 +6,7 @@ public class ExpenseDTO {
 	private String sheet_code;
 	private String code;
 	private String price;
-	private String contents2;
+	private String items;
 	private Date reg_date;
 	public String getSheet_code() {
 		return sheet_code;
@@ -27,11 +27,11 @@ public class ExpenseDTO {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public String getContents2() {
-		return contents2;
+	public String getitems() {
+		return items;
 	}
-	public void setContents2(String contents2) {
-		this.contents2 = contents2;
+	public void setitems(String items) {
+		this.items = items;
 	}
 	public Date getReg_date() {
 		return reg_date;

@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.khbiz.member.MemberDTO;
 
 
@@ -135,24 +134,6 @@ public class DraftService {
 		return path;
 	}
 	
-/*	//base_write
-	public String draftWrite(DraftDTO draftDTO, Model model,ApproveDTO approveDTO,ExpenseDTO expenseDTO,LeaveDTO leaveDTO,GianDTO gianDTO) throws Exception{
-		this.sheet_code(draftDTO, approveDTO, expenseDTO, leaveDTO, gianDTO);
-		int result = draftDAO.draftWrite(draftDTO);
-		String message = "";
-		String path = "";
-		if (result>0){
-			message = "성공적으로 상신하였습니다.";
-			path ="redirect:/";
-		}else {
-			message = "상신을 실패하였습니다.";
-			path = "redirect:/";
-		} 
-		model.addAttribute("message", message);
-		return path;
-	}*/
-	
-	//outbox(임시보관함) list
 	public String outboxList(Model model) throws Exception{
 		List<DraftDTO> ar = draftDAO.outboxList();
 		model.addAttribute("outboxList", ar);
@@ -232,6 +213,82 @@ public class DraftService {
 		model.addAttribute("message", message);
 		return path;		
 		}
+		
+		/*받은-결재대기 LIst*/
+		public String getWaitList(String code2, Model model)throws Exception{
+			List<GetListDTO> ar =  draftDAO.getWaitList(code2);	
+			model.addAttribute("getWaitList",ar);
+			return "draft/getWaitList";
+		}
+		
+		/*받은-결재완료 LIst*/
+		public String getFinList(String code2, Model model)throws Exception{
+			List<GetListDTO> ar =  draftDAO.getFinList(code2);	
+			model.addAttribute("getFinList",ar);
+			return "draft/getFinList";
+		}
+	
+		/*받은- 반려함 LIst*/
+		public String getBackList(String code2, Model model)throws Exception{
+			List<GetListDTO> ar =  draftDAO.getBackList(code2);	
+			model.addAttribute("getBackList",ar);
+			return "draft/getBackList";
+		}
+		
+		//getWaitView
+		public String getWaitView(Model model, int d_num)throws Exception{
+			GetListDTO getListDTO = draftDAO.getWaitView(d_num);
+			model.addAttribute("getWaitView", getListDTO);
+			return "draft/getWaitView";
+		}
+		//getFinView
+		public String getFinView(Model model, int d_num)throws Exception{
+			GetListDTO getListDTO = draftDAO.getFinView(d_num);
+			model.addAttribute("getFinView", getListDTO);
+			return "draft/getFinView";
+		}
+		
+		//getBackView
+		public String getBackView(Model model, int d_num)throws Exception{
+			GetListDTO getListDTO = draftDAO.getBackView(d_num);
+			model.addAttribute("getBackView", getListDTO);
+			return "draft/getBackView";
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+/*	//getAllList 받은 결재함 전체 list 페이징한거
+		public void getAllList(DraftDTO draftDTO, int curPage, int perPage,Model model) throws Exception {
+		// TODO Auto-generated method stub
+		int totalCount = draftDAO.getAllCount();
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCurPage(curPage);
+		pageMaker.setPerPage(perPage);
+		pageMaker.makeRow();
+		pageMaker.makePage(totalCount);
+		
+		model.addAttribute("boardList",draftDAO.getAllList(draftDTO, pageMaker));
+		model.addAttribute("pageMaker", pageMaker);
+	}*/
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//file upload
 	public static void fileUpload(MultipartFile fileData, String path, String fileName) throws Exception {
@@ -267,4 +324,5 @@ public class DraftService {
 		   if(is != null){is.close();}
 		  }
 		 }
+
 }

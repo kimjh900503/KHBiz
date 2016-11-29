@@ -121,10 +121,10 @@
 			} else if (name == '') {
 				swal("에러", "이름을 입력하세요", "error");
 				return false;
-			} /* else if (!chk3.test(name)) {
+			} else if (!chk3.test(name)) {
 				swal("에러", "이름을 한글로 입력하세요", "error");
 				return false;
-			}  */else if (name.length < 2) {
+			}  else if (name.length < 2) {
 				swal("에러", "이름을 2글자 이상 입력하세요", "error");
 				return false;
 			} else if (phone1 == '') {

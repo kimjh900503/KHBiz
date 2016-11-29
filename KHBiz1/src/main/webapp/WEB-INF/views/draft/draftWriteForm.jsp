@@ -21,10 +21,6 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>  
 <script>
 	$(function() {
-		 $("#datepicker1").datepicker({
-			
-		 });
-		  
 		$("#btn").click(function() {
 
 			var kind = $("#sheet_kind").val();
@@ -87,7 +83,7 @@
 						
 					result=result+'<td><input type ="text" name="tab" readonly="readonly" value="'+$(this).text()+'"></td>';					
 					});
-					result=result+'<td><input type = "text" name="due_per_date"></td><td><input type ="number" name="ranking"><input type="text" name="code2" placeholder="code2"> </td>';
+					result=result+'<td><input type = "date" name="due_per_date"></td><td><input type ="number" name="ranking"></td><td><input type="text" name="code2" placeholder="code2"> </td>';
 					result=result+"</tr>";
 				}
 				
@@ -123,7 +119,7 @@
 	<h2>기안서 작성</h2>
 
 	<form id="go_form" method ="post">
-		직원코드<input type="text" name="code" value="${member.code }" readonly="readonly"><br>
+	<input type="hidden" name="code" value="${member.code }" readonly="readonly">
 		====================================================================<br> 
 		<input type = "button" value="결재자 선택" id = "ap_btn"><br>
 
@@ -150,8 +146,8 @@
 		<br>
 
 		<!-- 마감 날짜<br><input type = "date" name="due_date"><br> -->
-		마감 날짜<br> 
-		<input type="date" name="due_date" id="datepicker1"><br>
+		결재 마감 날짜<br> 
+		<input type="date" name="due_date"><br>
 		-----------------------------------------------------------------------------------------------------------------------<br> 
 		<input type ="file" name="upload">
 		-----------------------------------------------------------------------------------------------------------------------<br> 
