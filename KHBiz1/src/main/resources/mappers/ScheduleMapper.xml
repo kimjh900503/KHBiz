@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScheduleMapper">
+	<select id="getScheduleList" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.schedule.ScheduleDTO">
+		select * from schedule where code = #{code}
+	</select>
+	<insert id="setSchedule" parameterType="com.khbiz.schedule.ScheduleDTO">
+		insert into schedule values(
+		#{code}, #{title},#{startdate},#{enddate}, #{starttime}, #{endtime}, #{contents}, schedule_seq.nextval
+		)
+	</insert>
+	<select id="getToday" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.schedule.ScheduleDTO">
+		select code, title, startdate, enddate, nvl(starttime,'--') starttime, nvl(endtime,'--') endtime, nvl(contents,'--') contents, s_num
+		from SCHEDULE where sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=#{code}
+	</select>
+	<delete id="delSchedule" parameterType="int">
+		delete schedule where s_num = #{s_num}
+	</delete>
+	<update id="modiSchedule" parameterType="com.khbiz.schedule.ScheduleDTO">
+		update schedule set title=#{title}, startdate=#{startdate}, starttime=#{starttime}, enddate=#{enddate}, endtime=#{endtime}, contents=#{contents}
+		where s_num=#{s_num}
+	</update>
+</mapper>

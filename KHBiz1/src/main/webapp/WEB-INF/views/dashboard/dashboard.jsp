@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta
-	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
-	name='viewport' />
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 <link rel="icon" type="image/png" href="assets/img/favicon.ico">
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,15 +12,12 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="/erp/images/favicon.ico">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--  Checkbox, Radio & Switch Plugins -->
 <script src="/erp/js/bootstrap-checkbox-radio-switch.js"></script>
 
@@ -31,10 +26,6 @@
 
 <!--  Notifications Plugin    -->
 <script src="/erp/js/bootstrap-notify.js"></script>
-
-<!--  Google Maps Plugin    -->
-<script type="text/javascript"
-	src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 <script src="/erp/js/light-bootstrap-dashboard.js"></script>
@@ -51,19 +42,15 @@
 <link href="/erp/css/dashboard/animate.min.css" rel="stylesheet" />
 
 <!--  Light Bootstrap Table core CSS    -->
-<link href="/erp/css/dashboard/light-bootstrap-dashboard.css"
-	rel="stylesheet" />
+<link href="/erp/css/dashboard/light-bootstrap-dashboard.css" rel="stylesheet" />
 <!--     Fonts and icons     -->
-<link
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
-	rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300'
-	rel='stylesheet' type='text/css'>
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
 <link href="/erp/css/dashboard/pe-icon-7-stroke.css" rel="stylesheet" />
 <!-- alert -->
 <script src="/erp/js/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
-
+<!-- 제작 -->
 <link rel="stylesheet" type="text/css" href="/erp/css/dashboard.css">
 </head>
 <body>
@@ -86,7 +73,7 @@
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-user"></i>
+					<li><a href="#"> <i class="pe-7s-user"></i>
 							<p>근태관리</p>
 					</a></li>
 					<li><a> <i class="pe-7s-note2"></i>
@@ -99,20 +86,20 @@
 							<li><a href="/erp/draft/draft_main"><p>보낸 결재함</p></a></li>
 							<li><a href="/erp/draft/draft_main2"><p>받은 결재함</p></a></li>
 						</ul></li>
-					<li><a href=""> <i class="pe-7s-news-paper"></i>
+					<li><a href="#"> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-science"></i>
+					<li><a href="/erp/schedule/scheduler"> <i class="pe-7s-science"></i>
 							<p>일정관리</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-map-marker"></i>
+					<li><a href="#"> <i class="pe-7s-map-marker"></i>
 							<p>급여관리</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-bell"></i>
+					<li><a href="#"> <i class="pe-7s-bell"></i>
 							<p>Notifications</p>
 					</a></li>
 					<%-- <c:if test="${member.position=='사장'}"> --%>
-					<li><a href=""> <i class="pe-7s-rocket"></i>
+					<li><a href="#"> <i class="pe-7s-rocket"></i>
 							<p>관리자 모드</p>
 					</a></li>
 					<%-- </c:if> --%>

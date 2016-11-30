@@ -110,7 +110,7 @@
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-user"></i>
+					<li><a href="#"> <i class="pe-7s-user"></i>
 							<p>근태관리</p>
 					</a></li>
 					<li><a> <i class="pe-7s-note2"></i>
@@ -119,23 +119,24 @@
 							</p>
 					</a>
 						<ul>
-							<li><a href="#">기안문서</a></li>
-							<li><a href="#">결재문서</a></li>
+							<li><a href="/erp/draft/draftWriteForm"><p>문서작성</p></a></li>
+							<li><a href="/erp/draft/draft_main"><p>보낸 결재함</p></a></li>
+							<li><a href="/erp/draft/draft_main2"><p>받은 결재함</p></a></li>
 						</ul></li>
-					<li><a href=""> <i class="pe-7s-news-paper"></i>
+					<li><a href="#"> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-science"></i>
+					<li><a href="/erp/schedule/scheduler"> <i class="pe-7s-science"></i>
 							<p>일정관리</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-map-marker"></i>
+					<li><a href="#"> <i class="pe-7s-map-marker"></i>
 							<p>급여관리</p>
 					</a></li>
-					<li><a href=""> <i class="pe-7s-bell"></i>
+					<li><a href="#"> <i class="pe-7s-bell"></i>
 							<p>Notifications</p>
 					</a></li>
 					<%-- <c:if test="${member.position=='사장'}"> --%>
-					<li><a href=""> <i class="pe-7s-rocket"></i>
+					<li><a href="#"> <i class="pe-7s-rocket"></i>
 							<p>관리자 모드</p>
 					</a></li>
 					<%-- </c:if> --%>

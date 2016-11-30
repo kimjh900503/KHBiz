@@ -8,9 +8,9 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="username" value="user03"></property>
-		<property name="password" value="user03"></property>
-		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"></property>
+		<property name="username" value="final"></property>
+		<property name="password" value="final"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -30,5 +30,6 @@
 	<!-- member -->
 	<context:component-scan base-package="com.khbiz.member"></context:component-scan>
 	<context:component-scan base-package="com.khbiz.attend"></context:component-scan>
-	<context:component-scan base-package="com.khbiz.chat"></context:component-scan>	
+	<context:component-scan base-package="com.khbiz.chat"></context:component-scan>
+	<context:component-scan base-package="com.khbiz.schedule"></context:component-scan>	
 </beans>
