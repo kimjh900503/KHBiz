@@ -3,15 +3,22 @@ package com.erp.draft;
 import java.util.Date;
 
 public class GetListDTO {
-
+	private String approve_date;
 	private int d_num;
 	private String code;
 	private String title;
 	private String contents;
 	private Date up_date;
 	private String due_date;
-	private String kind;
 	private String name;
+	
+	
+	public String getApprove_date() {
+		return approve_date;
+	}
+	public void setApprove_date(String approve_date) {
+		this.approve_date = approve_date;
+	}
 	public String getName() {
 		return name;
 	}
@@ -24,12 +31,7 @@ public class GetListDTO {
 	public void setD_num(int d_num) {
 		this.d_num = d_num;
 	}
-	public String getKind() {
-		return kind;
-	}
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
+
 	private int kind2;
 	private String sheet_code;
 	private String sheet_kind;

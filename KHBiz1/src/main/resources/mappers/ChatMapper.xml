@@ -4,7 +4,73 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ChatMapper">
 
-	<select id="getMaxnum">
+	<select id="getMaxnum" resultType="int">
 		select max(cnum) from chat
 	</select>
+	<insert id="createchat" parameterType="java.util.HashMap">
+		insert into chat values(c_seq.nextval,#{maxNum},#{chat.code},#{chat.groups},#{chat.cname},#{chat.cdetail},#{chat.contents},null,0)
+	</insert>
+	<insert id="moreInvite" parameterType="com.khbiz.chat.ChatDTO">
+		insert into chat values(c_seq.nextval,#{cnum},#{code},#{groups},#{cname},#{cdetail},#{contents},#{reg_date},#{count})
+	</insert>
+	<select id="getCname" resultType="String" parameterType="String">
+		select cname from chat where code=#{code}
+	</select>
+	<select id="getContents" resultType="String" parameterType="String">
+	   select contents from chat where cname=#{cname}
+	</select>
+	<update id="updateContents" parameterType="java.util.HashMap">
+		update chat 
+		set contents=#{contents}
+		where cname=#{cname}
+	</update>
+	<select id="getReg_date" resultType="String" parameterType="String">
+		select reg_date from chat where cname=#{cname}
+	</select>
+	<update id="updateReg_date" parameterType="java.util.HashMap">
+		update chat  
+		set reg_date=#{reg_date}
+		where cname=#{cname}
+	</update>
+	<select id="getMembers" resultType="String" parameterType="String">
+		select code from chat where cname=#{cname}
+	</select>
+	<select id="getCnames" resultType="String" parameterType="String">
+		select cname from chat where cname=#{cname}
+	</select>
+	<select id="getInfo" resultType="com.khbiz.chat.ChatDTO" parameterType="String">
+		select * from chat where cname=#{cname}
+	</select>
+	<update id="updateInfo" parameterType="java.util.HashMap">
+		update chat 
+		 <set>
+    		<if test="cname != null">cname=#{cname},</if>
+      		<if test="cdetail != null">cdetail=#{cdetail},</if>
+      		<if test="contents != null">contents=#{contents}</if>
+    	 </set>
+		where cname=#{oldcname}
+	</update>
+	<delete id="chatout" parameterType="java.util.HashMap">
+		delete from chat where cname=#{cname} and code=#{code}
+	</delete>
+	
+	<select id="joinMemberList" parameterType="String" resultType="com.khbiz.member.MemberDTO">
+		select m.* from chat c,member m where c.code = m.code 
+		and c.cname=#{cname}
+	</select>
+	
+	<update id="updateCount" parameterType="java.util.HashMap">
+		update chat set count = count+1 where cname=#{cname} and code!=#{code}
+	</update>
+	
+	<select id="getCount" parameterType="java.util.HashMap" resultType="int">
+		select count from chat where cname=#{cname} and code=#{code}
+	</select>
+	
+	<update id="resetCount" parameterType="java.util.HashMap">
+		update chat set count = 0 where cname=#{cname} and code=#{code}
+	</update>
+	
+
+	
 </mapper>

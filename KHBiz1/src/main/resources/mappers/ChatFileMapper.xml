@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ChatFileMapper">
+
+	<insert id="insertFile" parameterType="com.khbiz.chat.ChatFileDTO">
+		insert into chatfile values(cfile_seq.nextval,#{cnum},#{originName},#{fileName},#{mName},sysdate)
+	</insert>
+	
+	<select id="getCnum" parameterType="String" resultType="int">
+		select cnum from chat where cname=#{cname}
+	</select>
+</mapper>

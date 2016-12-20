@@ -38,5 +38,8 @@ public class ScheduleService {
 	public List<ScheduleDTO> getToday(MemberDTO memberDTO){
 		return scheduleDAO.getToday(memberDTO);
 	}
-
+	//내일 리스트
+	public List<ScheduleDTO> getTomorrow(MemberDTO memberDTO){
+		return scheduleDAO.getTomorrow(memberDTO);
+	}
 }

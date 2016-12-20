@@ -5,36 +5,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	td, table,#wrap{
-		border : 1px solid black;
-	}
-</style>
-
 </head>
 <body>
-<div id= "wrap">
-<h4>지출서</h4>
 
-	<table>
-		<tr>
-			<td colspan="6" style = "text-align: center;">지출확인서폼</td>
-		</tr>
+	<table class="table">
 		<tr>
 			<td>금액</td>
-			<td><input type="text" name="price" >원정</td>
+			<td><input type="text" name="price"class="form-control"></td>
+			<td>원정</td>
 		</tr>
 		<tr>
 			<td>내역</td>
-			<td><input type="text" name ="items"></td>
+			<td colspan="2"><input type="text" name ="items"class="form-control"></td>
 		</tr>
 		<tr>
-			<td colspan="6" style = "text-align: center;">내용</td>
+			<td>내용</td>
+			<td colspan="2"><textarea rows="3" name="contents2" class="form-control"></textarea></td>
 		</tr>
 
 	</table>
-
-</div>
 
 
 </body>

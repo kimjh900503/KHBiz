@@ -40,29 +40,28 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#modify').click(function () {
+		$('#modify').click(function() {
 			swal({
-				title: "수정", 
-				text: "비밀번호를 재입력 하세요", 
-				type: "input",
-				inputType: "password",
-				showCancelButton: true,
-				closeOnConfirm: false
+				title : "수정",
+				text : "비밀번호를 재입력 하세요",
+				type : "input",
+				inputType : "password",
+				showCancelButton : true,
+				closeOnConfirm : false
 			}, function(typedPassword) {
 				if (typedPassword === "") {
-				    swal.showInputError("비밀번호를 입력하세요");
-				    return false;
-				  }
-				if (typedPassword != '${member.pw}'){
+					swal.showInputError("비밀번호를 입력하세요");
+					return false;
+				}
+				if (typedPassword != '${member.pw}') {
 					swal.showInputError("잘못된 비밀번호 입니다");
 					return false;
-				}else{
-					location.href="memberMod";
+				} else {
+					location.href = "memberMod?code=${memberView.code}";
 				}
 			});
 		});
 	});
-
 </script>
 <!-- Bootstrap core CSS     -->
 <link href="/erp/css/dashboard/bootstrap.min.css" rel="stylesheet" />
@@ -102,18 +101,22 @@
     -->
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="/erp/dash" class="simple-text"> KH Biz </a>
+					<a href="/erp/dash" class="simple-text"><img alt="khbiz_log"
+						src="/erp/images/khbiz.png" style="width: 60%;"></a>
 				</div>
 
 				<ul class="nav side-navi">
-					<li><a href="/erp/dash"> <i
+					<li class="active"><a href="/erp/dash"> <i
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-user"></i>
-							<p>근태관리</p>
-					</a></li>
-					<li><a> <i class="pe-7s-note2"></i>
+					<c:if test="${member.department=='인사팀' }">
+						<li><a href="/erp/attendmanage/attendmanage"> <i
+								class="pe-7s-user"></i>
+								<p>근태관리</p>
+						</a></li>
+					</c:if>
+					<li><a> <i class="pe-7s-mail-open-file"></i>
 							<p>
 								전자결재<span class="sub-arrow"></span>
 							</p>
@@ -123,23 +126,27 @@
 							<li><a href="/erp/draft/draft_main"><p>보낸 결재함</p></a></li>
 							<li><a href="/erp/draft/draft_main2"><p>받은 결재함</p></a></li>
 						</ul></li>
-					<li><a href="#"> <i class="pe-7s-news-paper"></i>
+					<li><a onclick="window.open('/erp/chat')"> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
-					<li><a href="/erp/schedule/scheduler"> <i class="pe-7s-science"></i>
+					<li><a href="/erp/schedule/scheduler"> <i
+							class="pe-7s-note2"></i>
 							<p>일정관리</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-map-marker"></i>
-							<p>급여관리</p>
+					<li><a href="/erp/member/memberContactList"> <i
+							class="pe-7s-users"></i>
+							<p>주소록</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-bell"></i>
-							<p>Notifications</p>
+					<li><a href="/erp/databoardList"> <i
+							class="pe-7s-drawer"></i>
+							<p>자료실</p>
 					</a></li>
-					<%-- <c:if test="${member.position=='사장'}"> --%>
-					<li><a href="#"> <i class="pe-7s-rocket"></i>
-							<p>관리자 모드</p>
-					</a></li>
-					<%-- </c:if> --%>
+					<c:if test="${member.department=='인사팀' && member.position_Rank<3}">
+					<li><a href="/erp/member/memberOriginList"> <i
+							class="pe-7s-users"></i>
+							<p>사원관리</p>
+					</a></li>					
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -154,42 +161,28 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="/erp/dash">Dashboard</a>
+						<a class="navbar-brand" href="/erp/member/memberView">MemberView</a>
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-left">
-							<li><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> <i class="fa fa-dashboard"></i>
-							</a></li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown"> <i class="fa fa-globe"></i> <b
-									class="caret"></b> <span class="notification">5</span>
+									class="caret"></b> <span class="notification">${getDueList.size()+reportDueList.size()}</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">Notification 1</a></li>
-									<li><a href="#">Notification 2</a></li>
-									<li><a href="#">Notification 3</a></li>
-									<li><a href="#">Notification 4</a></li>
-									<li><a href="#">Another notification</a></li>
+									<c:forEach items="${getDueList}" var="get">
+										<li><a href="/erp/draft/getWaitList">${get.title }</a></li>
+									</c:forEach>
+									<li class="divider"></li>
+									<c:forEach items="${reportDueList}" var="report">
+										<li><a href="/erp/draft/reportWaitList">${report.title }</a></li>
+									</c:forEach>
 								</ul></li>
-							<li><a href=""> <i class="fa fa-search"></i>
-							</a></li>
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/erp/member/memberView">${member.name}님</a></li>
 							<li><a href="/erp/member/memberView"> 정보 보기 </a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> Dropdown <b class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul></li>
 							<li><a href="/erp/member/memberLogout"> Log out </a></li>
 						</ul>
 					</div>
@@ -223,6 +216,11 @@
 													<td>${member.position}</td>
 												</tr>
 												<tr>
+													<td>사진</td>
+													<td><img src="/erp/resources/upload/${member.pic}" style="width:120px; height: 160px;"
+														id="pic"></td>
+												</tr>
+												<tr>
 													<td>아이디</td>
 													<td>${member.id}</td>
 												</tr>
@@ -244,6 +242,24 @@
 												</tr>
 											</tbody>
 										</table>
+										<table class="table">
+											<tr>
+												<td>총 연차</td>
+												<td>사용 일수</td>
+												<td>잔여 일수</td>
+												<td>지각 일수</td>
+												<td>결근 일수</td>
+												<td>초과근무(h)</td>
+											</tr>
+											<tr>
+												<td>${memberView.vacation}</td>
+												<td>${memberView.used}</td>
+												<td>${memberView.vacation-membetView.used}</td>
+												<td>${memberView.late}</td>
+												<td>${memberView.absence}</td>
+												<td>${memberView.over}</td>
+											</tr>
+										</table>
 									</div>
 
 									<div class="footer">
@@ -252,7 +268,7 @@
 										</div>
 										<hr>
 										<div class="stats">
-											<i class="fa fa-clock-o"></i> ${member.hired_date}
+											<i class="fa fa-clock-o"></i> ${member.hired_date}입사
 										</div>
 									</div>
 								</div>

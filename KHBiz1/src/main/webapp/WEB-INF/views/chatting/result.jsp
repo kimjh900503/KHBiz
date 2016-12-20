@@ -8,20 +8,20 @@
 <c:forEach items="${memberList}" var="member">
 	<tr class="trList">
 		<td class="mList"><img class="left" id="user"
-			src="/erp/images/user2.png"> <span class="right name">${member.name}</span>
+			src="/erp/images/${member.pic}"> <span class="right name">${member.name}</span>
 			<p class="mail name2"></p>
 			<p class="mail department2">${member.department}</p>
 			<p class="mail position2">${member.position}</p>
 			<p class="mail id2">${member.id}</p>
-			<p class="mail phone2">${member.phone}</p> <input type="hidden"
-			class="code" name="code" value="${member.code}" /></td>
+			<p class="mail phone2">${member.phone}</p> 
+			<input type="hidden" class="code" name="code" value="${member.code}" /></td>
 	</tr>
 </c:forEach>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
 <script>
 	var type = "${type}";
-	if (type == 'name') {
+	if (type == 'name' || type=='') {
 		$(".name2").css("display", "block");
 		$(".department2").css("display", "none");
 		$(".position2").css("display", "none");

@@ -5,22 +5,47 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-	td, table,#wrap{
-		border : 1px solid black;
-	}
-</style>
+<script src='/erp/js/datepicker.js'></script>
 
+<script type="text/javascript">
+	var now = new Date();
+	$(function () {
+		//과거날짜 선택 불가
+		$('#startdate').blur(function() {
+			var select = new Date($('#startdate').val());
+			if (select.toYmdDateString() < now.toYmdDateString()) {
+				$('#startdate').val('');
+				swal("에러", "지나간 날짜 입니다.", "error");
+			}
+		});
+		//시작날짜 이전 선택 불가
+		$('#enddate').blur(function() {
+			var select = new Date($('#startdate').val());
+			var end = new Date($('#enddate').val());
+			if (select == '') {
+				$('#enddate').val('');
+				$('#during').val('');
+				swal("에러", "시작일 부터 입력해 주세요.", "error");
+			}
+			if (select.toYmdDateString() > end.toYmdDateString()) {
+				$('#enddate').val('');
+				$('#during').val('');
+				swal("에러", "종료일은 시작일 이후여야 합니다.", "error");
+			}else{
+				var during = end.toYmdDateString()-select.toYmdDateString()+1;
+				during = during+'일';
+				$('#during').val(during);
+			}
+		});
+	});
+</script>
 </head>
 <body>
-<div id= "wrap">
-<h4>휴가신청서</h4>
-<table>
+<!-- <input type="hidden" name="during" class="form-control" id="during"> -->
+<table class="table">
 		<tr>
-			<td colspan="6" style = "text-align: center;">휴가신청서폼</td>
-		</tr>
 			<td>휴가사유</td>
-			<td><select name="category">
+			<td colspan="3"><select name="category" class="form-control">
 				<option value="경조사">경조사</option>
 				<option value="출산">출산</option>
 				<option value="생리">생리</option>
@@ -33,39 +58,25 @@
 		</tr>
 		<tr>
 			<td>휴가 시작일</td>
-			<td><input type="date" name="start_date"></td>
+			<td><input type="date" name="start_date" class="form-control" id="startdate"></td>
 			<td>휴가 종료일</td>
-			<td><input type="date" name="fin_date"></td>
-			<td>기간</td>
-			<td><input type="text" name="during" placeholder="ex)1박 2일, 반차 ..."></td>
+			<td><input type="date" name="fin_date" class="form-control" id="enddate"></td>
 		</tr>
 		<tr>
-			<td></td>
-			<td><input type="radio" name="start_time" value="오전">오전<input type="radio" name="start_time" value="오후">오후 </td>
-				<td></td>
-			<td><input type="radio" name="fin_time" value="오전">오전<input type="radio" name="fin_time" value="오후">오후 </td>
-		</tr>
-		<tr>
-			<td colspan="6" style = "text-align: center;">내용</td>
-		</tr>
-		<tr>
-				<td colspan="6"><input type = "text" name = "contents3"></td>
+			<td>내용</td>
+			<td colspan="3"><textarea rows="3" name="contents3" class="form-control"></textarea></td>
 		</tr>
 		<tr>
 			<td>직무대행자</td>
-			<td><input type="text" name="proxy_name"></td>
+			<td><input type="text" name="proxy_name" class="form-control"></td>
 			<td>직무대행자 직위</td>
-			<td><input type="text" name="proxy_position"></td>
+			<td><input type="text" name="proxy_position" class="form-control"></td>
 		</tr>
 		<tr>
 			<td>비상연락처</td>
-			<td><input type="text" name="contact"></td>
+			<td colspan="3"><input type="text" name="contact" class="form-control"></td>
 		</tr>
 	</table>
 
-
-
-
-</div>
 </body>
 </html>

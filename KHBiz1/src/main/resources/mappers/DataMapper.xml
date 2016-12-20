@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DataMapper">
+
+	<select id="databoardList" resultType="com.khbiz.data.DataBoardDTO" parameterType="java.util.HashMap">
+		select * from 
+		(select rownum R,F.* from 
+		(select * from databoard 
+		<if test="type != null">
+			<if test="str != null">
+				where 
+				<if test="type=='title'">
+					title like #{str}
+				</if>
+				<if test="type=='writer'">
+					writer like #{str}
+				</if>
+			</if>
+		</if>
+		)F)
+		where R between #{startRowNum} and #{lastLowNum} 
+	</select>
+	
+	<select id="databoardCount" resultType="int">
+			select count(*) from databoard
+	</select>
+	
+	<select id="getMaxNum" resultType="int">
+		select max(num) from databoard
+	</select>
+	
+	<insert id="databoardWrite" parameterType="com.khbiz.data.DataBoardDTO">
+			insert into databoard values(#{num},#{title},#{writer},#{contents},sysdate)
+	</insert>
+	
+	<insert id="datafileWrite" parameterType="com.khbiz.data.DataFileDTO">
+		insert into datafile values (df_seq.nextval,#{dnum},#{originName},#{saveName})
+	</insert>
+	
+	<select id="databoardView" resultType="com.khbiz.data.DataBoardDTO" parameterType="int">
+			select * from databoard where num = #{num}
+	</select>
+	
+	<select id="datafileList" resultType="com.khbiz.data.DataFileDTO" parameterType="int">
+		select * from datafile where dnum=#{dnum} 
+	</select>
+	
+	<delete id="databoardDel" parameterType="int">
+			delete from databoard where num = #{num}
+	</delete>
+	
+	<delete id="datafileDel" parameterType="int">
+		delete from datafile where dnum=#{dnum}
+	</delete>
+	
+	<delete id="datafileDelOne" parameterType="String">
+		delete from datafile where saveName = #{saveName}
+	</delete>
+	
+	<update id="databoardMod" parameterType="com.khbiz.data.DataBoardDTO">
+			update databoard 
+			<set>
+    			<if test="title != null">title=#{title},</if>
+      			<if test="contents != null">contents=#{contents},</if>
+      			reg_date=sysdate
+    		</set>
+			where num=#{num}
+	</update>
+	
+	<select id="selectOriginName" resultType="String" parameterType="java.util.HashMap">
+		select originName from datafile where originName=#{originName} and dnum=#{dnum}
+	</select>
+	
+	
+
+</mapper>

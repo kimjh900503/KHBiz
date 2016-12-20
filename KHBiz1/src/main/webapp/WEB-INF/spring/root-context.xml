@@ -2,21 +2,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="username" value="final"></property>
 		<property name="password" value="final"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+		<property name="url" value="jdbc:oracle:thin:@192.168.10.17:1521:xe"></property>
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
-	</bean>	
+	</bean>
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
@@ -24,12 +29,21 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="UTF-8" />
-		<property name="maxUploadSize" value="10485760" />
+		<property name="maxUploadSize" value="1048576000000" />
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<context:component-scan base-package="com.erp.draft"></context:component-scan>
 	<!-- member -->
 	<context:component-scan base-package="com.khbiz.member"></context:component-scan>
 	<context:component-scan base-package="com.khbiz.attend"></context:component-scan>
+	<context:component-scan base-package="com.khbiz.attendmanage"></context:component-scan>
 	<context:component-scan base-package="com.khbiz.chat"></context:component-scan>
-	<context:component-scan base-package="com.khbiz.schedule"></context:component-scan>	
+	<context:component-scan base-package="com.khbiz.schedule"></context:component-scan>
+	<context:component-scan base-package="com.khbiz.notice"></context:component-scan>
+	<context:component-scan base-package="com.khbiz.chat"></context:component-scan>	
+	<context:component-scan base-package="com.khbiz.data"></context:component-scan>
+	<task:annotation-driven />
 </beans>

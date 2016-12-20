@@ -4,123 +4,432 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="DraftMapper">
 
+	<!--****************** INSERT***********************-->
+
 	<!-- 기안문 base 상신 -->
 	<insert id="draftWrite" parameterType="com.erp.draft.DraftDTO">
 		insert into draft
-		values(d_num_seq.nextval,#{code},#{title},#{contents},sysdate,#{due_date},#{kind},1,#{sheet_code},
+		values(d_num_seq.nextval,#{code},#{title},#{contents},to_char(sysdate,'yyyy-mm-dd'),#{due_date},#{sheet_code},
 		#{sheet_kind} )
 	</insert>
 
 	<!-- approve -->
-	<insert id="approve" parameterType="com.erp.draft.ApproveDTO">
+	<insert id="approve" parameterType="com.erp.draft.ApproveDTO" >
 		insert into approve
-		values(#{code},#{code2},#{due_per_date},#{ranking},#{sheet_code})
+		values(#{code},#{code2},#{due_per_date},#{ranking},#{sheet_code},to_char(sysdate,'yyyy-mm-dd'),'0')
 	</insert>
 
 	<!-- gian -->
 	<insert id="gian" parameterType="com.erp.draft.GianDTO">
 		insert into gian
-		values(#{sheet_code},#{code},#{title1},#{contents1},sysdate
+		values(#{sheet_code},#{code},#{title1},#{contents1},to_char(sysdate,'yyyy-mm-dd')
 		,#{start_date})
 	</insert>
 
 	<!-- expense -->
 	<insert id="expense" parameterType="com.erp.draft.ExpenseDTO">
 		insert into expense
-		values(#{sheet_code},#{code},#{price},sysdate,#{items})
+		values(#{sheet_code},#{code},#{price},to_char(sysdate,'yyyy-mm-dd'),#{items})
 	</insert>
 
 	<!-- leave -->
 	<insert id="leave" parameterType="com.erp.draft.LeaveDTO">
 		insert into leave values(#{sheet_code},#{code},#{category},
-		 #{contents3},#{start_date},#{fin_date},#{during},
-		 #{proxy_name},#{proxy_position},#{contact},sysdate,#{start_time},#{fin_time})
+		 #{contents3},#{start_date},#{fin_date},
+		 #{proxy_name},#{proxy_position},#{contact})
 	</insert>
 
-	<!-- 임시보관함 LIST -->
-	<select id="outboxList" resultType="com.erp.draft.DraftDTO">
-		select * from draft where
-		kind='임시보관' order by d_num desc
+
+	<!-- file Insert -->
+	<insert id="fileUp" parameterType="com.erp.draft.FilesDTO">
+		insert into files values(f_num_seq.nextval, #{originalFileName},#{fileName},#{sheet_code},#{code})
+	</insert>
+
+	<!--****************** 보낸  LIST  ***********************-->
+
+	<!-- 보낸1. 결재대기 전체  -->
+		<select id="reportWaitList" resultType="com.erp.draft.DraftDTO" parameterType="String">
+			<![CDATA[
+				select d.* from draft d, 
+				(select distinct a.* from approve a, approve b where 
+				(a.ranking=1 and b.ranking!=2 and a.a_or_b='0' and a.sheet_code = b.sheet_code) 
+				or(a.ranking>=2 and b.a_or_b='a'and a.a_or_b='0' and a.ranking =b.ranking+1 and a.sheet_code = b.sheet_code))M
+				where d.sheet_code = M.sheet_code 
+				and d.code =#{code}
+				 order by d.due_date asc
+			]]>
+		</select>
+	<!-- 보낸2. 결재완료 전체 --> 
+		<select id="reportFinList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	 		 select d.*,Z.approve_date from draft d,
+             (select a.* from approve a,
+             (select max(ranking)as M, sheet_code from approve GROUP BY SHEET_CODE)f
+             where a.sheet_code = f.sheet_code 
+             and (a.ranking = f.M and a.ranking=1 and a.a_or_b='a')
+             or (a.ranking = f.M and f.M>=2 and a.a_or_b='a' and a.sheet_code = f.sheet_code))Z
+             where d.sheet_code = Z.sheet_code 
+             and d.code=#{code}
+             order by z.approve_date desc
+		</select>
+	<!-- 보낸3. 반려함 전체  -->
+		<select id="reportBackList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+			<![CDATA[
+		 		select d.*,M.approve_date from draft d,
+         		(select DISTINCT a.* from approve a , approve b 
+				where (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+				or (a.a_or_b='b' and a.sheet_code = b.sheet_code ))M
+        		where d.sheet_code = M.sheet_code 
+       			and d.code = #{code}
+       			order by M.approve_date desc
+        	]]>
+		</select>
+		
+	<!-- ********************10개씩 가져오기******************** --> 
+	
+	<!-- 보낸 -1.결재대기10 -->
+	<select id="reportWaitBox10" resultType="com.erp.draft.DraftDTO" parameterType="String">
+		  <![CDATA[
+			    select * from 
+				(select rownum r,Z.* from
+        		(select d.* from draft d, 
+				(select distinct a.* from approve a, approve b where 
+				(a.ranking=1 and b.ranking!=2 and a.a_or_b='0' and a.sheet_code = b.sheet_code) 
+				or(a.ranking>=2 and b.a_or_b='a'and a.a_or_b='0' and a.ranking =b.ranking+1 and a.sheet_code = b.sheet_code))M
+				where d.sheet_code = M.sheet_code 
+				and d.code =#{code})Z)
+       			where r between 1 and 10
+				order by due_date asc
+		]]>
+	</select>
+	
+	<!-- 보낸-2. 결재완료10 -->
+	<select id="reportFinBox10" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	           select * from 
+			(select rownum r,M.* from
+      		(select d.* ,Z.approve_date from draft d,
+            (select a.* from approve a,
+            (select max(ranking)as M, sheet_code from approve GROUP BY SHEET_CODE)f
+            where a.sheet_code = f.sheet_code 
+            and (a.ranking = f.M and a.ranking=1 and a.a_or_b='a')
+            or (a.ranking = f.M and f.M>=2 and a.a_or_b='a' and a.sheet_code = f.sheet_code))Z
+            where d.sheet_code = Z.sheet_code 
+            and d.code=#{code})M)
+           	where r between 1 and 10
+           	order by approve_date desc
+	</select>
+		
+	<!-- 	 보낸3. 반려10-->
+	<select id="reportBackBox10" resultType="com.erp.draft.GetListDTO" parameterType="String">
+              <![CDATA[
+				 select * from 
+				(select rownum r,Z.* from
+     		   (select d.*,M.approve_date from draft d,
+         		(select DISTINCT a.* from approve a , approve b 
+				where (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+				or (a.a_or_b='b' and a.sheet_code = b.sheet_code ))M
+        		where d.sheet_code = M.sheet_code 
+       			and d.code = #{code})Z)
+       			where r between 1 and 10
+       			order by approve_date desc
+        	]]>
+	</select>	
+		
+		
+	<!--****************** 받은  LIST  전체 ***********************-->
+	
+	<!--  받은결재함 결재대기 전체 List....kind =1-->
+		<select id="getWaitList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+			<![CDATA[
+			select DISTINCT d.*,f.*,m.name from draft d, 
+    		    (select a.* from APPROVE a, APPROVE b where a.code2 =#{code}
+    			and (a.RANKING>1 and b.A_OR_B='a'and a.A_OR_B ='0' and a.sheet_code = b.sheet_code and b.RANKING=a.RANKING-1)
+   				or (a.ranking=1 and  a.A_OR_B ='0' and b.ranking!=2 and a.sheet_code = b.sheet_code and a.code2 =#{code}))f,member m
+			where d.code=m.code 
+			and d.sheet_code = f.sheet_code
+			order by f.due_per_date asc
+			]]>	
+		</select>
+		
+		 
+	
+	<!--  받은결재함 결재완료 전체 List.....kind =2-->
+		<select id="getFinList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+		  select d.*,P.*,m.name from draft d,      
+            (select a.* from
+            (select * from approve where code2=#{code})a,
+            (select max(ranking), sheet_code from approve GROUP BY SHEET_CODE)F
+            where F.sheet_code=a.sheet_code
+            and a.a_or_b ='a') p,member m 
+              where d.code=m.code 
+              and d.sheet_code = P.sheet_code
+               order by p.approve_date desc
+		</select> 
+		
+	<!--  받은결재함 반려함 전체 List.....kind =3-->
+		<select id="getBackList" resultType="com.erp.draft.GetListDTO" parameterType="String">
+			<![CDATA[
+				select d.*,S.*,m.name from draft d,      
+				(select DISTINCT a.* from approve a , approve b where a.code2= #{code}
+				and (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+				or (a.a_or_b='b' and a.sheet_code = b.sheet_code and a.code2= #{code}))S,member m 
+				where d.code=m.code 
+		        and d.sheet_code = S.sheet_code
+		        order by S.due_per_date asc
+			]]>
+		</select>
+		
+		<!--****************** 받은  LIST10 ***********************-->
+	
+	
+	<!--  받은결재함 결재대기10....kind =1-->
+	<select id="getWaitBox10" resultType="com.erp.draft.GetListDTO" parameterType="String">
+		<![CDATA[
+		select * from 
+			(select rownum r,z.* from
+			(select DISTINCT d.*,f.due_per_date,m.name from draft d, 
+    		(select a.* from APPROVE a, APPROVE b where a.code2 =#{code}
+    		and (a.RANKING>1 and b.A_OR_B='a'and a.A_OR_B ='0' and a.sheet_code = b.sheet_code and b.RANKING=a.RANKING-1)
+   			or (a.ranking=1 and  a.A_OR_B ='0' and b.ranking!=2 and a.sheet_code = b.sheet_code and a.code2 =#{code}))f,member m
+			where d.code=m.code 
+			and d.sheet_code = f.sheet_code)z)
+			where r between 1 and 10
+			
+			
+		]]>
+	</select>	
+	
+	<!--  받은결재함 결재완료10.....-->
+	<select id="getFinBox10" resultType="com.erp.draft.GetListDTO" parameterType="String">
+select * from(
+select rownum r, k.* from 
+(select d.*,p.approve_date,m.name from draft d,      
+            (select a.* from
+            (select * from approve where code2=#{code})a,
+            (select max(ranking), sheet_code from approve GROUP BY SHEET_CODE)F
+            where F.sheet_code=a.sheet_code
+            and a.a_or_b ='a') p,member m 
+              where d.code=m.code 
+              and d.sheet_code = P.sheet_code
+               order by p.approve_date desc)k)
+               where r between 1 and 10
+	</select>
+	
+	<!--  받은결재함 반려함10.....kind =3-->
+	<select id="getBackBox10" resultType="com.erp.draft.GetListDTO" parameterType="String">
+		<![CDATA[	
+			select * from 
+			(select rownum r,z.* from
+			(select d.*,S.approve_date,m.name from draft d,      
+			(select DISTINCT a.* from approve a , approve b where a.code2= #{code}
+			and (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+			or (a.a_or_b='b' and a.sheet_code = b.sheet_code and a.code2= #{code}))S,member m 
+			where d.code=m.code 
+		    and d.sheet_code = S.sheet_code)z)
+			where r between 1 and 10
+			order by due_date desc
+			]]>
+	</select>	
+	
+	
+	<!--************   VIEW  ******************************-->
+
+	<!-- 보낸 ) 공통 view -->
+	<select id="reportView" resultType="com.erp.draft.DraftDTO" parameterType="int">
+		select * from draft where d_num=#{d_num}
 	</select>
 
-	<!-- 상신함 LIST -->
-	<select id="reportboxList" resultType="com.erp.draft.DraftDTO">
-		select * from draft where
-		kind='상신' order by d_num desc
+	<!-- 받은) 공통 view -->
+	<select id="getView" resultType="com.erp.draft.GetListDTO">
+		select d.*,a.*, m.name from draft d, approve a, member m where d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code and a.code2=#{code}
 	</select>
+	
+	
+	<!--*********************************************************-->
+
 
 	<!-- 팀장인 사람들 list -->
 	<select id="approverList" resultType="com.khbiz.member.MemberDTO">
 		select * from member where
 		position='팀장' or position='사장' order by code asc
 	</select>
-
-	<!-- 임시보관함 VIEW -->
-	<select id="outboxView" resultType="com.erp.draft.DraftDTO"
-		parameterType="int">
-		select * from draft where kind='임시보관' and
-		d_num=#{d_num}
+	
+	<!-- gian tab 부르기  -->
+	<select id="callGian" resultType="com.erp.draft.GianDTO" parameterType="String">
+		select * from gian where sheet_code=#{sheet_code}
 	</select>
 	
-	<!-- 상신함 view -->
-	<select id="reportboxView" resultType="com.erp.draft.DraftDTO"
-		parameterType="int">
-		select * from draft where kind='상신' and d_num=#{d_num}
+	<!-- expense tab 부르기-->
+	<select id="callExpense" resultType="com.erp.draft.ExpenseDTO" parameterType="String">
+		select * from expense where sheet_code=#{sheet_code}
+	</select>
+	
+	<!-- leave tab 부르기 -->
+	<select id="callLeave" resultType="com.erp.draft.LeaveDTO" parameterType="String">
+		select * from leave where sheet_code=#{sheet_code}
 	</select>
 
-	<!-- 임보 delete -->
-	<delete id="outboxDelete">
-		delete draft where d_num=#{d_num}
-	</delete>
-	<!-- 상신 delete -->
-	<delete id="reportboxDelete">
-		delete draft where d_num=#{d_num}
-	</delete>
-
-	<!-- 임보 상신 update -->
-	<update id="outboxReport">
-		update draft set kind='상신',up_date=sysdate where
-		d_num=#{d_num}
+	<!-- file 부르기 -->
+	<select id="callFile" resultType="com.erp.draft.FilesDTO" parameterType="String">
+		select * from files where sheet_code=#{sheet_code}
+	</select>
+	
+	
+	
+	<!-- 받은) 반려하기 -->
+	<update id="back" parameterType="HashMap" >
+    update approve set approve_date = to_char(sysdate,'yyyy-mm-dd') , a_or_b = 'b'
+    where code2=#{code2}
+     and sheet_code = #{sheet_code}
 	</update>
+	
+	<!-- 받은) 결재하기 -->
+	<update id="approval" parameterType="HashMap">
+	update approve set approve_date = to_char(sysdate,'yyyy-mm-dd') , a_or_b = 'a'
+    where code2=#{code2}
+    and  sheet_code = #{sheet_code}
+	</update>
+	
+	<!-- 기한 만료 반려 -->
+	<update id="overTimeBack">
+		<![CDATA[update APPROVE a set a.A_OR_B='b' where
+	EXISTS (select a.* from APPROVE b where
+	(a.ranking=1 and b.a_or_b='0' and b.ranking !=2 and a.sheet_code = b.sheet_code and a.due_per_date<sysdate)
+	or (a.ranking>1 and b.a_or_b='a' and a.a_or_b='0' and b.ranking=a.ranking-1 and a.sheet_code = b.sheet_code and a.due_per_date<sysdate))
+	]]>
+	</update>	
+	
+		<!-- 휴가 최종 결재자 확인 -->
+	<select id="checkLeave" parameterType="HashMap" resultType="String">
+		select 'true' from dual where 
+		(select RANKING from APPROVE where SHEET_CODE = #{sheet_code} and CODE2=#{code2}) = (select max(ranking) from APPROVE where SHEET_CODE= #{sheet_code})
+		and (SELECT SUBSTR(#{sheet_code},1,5) from dual) ='leave'
+	</select>
 
-	<!--  받은결재함 결재대기 List....kind =1-->
-	<select id="getWaitList" resultType="com.erp.draft.GetListDTO" parameterType="String">
-	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=1 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
-	</select> 
 	
-	<!--  받은결재함 결재완료 List.....kind =2-->
-	<select id="getFinList" resultType="com.erp.draft.GetListDTO" parameterType="String">
-	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=2 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
-	</select> 
+	<!--  delete -->
+	<delete id="delete">
+		delete draft where d_num=#{d_num}
+	</delete>
 	
-	<!--  받은결재함 반려함 List.....kind =3-->
-	<select id="getBackList" resultType="com.erp.draft.GetListDTO" parameterType="String">
-	select d.*, a.*, m.name from draft d, approve a, member m where d.kind2=3 and a.code2=#{code2} and d.sheet_code=a.sheet_code and d.code=m.code
+	<!-- *******받은 ) 임박 리스트******* -->
+	<select id="dueTime"  resultType="com.erp.draft.GetListDTO" parameterType="String">
+		<![CDATA[
+		select DISTINCT d.*,f.*,m.name from draft d, 
+    	(select a.* from APPROVE a, APPROVE b where a.code2 =#{code}
+    	and (a.RANKING>1 and b.A_OR_B='a'and a.A_OR_B ='0' and a.sheet_code = b.sheet_code and b.RANKING=a.RANKING-1)
+   		or (a.ranking=1 and  a.A_OR_B ='0' and b.ranking!=2 and a.sheet_code = b.sheet_code and a.code2 =#{code}))f,member m
+		where d.code=m.code 
+		and d.sheet_code = f.sheet_code
+      	and f.due_per_date<sysdate+2 
+		order by f.due_per_date desc
+		]]>
 	</select>
 	
-	<!-- 받은 )결재대기 view -->
-	<select id="getWaitView" resultType="com.erp.draft.GetListDTO" parameterType="int">
-		select d.*,a.*, m.name from draft d, approve a, member m where kind2=1 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
+	<!-- *******보낸 ) 임박 리스트******* -->
+	<select id="dueTimeSend" resultType="com.erp.draft.DraftDTO" parameterType="String">
+			<![CDATA[
+			 select d.*, M.* from draft d,
+         (select distinct a.* from approve a, approve b where 
+				(a.ranking=1 and b.ranking!=2 and a.a_or_b='0' and a.sheet_code = b.sheet_code ) 
+				or(a.ranking>=2 and b.a_or_b='a'and a.a_or_b='0' and a.ranking =b.ranking+1 and a.sheet_code = b.sheet_code ))M
+        where d.sheet_code = M.sheet_code
+        and M.due_per_date<sysdate+4
+        and d.code=#{code}
+        ]]>
+	</select>
+	
+	
+	<!-- 검색 1. 보낸 : 결재대기 -->
+	<select id="reportWaitSearch"  resultType="com.erp.draft.DraftDTO" parameterType="HashMap">
+		<![CDATA[
+			select d.* from draft d, 
+				(select distinct a.* from approve a, approve b where 
+				(a.ranking=1 and b.ranking!=2 and a.a_or_b='0' and a.sheet_code = b.sheet_code) 
+				or(a.ranking>=2 and b.a_or_b='a'and a.a_or_b='0' and a.ranking =b.ranking+1 and a.sheet_code = b.sheet_code))M
+				where d.sheet_code = M.sheet_code 
+				and d.code =#{code}
+    		    and d.title like #{search}
+				 order by d.due_date asc
+			]]>	
 	</select>
 
-	<!-- 받은 )결재완료 view -->
-	<select id="getFinView" resultType="com.erp.draft.GetListDTO" parameterType="int">
-		select d.*,a.*, m.name from draft d, approve a, member m where kind2=2 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
-	</select>
 	
-	<!--받은 )반려함 view -->
-	<select id="getBackView" resultType="com.erp.draft.GetListDTO" parameterType="int">
-		select d.*,a.*, m.name from draft d, approve a, member m where kind2=3 and d_num=#{d_num} and d.sheet_code=a.sheet_code and a.code=m.code
-	</select>
+	<!-- 검색 2. 보낸 : 결재완료 -->
+			<select id="reportFinSearch" resultType="com.erp.draft.GetListDTO" parameterType="String">
+	 		 select d.*,Z.approve_date from draft d,
+             (select a.* from approve a,
+             (select max(ranking)as M, sheet_code from approve GROUP BY SHEET_CODE)f
+             where a.sheet_code = f.sheet_code 
+             and (a.ranking = f.M and a.ranking=1 and a.a_or_b='a')
+             or (a.ranking = f.M and f.M>=2 and a.a_or_b='a' and a.sheet_code = f.sheet_code))Z
+             where d.sheet_code = Z.sheet_code 
+             and d.code=#{code}
+             and d.title like  #{search}
+			 order by Z.approve_date desc
+		</select>
+	
+	
+	<!-- 검색 3. 보낸 : 반려 -->
+	<select id="reportBackSearch" resultType="com.erp.draft.GetListDTO" parameterType="String">
+			<![CDATA[
+		 		select d.*,M.approve_date from draft d,
+         		(select DISTINCT a.* from approve a , approve b 
+				where (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+				or (a.a_or_b='b' and a.sheet_code = b.sheet_code ))M
+        		where d.sheet_code = M.sheet_code 
+       			and d.code = #{code}
+       			and d.title like #{search}
+       			order by M.approve_date desc
+        	]]>
+		</select>
 	
 	
 	
-	
-	 <!-- 받은결재함 전체 count
-	<select id="getAllCount" resultType="int" parameterType="java.util.HashMap">
-		Select count(d_num) from draft
-	</select>  -->
+	<!-- 검색 4. 받은 : 결재대기 -->
+		<select id="getWaitSearch" resultType="com.erp.draft.GetListDTO" parameterType="HashMap">
+			<![CDATA[
+				select DISTINCT d.*,f.*,m.name from draft d, 
+    		    (select a.* from APPROVE a, APPROVE b where a.code2 =#{code2}
+    			and (a.RANKING>1 and b.A_OR_B='a'and a.A_OR_B ='0' and a.sheet_code = b.sheet_code and b.RANKING=a.RANKING-1)
+   				or (a.ranking=1 and  a.A_OR_B ='0' and b.ranking!=2 and a.sheet_code = b.sheet_code and a.code2 =#{code2}))f,member m
+			where d.code=m.code 
+			and  d.sheet_code = f.sheet_code 
+			and m.name like #{search}
+			order by f.due_per_date desc
+			]]>	
+		</select>
 
+	<!-- 검색 5. 받은 : 결재완료 -->
+		<select id="getFinSearch" resultType="com.erp.draft.GetListDTO" parameterType="String">
+		  select d.*,P.*,m.name from draft d,      
+            (select a.* from
+            (select * from approve where code2=#{code2})a,
+            (select max(ranking), sheet_code from approve GROUP BY SHEET_CODE)F
+            where F.sheet_code=a.sheet_code
+            and a.a_or_b ='a') p,member m 
+              where d.code=m.code 
+              and d.sheet_code = P.sheet_code
+              and m.name like #{search}
+               order by p.due_per_date desc	
+		</select> 
+	
+	
+	<!-- 검색 6. 받은 : 반려 -->
+	<select id="getBackSearch" resultType="com.erp.draft.GetListDTO" parameterType="String">
+			<![CDATA[
+				select d.*,S.*,m.name from draft d,      
+				(select DISTINCT a.* from approve a , approve b where a.code2= #{code2}
+				and (a.ranking<b.ranking and b.a_or_b='b' and a.sheet_code = b.sheet_code)
+				or (a.a_or_b='b' and a.sheet_code = b.sheet_code and a.code2= #{code2}))S,member m 
+				where d.code=m.code 
+		        and d.sheet_code = S.sheet_code
+		        and m.name like #{search}
+		        order by S.due_per_date desc
+			]]>
+		</select>
+		
+
+	
 
 
 </mapper>

@@ -35,14 +35,19 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+"memberIdCheck", id);
 	}
 	
+	//code중복확인
+	public MemberDTO memberCodeCheck(String code) throws Exception{
+		return sqlSession.selectOne(namespace+"memberCodeCheck", code);
+	}
+	
+	//회원정보
+	public MemberDTO memberView(String code)throws Exception{
+		return sqlSession.selectOne(namespace+"memberView", code);
+	}
+	
 	//회원수정
 	public int memberMod(MemberDTO memberDTO)throws Exception{
-		System.out.println(memberDTO.getId());
-		System.out.println(memberDTO.getPw());
-		System.out.println(memberDTO.getAddress1());
-		System.out.println(memberDTO.getAddress2());
-		System.out.println(memberDTO.getName());
-		System.out.println(memberDTO.getPhone());
+
 		return sqlSession.update(namespace+"memberMod", memberDTO);
 	}
 	
@@ -50,7 +55,62 @@ public class MemberDAO {
 	public int memberDelete(MemberDTO memberDTO)throws Exception{
 		return sqlSession.delete(namespace+"memberDelete",memberDTO);
 	}
+	
 
+	//회원리스트
+	public List<MemberDTO> memberOriginList(int lastNum)throws Exception{
+		return sqlSession.selectList(namespace+"memberOriginList",lastNum);
+	}
+	
+	//회원리스트(수정불가)
+		public List<MemberDTO> memberContactList(int lastNum)throws Exception{
+			return sqlSession.selectList(namespace+"memberContactList",lastNum);
+		}
+	
+	//부서별 회원 리스트
+	public List<MemberDTO> memberDepartmentList(HashMap<String, String> hm)throws Exception{
+		return sqlSession.selectList(namespace+"memberDepartmentList",hm);
+	}
+	
+	//부서별 회원 리스트(수정불가)
+	public List<MemberDTO> memberContactDepartmentList(HashMap<String, String> hm)throws Exception{
+		return sqlSession.selectList(namespace+"memberContactDepartmentList",hm);
+	}
+	//부서 이동
+	public int memberDepartmentMod(MemberDTO memberDTO)throws Exception{
+		return sqlSession.update(namespace+"memberDepartmentMod", memberDTO);
+	}
+	
+	//직급 변경
+	public int memberPositionMod(MemberDTO memberDTO)throws Exception{
+		return sqlSession.update(namespace+"memberPositionMod", memberDTO);
+	}
+	
+	//id찾기
+	public MemberDTO memberIdFind(MemberDTO memberDTO)throws Exception{
+		return sqlSession.selectOne(namespace+"memberIdFind", memberDTO);	
+	}
+	
+	//pw찾기
+	public MemberDTO memberPwFind(MemberDTO memberDTO)throws Exception{
+		return sqlSession.selectOne(namespace+"memberPwFind", memberDTO);	
+	}
+	
+	//사람검색
+	public List<MemberDTO> memberHumanFind(HashMap<String, String>hm)throws Exception{
+		return sqlSession.selectList(namespace+"memberHumanFind",hm);
+	}
+	
+	//사람검색(수정불가)
+	public List<MemberDTO> memberContactHumanFind(HashMap<String, String>hm)throws Exception{
+		return sqlSession.selectList(namespace+"memberContactHumanFind", hm);
+	}
+	
+	
+	
+	
+	
+	
 	// 회원 검색, 리스트
 	public List<MemberDTO> memberList(String type, String str, String code) {
 		System.out.println("dao code : "+code);

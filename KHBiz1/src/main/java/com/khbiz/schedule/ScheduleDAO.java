@@ -37,5 +37,13 @@ public class ScheduleDAO {
 	public List<ScheduleDTO> getToday(MemberDTO memberDTO){
 		return sqlSession.selectList(namespace+"getToday", memberDTO);
 	}
+	//내일리스트
+	public List<ScheduleDTO> getTomorrow(MemberDTO memberDTO){
+		return sqlSession.selectList(namespace+"getTomorrow", memberDTO);
+	}
+	//휴가등록
+	public void setVacation(String sheet_code){
+		sqlSession.insert(namespace+"setVacation", sheet_code);
+	}
 
 }

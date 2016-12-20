@@ -36,12 +36,28 @@
 <script src="/erp/js/light-bootstrap-dashboard.js"></script>
 <script type="text/javascript">
 	$(function() {
-		var phone = '${member.phone}';
+		var phone = '${memberView.phone}';
 
 		var ph = phone.split("-");
 		$("#phone1").val(ph[1]);
 		$("#phone2").val(ph[2]);
 
+		
+		$("#pic").on('change', function(){
+			var fileext = $('#pic').val();
+			fileext = fileext.slice(fileext.indexOf(".")+1).toLowerCase();
+			if(fileext != "jpg" && fileext != "png" && fileext != "gif" && fileext != "bmp"){
+				swal("에러", "이미지 파일을 올려주세요 ", "error");
+				$('#storefile').val("");
+				return false;
+			}else{
+            	readURL(this);				
+			}
+        });
+
+		
+		
+		
 		$("#modBtn").click(function() {
 			var pw = $("#pw").val();
 			var pwCheck = $("#pwCheck").val();
@@ -92,8 +108,107 @@
 			}
 
 		});
+		var chk1 = /[a-z]/i; //적어도 한개의 a-z가 있는지 확인
+		var chk2 = /\d/; //적어도 한개의 0-9가 있는지 확인
+		$("#pwCheck").blur(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pwCheck").keyup(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
 
-	})
+			}
+		});
+		$("#pwCheck").focus(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").keyup(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").blur(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").focus(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").change(function() {
+			$('#pw').css("background-color","");
+			$('#pwCheck').css("background-color","");
+		});
+		$("#pwCheck").change(function() {
+			$('#pw').css("background-color","");
+			$('#pwCheck').css("background-color","");
+		});
+
+	});
+	
+	function readURL(input){
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+        		$('#blah').removeClass('hidden');
+                $('#blah').attr('src', e.target.result);
+            }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+   
+    }
+	function AutoResize(MaxWidth) {
+		  for(var i=0;i<document.images.length;i++) {
+		    if(document.images[i].width > MaxWidth) {
+		      document.images[i].width=MaxWidth;
+		      document.images[i].height-=document.images[i].height*(document.images[i].width-MaxWidth)/document.images[i].width;
+		    }
+		  }
+	}
 </script>
 <!-- Bootstrap core CSS     -->
 <link href="/erp/css/dashboard/bootstrap.min.css" rel="stylesheet" />
@@ -128,18 +243,22 @@
     -->
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="/erp/dash" class="simple-text"> KH Biz </a>
+					<a href="/erp/dash" class="simple-text"><img alt="khbiz_log"
+						src="/erp/images/khbiz.png" style="width: 60%;"></a>
 				</div>
 
 				<ul class="nav side-navi">
-					<li><a href="/erp/dash"> <i
+					<li class="active"><a href="/erp/dash"> <i
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-user"></i>
-							<p>근태관리</p>
-					</a></li>
-					<li><a> <i class="pe-7s-note2"></i>
+					<c:if test="${member.department=='인사팀' }">
+						<li><a href="/erp/attendmanage/attendmanage"> <i
+								class="pe-7s-user"></i>
+								<p>근태관리</p>
+						</a></li>
+					</c:if>
+					<li><a> <i class="pe-7s-mail-open-file"></i>
 							<p>
 								전자결재<span class="sub-arrow"></span>
 							</p>
@@ -149,23 +268,27 @@
 							<li><a href="/erp/draft/draft_main"><p>보낸 결재함</p></a></li>
 							<li><a href="/erp/draft/draft_main2"><p>받은 결재함</p></a></li>
 						</ul></li>
-					<li><a href="#"> <i class="pe-7s-news-paper"></i>
+					<li><a onclick="window.open('/erp/chat')"> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
-					<li><a href="/erp/schedule/scheduler"> <i class="pe-7s-science"></i>
+					<li><a href="/erp/schedule/scheduler"> <i
+							class="pe-7s-note2"></i>
 							<p>일정관리</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-map-marker"></i>
-							<p>급여관리</p>
+					<li><a href="/erp/member/memberContactList"> <i
+							class="pe-7s-users"></i>
+							<p>주소록</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-bell"></i>
-							<p>Notifications</p>
+					<li><a href="/erp/databoardList"> <i
+							class="pe-7s-drawer"></i>
+							<p>자료실</p>
 					</a></li>
-					<%-- <c:if test="${member.position=='사장'}"> --%>
-					<li><a href="#"> <i class="pe-7s-rocket"></i>
-							<p>관리자 모드</p>
-					</a></li>
-					<%-- </c:if> --%>
+					<c:if test="${member.department=='인사팀' && member.position_Rank<3}">
+					<li><a href="/erp/member/memberOriginList"> <i
+							class="pe-7s-users"></i>
+							<p>사원관리</p>
+					</a></li>					
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -180,42 +303,28 @@
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="/erp/dash">Dashboard</a>
+						<a class="navbar-brand" href="/erp/member/memberView">MemberView</a>
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-left">
-							<li><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> <i class="fa fa-dashboard"></i>
-							</a></li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown"> <i class="fa fa-globe"></i> <b
-									class="caret"></b> <span class="notification">5</span>
+									class="caret"></b> <span class="notification">${getDueList.size()+reportDueList.size()}</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">Notification 1</a></li>
-									<li><a href="#">Notification 2</a></li>
-									<li><a href="#">Notification 3</a></li>
-									<li><a href="#">Notification 4</a></li>
-									<li><a href="#">Another notification</a></li>
+									<c:forEach items="${getDueList}" var="get">
+										<li><a href="/erp/draft/getWaitList">${get.title }</a></li>
+									</c:forEach>
+									<li class="divider"></li>
+									<c:forEach items="${reportDueList}" var="report">
+										<li><a href="/erp/draft/reportWaitList">${report.title }</a></li>
+									</c:forEach>
 								</ul></li>
-							<li><a href=""> <i class="fa fa-search"></i>
-							</a></li>
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
+							<li><a href="/erp/member/memberView">${member.name}님</a></li>
 							<li><a href="/erp/member/memberView"> 정보 보기 </a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> Dropdown <b class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul></li>
 							<li><a href="/erp/member/memberLogout"> Log out </a></li>
 						</ul>
 					</div>
@@ -232,34 +341,35 @@
 									<h4 class="title">회원 정보 수정</h4>
 									<p class="category"></p>
 								</div>
-								<form action="/erp/member/memberMod" method="post" id="frm">
-								<input type="hidden" value="${member.code}" name="code">
-								<input type="hidden" value="${member.department}"
-									name="department"> <input type="hidden"
-									value="${member.position}" name="position"> <input
-									type="hidden" value="${member.hired_date}" name="hired_date">
-								<input type="hidden" value="${member.id}" name="id"> <input
-									type="hidden" value="${member.birth}" name="birth"> <input
-									type="hidden" value="${member.gender}" name="gender">
-									<div class="content">
+								<form action="/erp/member/memberMod" method="post" id="frm" enctype="multipart/form-data">
+								<input type="hidden" value="${memberView.code}" name="code">
+								<input type="hidden" value="${memberView.pic}" name="originalPic"> 
+									<div class="content">						
 										<div class="table-full-width">
 											<table class="table">
 												<tr>
 													<td class="col-md-4">사원번호</td>
-													<td>${member.code}</td>
+													<td>${memberView.code}</td>
 												</tr>
 												<tr>
 													<td>부서</td>
-													<td>${member.department}</td>
+													<td>${memberView.department}</td>
 
 												</tr>
 												<tr>
 													<td>직급</td>
-													<td>${member.position}</td>
+													<td>${memberView.position}</td>
+												</tr>
+												<tr>
+													<td>프로필 사진</td>
+													<td>
+														<img src="/erp/resources/upload/${memberView.pic}" style="width:120px; height: 160px;"id="blah">
+														<input type="file" id="pic" accept="image/*" name="pic">
+													</td>
 												</tr>
 												<tr>
 													<td>아이디</td>
-													<td>${member.id}</td>
+													<td>${memberView.id}</td>
 												</tr>
 												<tr>
 													<td>비밀번호</td>
@@ -273,12 +383,12 @@
 												</tr>
 												<tr>
 													<td>이름</td>
-													<td><input type="text" value="${member.name}"
+													<td><input type="text" value="${memberView.name}"
 														class="form-control" name="name" id="name"></td>
 												</tr>
 												<tr>
 													<td>생년월일</td>
-													<td>${member.birth}</td>
+													<td>${memberView.birth}</td>
 												</tr>
 												<tr>
 													<td>핸드폰 번호</td>
@@ -308,28 +418,30 @@
 												<tr>
 													<td><label>도로명 주소</label> <input type="hidden"
 														id="sample4_roadAddress1" name="address1"
-														value="${member.address1}"> <input
+														value="${memberView.address1}"> <input
 														class="join_text form-control" type="text"
-														value="${member.address1}" id="sample4_roadAddress2"
+														value="${memberView.address1}" id="sample4_roadAddress2"
 														placeholder="도로명주소" disabled="disabled"> <input
 														type="hidden" id="sample4_jibunAddress1" name="address2"
-														value="${member.address2}"> <input
+														value="${memberView.address2}"> <input
 														class="join_text form-control" type="hidden"
-														value="${member.address2}" id="sample4_jibunAddress2"
-														placeholder="지번주소" disabled="disabled"></td>
+														value="${memberView.address2}" id="sample4_jibunAddress2"
+														placeholder="지번주소" disabled="disabled">
+														<span id="guide" style="color:#999"></span></td>
+												
 												</tr>
 											</table>
 										</div>
 
 										<div class="footer">
-											<div class="legend col-md-offset-10">
+											<div class="legend">
 												<button class="btn btn-info" id="modBtn">등록</button>
-												<button class="btn btn-default" id="backBtn" onclick="location.href='/erp/member/memberMod'; return false;">다시쓰기</button>
+												<button class="btn btn-default" id="backBtn" onclick="location.href='/erp/member/memberMod?code=${memberView.code}'; return false;">다시쓰기</button>
 												<button class="btn btn-default" id="cancle" onclick="location.href='/erp/member/memberView'; return false;">취소</button>
 											</div>
 											<hr>
 											<div class="stats">
-												<i class="fa fa-clock-o"></i> ${member.hired_date}
+												<i class="fa fa-clock-o"></i> ${memberView.hired_date}
 											</div>
 										</div>
 									</div>
@@ -358,67 +470,61 @@
 
 		</div>
 	</div>
+	
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<script>
-		//본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-		function sample4_execDaumPostcode() {
-			new daum.Postcode(
-					{
-						oncomplete : function(data) {
-							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-							// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-							var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-							var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-							if (data.bname !== ''
-									&& /[동|로|가]$/g.test(data.bname)) {
-								extraRoadAddr += data.bname;
-							}
-							// 건물명이 있고, 공동주택일 경우 추가한다.
-							if (data.buildingName !== ''
-									&& data.apartment === 'Y') {
-								extraRoadAddr += (extraRoadAddr !== '' ? ', '
-										+ data.buildingName : data.buildingName);
-							}
-							// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-							if (extraRoadAddr !== '') {
-								extraRoadAddr = ' (' + extraRoadAddr + ')';
-							}
-							// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-							if (fullRoadAddr !== '') {
-								fullRoadAddr += extraRoadAddr;
-							}
-
-							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
-							document.getElementById('sample4_roadAddress1').value = fullRoadAddr;
-							document.getElementById('sample4_roadAddress2').value = fullRoadAddr;
-							document.getElementById('sample4_jibunAddress1').value = data.jibunAddress;
-							document.getElementById('sample4_jibunAddress2').value = data.jibunAddress;
-
-							// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-							if (data.autoRoadAddress) {
-								//예상되는 도로명 주소에 조합형 주소를 추가한다.
-								var expRoadAddr = data.autoRoadAddress
-										+ extraRoadAddr;
-								document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
-										+ expRoadAddr + ')';
-
-							} else if (data.autoJibunAddress) {
-								var expJibunAddr = data.autoJibunAddress;
-								document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
-										+ expJibunAddr + ')';
-
-							} else {
-								document.getElementById('guide').innerHTML = '';
-							}
-						}
-					}).open();
-		}
-	</script>
+			<script>
+					    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+					    function sample4_execDaumPostcode() {
+					        new daum.Postcode({
+					            oncomplete: function(data) {
+					                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+					
+					                // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+					                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+					                var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+					                var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+					
+					                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+					                    extraRoadAddr += data.bname;
+					                }
+					                // 건물명이 있고, 공동주택일 경우 추가한다.
+					                if(data.buildingName !== '' && data.apartment === 'Y'){
+					                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					                }
+					                // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					                if(extraRoadAddr !== ''){
+					                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+					                }
+					                // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+					                if(fullRoadAddr !== ''){
+					                    fullRoadAddr += extraRoadAddr;
+					                }
+					
+					                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+					                document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
+					                document.getElementById('sample4_roadAddress1').value = fullRoadAddr;
+					                document.getElementById('sample4_roadAddress2').value = fullRoadAddr;
+					                document.getElementById('sample4_jibunAddress1').value = data.jibunAddress;
+					                document.getElementById('sample4_jibunAddress2').value = data.jibunAddress;
+							
+					                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+					                if(data.autoRoadAddress) {
+					                    //예상되는 도로명 주소에 조합형 주소를 추가한다.
+					                    var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+					                    document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+					
+					                } else if(data.autoJibunAddress) {
+					                    var expJibunAddr = data.autoJibunAddress;
+					                    document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+					
+					                } else {
+					                    document.getElementById('guide').innerHTML = '';
+					                }
+					            }
+					        }).open();
+					    }
+					</script>
 </body>
 </html>

@@ -6,10 +6,7 @@ public class AttendDTO {
 	private Date startTime; //출근시간
 	private Date endTime; //퇴근시간
 	private Date overTime; //OT
-	private int absence; //결근
-	private int businessTrip; //출장
 	private int vacation; //유급휴가
-	private int breaking; //무급휴가
 	public String getCode() {
 		return code;
 	}
@@ -34,30 +31,14 @@ public class AttendDTO {
 	public void setOverTime(Date overTime) {
 		this.overTime = overTime;
 	}
-	public int getAbsence() {
-		return absence;
-	}
-	public void setAbsence(int absence) {
-		this.absence = absence;
-	}
-	public int getBusinessTrip() {
-		return businessTrip;
-	}
-	public void setBusinessTrip(int businessTrip) {
-		this.businessTrip = businessTrip;
-	}
+
 	public int getVacation() {
 		return vacation;
 	}
 	public void setVacation(int vacation) {
 		this.vacation = vacation;
 	}
-	public int getBreaking() {
-		return breaking;
-	}
-	public void setBreaking(int breaking) {
-		this.breaking = breaking;
-	}
+
 	
 
 }

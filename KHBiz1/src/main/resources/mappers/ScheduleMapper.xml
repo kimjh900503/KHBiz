@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ScheduleMapper">
 	<select id="getScheduleList" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.schedule.ScheduleDTO">
-		select * from schedule where code = #{code}
+		select * from schedule where code = #{code} or code=0
 	</select>
 	<insert id="setSchedule" parameterType="com.khbiz.schedule.ScheduleDTO">
 		insert into schedule values(
@@ -13,7 +13,11 @@
 	</insert>
 	<select id="getToday" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.schedule.ScheduleDTO">
 		select code, title, startdate, enddate, nvl(starttime,'--') starttime, nvl(endtime,'--') endtime, nvl(contents,'--') contents, s_num
-		from SCHEDULE where sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=#{code}
+		from SCHEDULE where sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=#{code} or (sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=0)
+	</select>
+	<select id="getTomorrow" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.schedule.ScheduleDTO">
+		select code, title, startdate, enddate, nvl(starttime,'--') starttime, nvl(endtime,'--') endtime, nvl(contents,'--') contents, s_num
+		from SCHEDULE where sysdate+1  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=#{code} or (sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and code=0)
 	</select>
 	<delete id="delSchedule" parameterType="int">
 		delete schedule where s_num = #{s_num}
@@ -22,4 +26,9 @@
 		update schedule set title=#{title}, startdate=#{startdate}, starttime=#{starttime}, enddate=#{enddate}, endtime=#{endtime}, contents=#{contents}
 		where s_num=#{s_num}
 	</update>
+	<!-- 휴가등록 -->
+	<insert id="setVacation" parameterType="String">
+		insert into schedule(code,title,startdate,enddate,contents,s_num)
+select b.code, '휴가',b.start_date,b.fin_date,b.category,schedule_seq.nextval from LEAVE b where SHEET_CODE =#{sheet_code}
+	</insert>
 </mapper>

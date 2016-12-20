@@ -1,46 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-<style type="text/css">
-	#gian_table,#wrap,td{
-		border : 1px solid black;
-	}
-</style>
-
-<div id= "wrap">
-<h4>기안문</h4>
-
-
-	<table id="gian_tab">
-		<tr>
-			<td colspan="4" style = "text-align: center;">기안용폼</td>
-		</tr>
-		
+<script src='/erp/js/datepicker.js'></script>
+<script type="text/javascript">
+	$(function () {
+		//시작날짜 이전 선택 불가
+		$('#due_date').blur(function() {
+			var select = new Date($('#due_date').val());
+			var end = new Date($('#start_date').val());
+			if (select == '') {
+				$('#start_date').val('');
+				swal("에러", "마감일 부터 입력해 주세요.", "error");
+			}
+			if (select.toYmdDateString() > end.toYmdDateString()) {
+				$('#start_date').val('');
+				swal("에러", "시행일은 마감일 이후여야 합니다.", "error");
+			}
+		});
+	});
+</script>
+	<input type ="hidden" value="${member.code}">
+	<table id="gian_tab" class="table">
 		<tr>
 			<td>기안부서</td>
 			<td>${member.department }</td>
-			<td>기안자(우선코드)</td>
-			<input type ="hidden" value="${member.code}">
 		</tr>
 		<tr>
 			<td>제목</td>
-			<td colspan="2"><input type = "text" name = "title1"></td>
+			<td><input type = "text" name = "title1" class="form-control"></td>
 		</tr>
 		<tr>
 			<td>시행 일자</td>
-			<td><input type = "date" name = "start_date"  ></td>
+			<td><input type = "date" name = "start_date" class="form-control" id="start_date" ></td>
 		</tr>
 		<tr>
-			<td colspan="4" style = "text-align: center;">내용</td>
-		</tr>
-		<tr>
-			<td colspan="4"><input type = "text" name = "contents1"></td>
+			<td>내용</td>
+			<td><textarea rows="3" name="contents1" class="form-control"></textarea></td>
 		</tr>
 
 	</table>
-
-</div>
 
 
 </body>

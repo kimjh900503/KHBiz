@@ -8,26 +8,71 @@
 
 	<insert id="memberJoin" parameterType="com.khbiz.member.MemberDTO">
 		insert into member 
-		values(#{code},#{department},#{position},null, #{pw}, null,null, null,null,null,null,sysdate)
+		values
+			(#{code},#{department},#{position}, null, #{pw}, null,null, null,null,null,null,sysdate,#{position_Rank},null
+		)
 	</insert>
 	
 	<select id="memberLogin" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.member.MemberDTO">
 		select * from member where id =#{id} or code = #{id} and pw=#{pw}
 	</select>
-	
+	<!-- id중복확인 -->
 	<select id="memberIdCheck" parameterType="java.lang.String" resultType="com.khbiz.member.MemberDTO">
 		select * from member where id=#{id}
 	</select>
+	<!-- code중복확인 -->
+	<select id="memberCodeCheck" parameterType="java.lang.String" resultType="com.khbiz.member.MemberDTO">
+		select * from member where code=#{code}
+	</select>
 	 <update id="memberFirstMod" parameterType="com.khbiz.member.MemberDTO">
 		update member set 
-		id=#{id},pw=#{pw},name=#{name},gender=#{gender},birth=#{birth},phone=#{phone},address1=#{address1},address2=#{address2}
+		id=#{id},pw=#{pw},name=#{name},gender=#{gender},birth=#{birth},phone=#{phone},address1=#{address1},address2=#{address2},pic=#{pic}
 		where  code = #{code}
 	</update> 
+	<select id="memberView" parameterType="com.khbiz.member.MemberDTO" resultType="com.khbiz.member.MemberDTO">
+		select * from member where code=#{code}
+	</select>
 	<update id="memberMod" parameterType="com.khbiz.member.MemberDTO">
 		update member set 
-		pw=#{pw},name=#{name},phone=#{phone},address1=#{address1},address2=#{address2}
-		where  id = #{id}
+		pw=#{pw},name=#{name},phone=#{phone},address1=#{address1},address2=#{address2},pic=#{pic}
+		where  code = #{code}
 	</update> 
+	<delete id="memberDelete" parameterType="com.khbiz.member.MemberDTO">
+		delete member where code=#{code}
+	</delete>
+	<select id="memberOriginList" resultType="com.khbiz.member.MemberDTO" parameterType="Int">
+		select * from 
+		(select ROWNUM r,t.* from
+		(select * from member order by position_rank asc)t)
+  	 	 where r between 1 and #{lastNum}
+		
+	</select>
+	<select id="memberDepartmentList" resultType="com.khbiz.member.MemberDTO" parameterType="java.util.HashMap">
+		select * from 
+		(select ROWNUM r,t.* from
+		(select * from member where department =#{department} order by position_rank asc)t)
+		 where r between 1 and #{lastNum}
+	</select>
+	<select id="memberContactDepartmentList" resultType="com.khbiz.member.MemberDTO" parameterType="java.util.HashMap">
+			select * from 
+		(select ROWNUM r,t.* from
+		(select * from member where department =#{department} order by position_rank asc)t)
+		 where r between 1 and #{lastNum}
+	</select>
+	<update id="memberDepartmentMod" parameterType="com.khbiz.member.MemberDTO">
+		update member set department=#{department} 
+		where code=#{code}
+	</update>
+	<update id="memberPositionMod" parameterType="com.khbiz.member.MemberDTO">
+		update member set position=#{position}, position_Rank=#{position_Rank}
+		where code=#{code}
+	</update>
+	<select id="memberIdFind" resultType="com.khbiz.member.MemberDTO" parameterType="com.khbiz.member.MemberDTO">
+		select * from member where name= #{name} and phone=#{phone} and birth=#{birth}
+	</select>
+	<select id="memberPwFind" resultType="com.khbiz.member.MemberDTO" parameterType="com.khbiz.member.MemberDTO">
+		select * from member where name= #{name} and phone=#{phone} and id=#{id}
+	</select> 
 	
 	<select id="memberList" parameterType="java.util.HashMap" resultType="com.khbiz.member.MemberDTO">
 		select * from member
@@ -51,5 +96,24 @@
 				</if>
 		</if>
 	</select>
+	<select id="memberContactList" resultType="com.khbiz.member.MemberDTO"  parameterType="Int">
+		select * from 
+		(select ROWNUM r,t.* from
+		(select * from member order by position_rank asc)t)
+  	 	 where r between 1 and #{lastNum}
+	</select>
 	
+	<select id="memberHumanFind" resultType="com.khbiz.member.MemberDTO"  parameterType="java.util.HashMap">
+		select * from 
+		(select ROWNUM r,t.* from
+		(select * from member where code || name  like #{code}  order by position_rank asc)t)
+		where r between 1 and #{lastNum}
+	</select>
+	
+	<select id="memberContactHumanFind" resultType="com.khbiz.member.MemberDTO"  parameterType="java.util.HashMap">
+		select * from 
+		(select ROWNUM r,t.* from
+		(select * from member where code || name  like #{code}  order by position_rank asc)t)
+		where r between 1 and #{lastNum}
+	</select>
 </mapper>

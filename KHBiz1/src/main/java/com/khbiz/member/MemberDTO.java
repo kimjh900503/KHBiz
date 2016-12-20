@@ -15,7 +15,8 @@ public class MemberDTO {
 	private String address1;
 	private String address2;
 	private Date hired_date;
-	
+	private int position_Rank;
+	private String pic;
 	
 	
 	public String getAddress1() {
@@ -91,6 +92,18 @@ public class MemberDTO {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public int getPosition_Rank() {
+		return position_Rank;
+	}
+	public void setPosition_Rank(int position_Rank) {
+		this.position_Rank = position_Rank;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 	
 	

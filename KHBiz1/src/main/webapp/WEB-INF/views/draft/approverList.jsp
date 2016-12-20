@@ -10,7 +10,7 @@
 <body>
 
 <div class="container">
-			<table class="table table-striped">
+			<table class="table table-striped" >
 				<tr>
 					<td>선택</td>
 					<td>사원번호</td>
@@ -29,7 +29,7 @@
 					</tr>
 					</c:forEach>
 			</table>
-			<input type="button" id="app_btn" value="선택 완료" style="margin-left: 43%;">
+		
 		</div>
 
 

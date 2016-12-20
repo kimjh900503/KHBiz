@@ -1,8 +1,11 @@
 package com.khbiz.attend;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import com.khbiz.member.MemberDTO;
@@ -22,20 +25,29 @@ public class AttendDAO {
 	}
 	//퇴근
 	public void checkOut(MemberDTO memberDTO){
-		
-		sqlSession.update(namespace+"checkOut", memberDTO);
+		String code = memberDTO.getCode();
+		sqlSession.update(namespace+"checkOut", code);
 	}
 	//근무시간 확인
-	public void workingtime(MemberDTO memberDTO){
-		
+	public int workingtime(MemberDTO memberDTO){
+		return sqlSession.selectOne(namespace+"workingtime", memberDTO);
+	}
+	//OT
+	public void overtime(HashMap<String, String> map){
+		sqlSession.update(namespace+"overtime", map);
 	}
 	//회원가입
-	public void memberIn(){
-		
+	public void memberIn(MemberDTO memberDTO){
+		sqlSession.insert(namespace+"memberIn", memberDTO);
 	}
-	//출장
 	//휴가
-	//무급
-	//결근
+	@Scheduled(cron="0 0 08 * * MON-FRI")
+	public void vacation(){
+		sqlSession.update(namespace+"vacation");
+	}
+	//삭제
+	public void memberDel(MemberDTO memberDTO){
+		sqlSession.delete(namespace+"memberDel", memberDTO);
+	}
 
 }

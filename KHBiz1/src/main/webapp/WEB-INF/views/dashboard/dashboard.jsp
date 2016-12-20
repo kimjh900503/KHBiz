@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+<meta
+	content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'
+	name='viewport' />
 <link rel="icon" type="image/png" href="assets/img/favicon.ico">
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,12 +14,15 @@
 <!-- Favicon -->
 <link rel="shortcut icon" href="/erp/images/favicon.ico">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--  Checkbox, Radio & Switch Plugins -->
 <script src="/erp/js/bootstrap-checkbox-radio-switch.js"></script>
 
@@ -31,8 +36,133 @@
 <script src="/erp/js/light-bootstrap-dashboard.js"></script>
 
 <script type="text/javascript">
+var now = new Date();
 	$(document).ready(function() {
-
+						$.ajax({
+									url : "http://apis.skplanetx.com/weather/current/minutely",
+									type : "GET",
+									beforeSend : function(request) {
+										request
+												.setRequestHeader("appKey",
+														"26f2f47c-73b8-398c-b042-f1593a17265b");
+									},
+									data : {
+										version : 1,
+										lat : 37.4988407,
+										lon : 127.0326051
+									},
+									success : function(data) {
+										$('#weather_today_sky')
+												.attr(
+														'src',
+														"/erp/img/weather_icons/"
+																+ data.weather.minutely[0].sky.code
+																+ ".png");
+										$('#today_temp')
+												.html(
+														data.weather.minutely[0].temperature.tc
+																+ "℃");
+										$('#weather_time')
+												.html(
+														data.weather.minutely[0].timeObservation
+																+ " 발표");
+									}
+								});
+						$
+								.ajax({
+									url : "http://apis.skplanetx.com/weather/forecast/3days",
+									type : "GET",
+									beforeSend : function(request) {
+										request
+												.setRequestHeader("appKey",
+														"26f2f47c-73b8-398c-b042-f1593a17265b");
+									},
+									data : {
+										version : 1,
+										lat : 37.4988407,
+										lon : 127.0326051,
+										city : '서울',
+										county : '강남구',
+										village : '역삼'
+									},
+									success : function(data) {
+										$('#weather_tomorrow7_sky')
+												.attr(
+														'src',
+														"/erp/img/weather_icons/"
+																+ data.weather.forecast3days[0].fcst3hour.sky.code22hour
+																+ ".png");
+										$('#weather_tomorrow19_sky')
+												.attr(
+														'src',
+														"/erp/img/weather_icons/"
+																+ data.weather.forecast3days[0].fcst3hour.sky.code28hour
+																+ ".png");
+										$('#tomorrow7_temp')
+												.html(
+														data.weather.forecast3days[0].fcst3hour.temperature.temp22hour
+																+ "℃");
+										$('#tomorrow19_temp')
+												.html(
+														data.weather.forecast3days[0].fcst3hour.temperature.temp28hour
+																+ "℃");
+									}
+								});
+						var events_array = [];
+						$.ajax({
+							url : "/erp/s_json/getSchedule?code=${member.code}",
+							type : "get",
+							success : function (data) {
+								
+								for ( var i in data) {
+									var start="";
+									var end="";
+									var color ="#3a87ad";
+									if(data[i].starttime == null){
+										data[i].starttime = '--:--';
+										start = data[i].startdate;
+									}else{
+										start = data[i].startdate+"T"+data[i].starttime;
+									}
+									if(data[i].endtime == null){
+										data[i].endtime = '--:--';
+										end = data[i].enddate;
+									}else{
+										end = data[i].enddate+"T"+data[i].endtime;
+									}
+									if(data[i].contents == null){
+										data[i].contents = data[i].title;
+									}
+									if(data[i].code ==0){
+										color = '#cc0000';
+									}
+									var schedule_object = {
+										title : data[i].title,			
+										start : start,
+										end : end,
+										color : color,
+										content : data[i].startdate+'T'+data[i].starttime+'&nbsp;~&nbsp;'+data[i].enddate+'T'+data[i].endtime+'<br>'+data[i].contents,
+										id : data[i].s_num,
+									};
+									events_array.push(schedule_object);
+								}
+								
+								$('#calendar').fullCalendar({
+									defaultDate : now,
+									editable : true,
+									eventLimit : true, // allow "more" link when too many events
+									events : events_array,
+								});
+									
+							}
+						});
+			/* $.notify({
+	            	icon: 'pe-7s-bell',
+	            	message: "새로운 메세지"
+            },{
+                type: 'info',
+                timer: 4000
+            }); */
 	});
 </script>
 <!-- Bootstrap core CSS     -->
@@ -42,16 +172,27 @@
 <link href="/erp/css/dashboard/animate.min.css" rel="stylesheet" />
 
 <!--  Light Bootstrap Table core CSS    -->
-<link href="/erp/css/dashboard/light-bootstrap-dashboard.css" rel="stylesheet" />
+<link href="/erp/css/dashboard/light-bootstrap-dashboard.css"
+	rel="stylesheet" />
 <!--     Fonts and icons     -->
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300'
+	rel='stylesheet' type='text/css'>
 <link href="/erp/css/dashboard/pe-icon-7-stroke.css" rel="stylesheet" />
 <!-- alert -->
 <script src="/erp/js/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/erp/css/sweetalert.css">
 <!-- 제작 -->
 <link rel="stylesheet" type="text/css" href="/erp/css/dashboard.css">
+<!-- scheduler -->
+<link href='/erp/css/fullcalendar.css' rel='stylesheet' />
+<link href='/erp/css/fullcalendar.print.css' rel='stylesheet'
+	media='print' />
+<script src='/erp/js/moment.min.js'></script>
+<script src='/erp/js/fullcalendar.min.js'></script>
+<script src='/erp/js/datepicker.js'></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -65,7 +206,8 @@
 
 			<div class="sidebar-wrapper">
 				<div class="logo">
-					<a href="/erp/dash" class="simple-text"> KH Biz </a>
+					<a href="/erp/dash" class="simple-text"><img alt="khbiz_log"
+						src="/erp/images/khbiz.png" style="width: 60%;"></a>
 				</div>
 
 				<ul class="nav side-navi">
@@ -73,10 +215,13 @@
 							class="pe-7s-graph"></i>
 							<p>Dashboard</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-user"></i>
-							<p>근태관리</p>
-					</a></li>
-					<li><a> <i class="pe-7s-note2"></i>
+					<c:if test="${member.department=='인사팀' }">
+						<li><a href="/erp/attendmanage/attendmanage"> <i
+								class="pe-7s-user"></i>
+								<p>근태관리</p>
+						</a></li>
+					</c:if>
+					<li><a> <i class="pe-7s-mail-open-file"></i>
 							<p>
 								전자결재<span class="sub-arrow"></span>
 							</p>
@@ -86,23 +231,27 @@
 							<li><a href="/erp/draft/draft_main"><p>보낸 결재함</p></a></li>
 							<li><a href="/erp/draft/draft_main2"><p>받은 결재함</p></a></li>
 						</ul></li>
-					<li><a href="#"> <i class="pe-7s-news-paper"></i>
+					<li><a onclick="window.open('/erp/chat')"> <i class="pe-7s-news-paper"></i>
 							<p>메신저</p>
 					</a></li>
-					<li><a href="/erp/schedule/scheduler"> <i class="pe-7s-science"></i>
+					<li><a href="/erp/schedule/scheduler"> <i
+							class="pe-7s-note2"></i>
 							<p>일정관리</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-map-marker"></i>
-							<p>급여관리</p>
+					<li><a href="/erp/member/memberContactList"> <i
+							class="pe-7s-users"></i>
+							<p>주소록</p>
 					</a></li>
-					<li><a href="#"> <i class="pe-7s-bell"></i>
-							<p>Notifications</p>
+					<li><a href="/erp/databoardList"> <i
+							class="pe-7s-drawer"></i>
+							<p>자료실</p>
 					</a></li>
-					<%-- <c:if test="${member.position=='사장'}"> --%>
-					<li><a href="#"> <i class="pe-7s-rocket"></i>
-							<p>관리자 모드</p>
-					</a></li>
-					<%-- </c:if> --%>
+					<c:if test="${member.department=='인사팀' && member.position_Rank<3 || member.position_Rank==1}">
+					<li><a href="/erp/member/memberOriginList"> <i
+							class="pe-7s-users"></i>
+							<p>사원관리</p>
+					</a></li>					
+					</c:if>
 				</ul>
 			</div>
 		</div>
@@ -121,39 +270,24 @@
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-left">
-							<li><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> <i class="fa fa-dashboard"></i>
-							</a></li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown"> <i class="fa fa-globe"></i> <b
-									class="caret"></b> <span class="notification">5</span>
+									class="caret"></b> <span class="notification">${getDueList.size()+reportDueList.size()}</span>
 							</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">Notification 1</a></li>
-									<li><a href="#">Notification 2</a></li>
-									<li><a href="#">Notification 3</a></li>
-									<li><a href="#">Notification 4</a></li>
-									<li><a href="#">Another notification</a></li>
+									<c:forEach items="${getDueList}" var="get">
+										<li><a href="/erp/draft/getWaitList">${get.title }</a></li>
+									</c:forEach>
+									<li class="divider"></li>
+									<c:forEach items="${reportDueList}" var="report">
+										<li><a href="/erp/draft/reportWaitList">${report.title }</a></li>
+									</c:forEach>
 								</ul></li>
-							<li><a href=""> <i class="fa fa-search"></i>
-							</a></li>
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
-							<li><a>${member.name}님</a></li>
+							<li><a href="/erp/member/memberView">${member.name}님</a></li>
 							<li><a href="/erp/member/memberView"> 정보 보기 </a></li>
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> Dropdown <b class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul></li>
 							<li><a href="/erp/member/memberLogout"> Log out </a></li>
 						</ul>
 					</div>
@@ -164,201 +298,126 @@
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="card">
 								<div class="header">
-									<h4 class="title">Email Statistics</h4>
-									<p class="category">Last Campaign Performance</p>
+									<h4 class="title">달력</h4>
+									<p class="category"></p>
 								</div>
 								<div class="content">
-									<div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
+									<div id="calendar"></div>
 									<div class="footer">
 										<div class="legend">
-											<i class="fa fa-circle text-info"></i> Open <i
-												class="fa fa-circle text-danger"></i> Bounce <i
-												class="fa fa-circle text-warning"></i> Unsubscribe
+											<i class="fa fa-circle" style="color: #3a87ad"></i> 일정
+											<i class="fa fa-circle" style="color: #cc0000"></i> 회사 일정 
 										</div>
 										<hr>
 										<div class="stats">
-											<i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+											
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
-						<div class="col-md-8">
-							<div class="card">
-								<div class="header">
-									<h4 class="title">Users Behavior</h4>
-									<p class="category">24 Hours performance</p>
-								</div>
-								<div class="content">
-									<div id="chartHours" class="ct-chart"></div>
-									<div class="footer">
-										<div class="legend">
-											<i class="fa fa-circle text-info"></i> Open <i
-												class="fa fa-circle text-danger"></i> Click <i
-												class="fa fa-circle text-warning"></i> Click Second Time
-										</div>
-										<hr>
-										<div class="stats">
-											<i class="fa fa-history"></i> Updated 3 minutes ago
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-
-					<div class="row">
-						<div class="col-md-6">
-							<div class="card ">
-								<div class="header">
-									<h4 class="title">2014 Sales</h4>
-									<p class="category">All products including Taxes</p>
-								</div>
-								<div class="content">
-									<div id="chartActivity" class="ct-chart"></div>
-
-									<div class="footer">
-										<div class="legend">
-											<i class="fa fa-circle text-info"></i> Tesla Model S <i
-												class="fa fa-circle text-danger"></i> BMW 5 Series
-										</div>
-										<hr>
-										<div class="stats">
-											<i class="fa fa-check"></i> Data information certified
+						<div class="col-md-5">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="card">
+											<div class="header">
+												<h4 class="title">Weather</h4>
+												<p class="category">날씨정보</p>
+											</div>
+											<div class="content">
+												<div class="container-fluid">
+													<div class="row">
+														<div class="col-md-4">
+															<img id="weather_today_sky"
+																style="width: 80%;">
+															<p>
+																현재 <br> <span id="today_temp"></span>
+															</p>
+														</div>
+														<div class="col-md-4">
+															<img id="weather_tomorrow7_sky"
+																style="width: 80%;">
+															<p>
+																내일 오전<br> <span id="tomorrow7_temp"></span>
+															</p>
+														</div>
+														<div class="col-md-4">
+															<img id="weather_tomorrow19_sky"
+																style="width: 80%;">
+															<p>
+																내일 오후<br> <span id="tomorrow19_temp"></span>
+															</p>
+														</div>
+													</div>
+												</div>
+												<div class="footer">
+													<div class="legend"></div>
+													<hr>
+													<div class="stats">
+														<i class="fa fa-clock-o"></i><span id="weather_time"></span>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="card ">
-								<div class="header">
-									<h4 class="title">Tasks</h4>
-									<p class="category">Backend development</p>
-								</div>
-								<div class="content">
-									<div class="table-full-width">
-										<table class="table">
-											<tbody>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox">
-													</label></td>
-													<td>Sign contract for "What are conference organizers
-														afraid of?"</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox"
-															checked="">
-													</label></td>
-													<td>Lines From Great Russian Literature? Or E-mails
-														From My Boss?</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox"
-															checked="">
-													</label></td>
-													<td>Flooded: One year later, assessing what was lost
-														and what was found when a ravaging rain swept through
-														metro Detroit</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox">
-													</label></td>
-													<td>Create 4 Invisible User Experiences you Never Knew
-														About</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox">
-													</label></td>
-													<td>Read "Following makes Medium better"</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-												<tr>
-													<td><label class="checkbox"> <input
-															type="checkbox" value="" data-toggle="checkbox">
-													</label></td>
-													<td>Unfollow 5 enemies from twitter</td>
-													<td class="td-actions text-right">
-														<button type="button" rel="tooltip" title="Edit Task"
-															class="btn btn-info btn-simple btn-xs">
-															<i class="fa fa-edit"></i>
-														</button>
-														<button type="button" rel="tooltip" title="Remove"
-															class="btn btn-danger btn-simple btn-xs">
-															<i class="fa fa-times"></i>
-														</button>
-													</td>
-												</tr>
-											</tbody>
-										</table>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="card ">
+											<div class="header">
+												<h4 class="title">Today</h4>
+												<p class="category">오늘 일정</p>
+											</div>
+											<div class="content">
+												<table class="table">
+													<c:forEach items="${list}" var="list">
+														<tr>
+															<td>${list.title}</td>
+															<td>${list.contents}</td>
+															<td>${list.starttime}~${list.endtime}</td>
+														</tr>
+													</c:forEach>
+												</table>
+												<div class="footer">
+													<div class="legend"></div>
+													<hr>
+													<div class="stats">
+														<i class="fa fa-check"></i> Today Schedule
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
-
-									<div class="footer">
-										<hr>
-										<div class="stats">
-											<i class="fa fa-history"></i> Updated 3 minutes ago
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="card ">
+											<div class="header">
+												<h4 class="title">Tomorrow</h4>
+												<p class="category">내일 일정</p>
+											</div>
+											<div class="content">
+												<table class="table">
+													<c:forEach items="${tomorrow}" var="list">
+														<tr>
+															<td>${list.title}</td>
+															<td>${list.contents}</td>
+															<td>${list.starttime}~${list.endtime}</td>
+														</tr>
+													</c:forEach>
+												</table>
+												<div class="footer">
+													<div class="legend"></div>
+													<hr>
+													<div class="stats">
+														<i class="fa fa-check"></i> Tomorrow Schedule
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -374,7 +433,6 @@
 					<nav class="pull-left">
 						<ul>
 							<li><a href="/erp/home"> Home </a></li>
-							<li><a href="#"> Company </a></li>
 						</ul>
 					</nav>
 					<p class="pull-right">

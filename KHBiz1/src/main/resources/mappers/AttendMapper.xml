@@ -4,25 +4,37 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AttendMapper">
 	<update id="checkIn" parameterType="com.khbiz.member.MemberDTO">
-		UPDATE attend SET starttime =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,ENDTIME=null,OVERTIME=null,BREAKING=0,VACATION=0 
+		UPDATE attend SET starttime =  TO_CHAR(sysdate,'YYMMDD/HH24MI'),ENDTIME=null,OVERTIME=null,VACATION=0 
 		where CODE=#{code}
 	</update>
 	<select id="checking" parameterType="com.khbiz.member.MemberDTO" resultType="int">
 		select TO_DATE(starttime,'YYMMDD/HH24MI') - sysdate from attend where code=#{code}
 	</select>
-	<update id="checkOut"  parameterType="com.khbiz.member.MemberDTO">
-		UPDATE attend SET ENDTIME =  TO_CHAR(sysdate,'YYMMDD/HH24MI'), ABSENCE=0,BUSINESSTRIP=0,OVERTIME=#{overtime},BREAKING=0,VACATION=0 
+	<update id="checkOut"  parameterType="String">
+		UPDATE attend SET ENDTIME =  TO_CHAR(sysdate,'YYMMDD/HH24MI'),VACATION=0 
 		where CODE=#{code}
 	</update>
 	<insert id="memberIn" parameterType="com.khbiz.member.MemberDTO">
 		insert into ATTEND 
-		VALUES(#{code},TO_CHAR(sysdate,'YYMMDD/HH24MI'),null,null,null,null,null,null)
+		VALUES(#{code},TO_char(sysdate,'YYMMDD/HH24MI'),null,null,null)
 	</insert>
-	<select id="workingtime" parameterType="com.khbiz.member.MemberDTO">
+	<select id="workingtime" parameterType="com.khbiz.member.MemberDTO" resultType="int">
 		SELECT
  		TO_CHAR(
-     	TO_DATE(TRUNC(MOD(  TO_DATE(ENDTIME,'YYMMDD/HH24MI')
-		- TO_DATE(starttime,'YYMMDD/HH24MI'),1)* 24 * 60 * 60), 'SSSSS'),'HH24MI')
+     	TO_DATE(ABS(TRUNC(MOD( TO_DATE(ENDTIME,'YYMMDD/HH24MI')
+		- TO_DATE(to_char(sysdate,'yyyymmdd')||':0900','YYMMDD/HH24MI'),1)* 24 * 60 * 60), 'SSSSS')),'HH24MI')
 		FROM attend where code=#{code}
 	</select>
+	<update id="overtime" parameterType="java.util.HashMap">
+		update attend set overtime=#{overtime} where code=#{code}
+	</update>
+	<!-- 7시 실행 -->
+	<update id="vacation">
+		update attend k set k.VACATION=1 where 
+		EXISTS (select * from SCHEDULE j where sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and title ='휴가' and k.code=j.code);
+	</update>
+	<!-- 멤버삭제 -->
+	<delete id="memberDel" parameterType="com.khbiz.member.MemberDTO">
+		delete attend where code=#{code}
+	</delete>
 </mapper>

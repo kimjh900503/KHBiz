@@ -7,7 +7,6 @@ public class AttendManageDTO {
 	private int late;
 	private int early;
 	private int absence;
-	private int business;
 	private int over;
 	public String getCode() {
 		return code;
@@ -44,12 +43,6 @@ public class AttendManageDTO {
 	}
 	public void setAbsence(int absence) {
 		this.absence = absence;
-	}
-	public int getBusiness() {
-		return business;
-	}
-	public void setBusiness(int business) {
-		this.business = business;
 	}
 	public int getOver() {
 		return over;

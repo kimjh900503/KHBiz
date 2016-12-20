@@ -1,29 +1,34 @@
 package com.erp.draft;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class FilesDTO {
 	
-	private int f_num;
-	private String originalName;
-	private int fileSize;
-	private String fileName;
+	
 	private String sheet_code;
-	public int getF_num() {
-		return f_num;
+	private String code;
+	private String originalFileName;
+	private String fileName;
+	public String getSheet_code() {
+		return sheet_code;
 	}
-	public void setF_num(int f_num) {
-		this.f_num = f_num;
+	public void setSheet_code(String sheet_code) {
+		this.sheet_code = sheet_code;
 	}
-	public String getOriginalName() {
-		return originalName;
+	public String getCode() {
+		return code;
 	}
-	public void setOriginalName(String originalName) {
-		this.originalName = originalName;
+	public void setCode(String code) {
+		this.code = code;
 	}
-	public int getFileSize() {
-		return fileSize;
+	public String getOriginalFileName() {
+		return originalFileName;
 	}
-	public void setFileSize(int fileSize) {
-		this.fileSize = fileSize;
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
 	}
 	public String getFileName() {
 		return fileName;
@@ -31,12 +36,10 @@ public class FilesDTO {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	public String getSheet_code() {
-		return sheet_code;
-	}
-	public void setSheet_code(String sheet_code) {
-		this.sheet_code = sheet_code;
-	}
+
+
 	
-	
+
+
+
 }

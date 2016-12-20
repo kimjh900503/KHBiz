@@ -60,7 +60,7 @@
 			$('.fly-in-text').removeClass('hidden');
 		},500);
 		 setTimeout(function () {
-			 location.href="index";
+			 location.href="/erp/";
 		},3000);
 	});
 </script>

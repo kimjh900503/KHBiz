@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AttendmanageMapper">
+	<!-- 8시에 실행 -->
+	<update id="vacation">
+		update ATTENDMANAGE k set k.used = k.used+1  where 
+		EXISTS (select * from SCHEDULE j where sysdate  BETWEEN startdate  and  TO_DATE(enddate,'yyyy-mm-dd')+1 and title ='휴가' and k.code=j.code)
+	</update>
+	<!-- 가입 -->
+	<insert id="memberIn" parameterType="com.khbiz.member.MemberDTO">
+		insert into attendmanage values(#{code},14,0,0,0,0,0)
+	</insert>
+	<!-- 9시에 실행 -->
+	<update id="late">
+		<![CDATA[update ATTENDMANAGE k set late = late+1 where 
+		EXISTS(select * from ATTEND j where substr(starttime,1,6) <= to_char(sysdate-1,'yymmdd') and vacation=0 and k.code=j.code)
+		]]>
+	</update>
+	<!-- 13시에 실행 -->
+	<update id="absence">
+		<![CDATA[UPDATE attendmanage k set k.ABSENCE = k.ABSENCE+1, k.LATE=k.LATE-1 where 
+		EXISTS(select * from ATTEND j where substr(starttime,1,6) <= to_char(sysdate-1,'yymmdd') and vacation=0 and k.code=j.code)
+		]]>
+	</update>
+	<!-- 로그아웃시 실행 -->
+	<update id="over" parameterType="com.khbiz.member.MemberDTO">
+		UPDATE ATTENDMANAGE k SET OVER = over+(select overtime from ATTEND j where code = #{code}) where code=#{code}
+	</update>
+	<!-- 멤버삭제 -->
+	<delete id="memberDel" parameterType="com.khbiz.member.MemberDTO">
+		delete ATTENDMANAGE where code=#{code}
+	</delete>
+	<!-- 회원 근태 정보 보기 -->
+	<select id="memberView" parameterType="String" resultType="com.khbiz.attendmanage.AttendManageDTO">
+		select * from attendmanage where code=#{code}
+	</select>
+	<select id="attendList" parameterType="int" resultType="com.khbiz.attendmanage.AttendListDTO">
+		select * from
+		(select ROWNUM r, c.* from
+		(select a.*,b.code as m_code,b.DEPARTMENT,b.POSITION,b.NAME,b.position_rank from attendmanage a, member b where a.code=b.code order by b.position_rank asc) c)
+		where r BETWEEN 1 and #{lastNum}
+	</select>
+	<select id="attendDepartmentList" parameterType="java.util.HashMap" resultType="com.khbiz.attendmanage.AttendListDTO">
+		select * from
+		(select ROWNUM r, c.* from
+		(select a.*,b.code as m_code,b.DEPARTMENT,b.POSITION,b.NAME,b.position_rank from attendmanage a, member b where a.code=b.code and b.department=#{department} order by b.position_rank asc) c)
+		where r BETWEEN 1 and #{lastNum}
+	</select>
+	<select id="attendsearch" parameterType="java.util.HashMap" resultType="com.khbiz.attendmanage.AttendListDTO">
+		select * from
+		(select ROWNUM r, c.* from
+		(select a.*,b.code as m_code,b.DEPARTMENT,b.POSITION,b.NAME,b.position_rank from attendmanage a, member b where a.code=b.code and (b.name like #{search} or b.CODE like #{search}) order by b.position_rank asc) c)
+		where r BETWEEN 1 and #{lastNum}
+	</select>
+	<!-- 수정폼 -->
+	<select id="getAttend" parameterType="String" resultType="com.khbiz.attendmanage.AttendListDTO">
+		select a.*,b.code as m_code,b.DEPARTMENT,b.POSITION,b.NAME,b.position_rank from attendmanage a, member b where a.code=b.code and b.code=#{code}
+	</select>
+	<!-- 수정 -->
+	<update id="attendmodi" parameterType="com.khbiz.attendmanage.AttendManageDTO">
+		update attendmanage set vacation = #{vacation}, used=#{used}, late=#{late},absence=#{absence},over=#{over} where code=#{code}
+	</update>
+</mapper>

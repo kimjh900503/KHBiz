@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+	<insert id="noticeWrite" parameterType="com.khbiz.notice.NoticeDTO">
+		insert into notice values
+		(notice_seq.nextval,#{notice_writer},#{notice_title},#{notice_contents},sysdate,0,#{notice_code})
+	</insert>
+	<select id="noticeList" resultType="com.khbiz.notice.NoticeDTO" parameterType="com.khbiz.util.PageMaker">
+		select * from
+		(select rownum R,T.* from
+		(select * from notice order by notice_num desc)T)
+		where R between #{startRowNum} and #{lastRowNum}
+	</select>
+	<select id="noticeView" resultType="com.khbiz.notice.NoticeDTO" parameterType="com.khbiz.notice.NoticeDTO">
+		select * from notice where notice_num=#{notice_num}
+	</select>
+	<update id="noticeMod" parameterType="com.khbiz.notice.NoticeDTO">
+		update notice set notice_title=#{notice_title},notice_contents=#{notice_contents} where notice_num=#{notice_num}
+	</update>
+	
+	<delete id="noticeDelete" parameterType="com.khbiz.notice.NoticeDTO">
+		delete notice where notice_num=#{notice_num}
+	</delete>
+	
+	<select id="noticeCount" resultType="int">
+		select count(notice_num) from notice
+	</select>
+	<update id="noticeHits">
+		update notice set notice_counts=notice_counts+1 where notice_num=#{notice_num}
+	</update>
+</mapper>

@@ -9,6 +9,8 @@ public class ChatDTO {
 	private String cname;
 	private String cdetail;
 	private String contents;
+	private String reg_date;
+	private int count;
 	
 	public int getNum() {
 		return num;
@@ -51,6 +53,24 @@ public class ChatDTO {
 	}
 	public void setContents(String contents) {
 		this.contents = contents;
+	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
+	/**
+	 * @return the count
+	 */
+	public int getCount() {
+		return count;
+	}
+	/**
+	 * @param count the count to set
+	 */
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 

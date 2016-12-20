@@ -32,6 +32,8 @@
 <script type="text/javascript" src="/erp/js/jquery.countTo.js"></script>
 <script type="text/javascript">
 	$(function() {
+		var chk1 = /[a-z]/i; //적어도 한개의 a-z가 있는지 확인
+		var chk2 = /\d/; //적어도 한개의 0-9가 있는지 확인
 		var height = $('body').height();
 		var docH = $(document).height();
 		var wHeight = $(window).height();
@@ -59,10 +61,18 @@
 
 		$("#idCheck").click(function() {
 			var id_1 = $("#id_1").val();
+			var id_2 = $("#id_2").val();
 			var id = $("#id_1").val() + "@" + $("#id_2").val();
 			var regexp = /^[a-z][a-z0-9_-]{1,11}$/;
+			var chk1 = /^[a-z][./a-z]$/; //적어도 한개의 a-z가 있는지 확인
+			var chk2=/^([a-z/.]+)[.]([a-z]+)$/;
 			if (id_1.length < 4 || !regexp.test(id_1)) {
-				swal("에러", "4~12자리 이상의 영문 , 영문 숫자 조합만 사용가능합니다", "error");
+				swal("에러", "4~12자리의 영문,숫자 조합만 사용가능합니다", "error");
+				$('#id').addClass('has-error');
+				count = 0;
+				return false;
+			}else if(!chk2.test(id_2)){
+				swal("에러", "mail주소를 정확이 입력해주세요", "error");
 				$('#id').addClass('has-error');
 				count = 0;
 				return false;
@@ -93,6 +103,100 @@
 			$('#id').removeClass('has-error');
 			count = 0;
 		});
+		$('#id_2').change(function() {
+			$('#id').removeClass('has-success');
+			$('#id').removeClass('has-error');
+			count = 0;
+		});
+		$("#pwCheck").blur(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pwCheck").keyup(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+
+			}
+		});
+		$("#pwCheck").focus(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").keyup(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").blur(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").focus(function() {
+			var pw = $("#pw").val();
+			var pwCheck = $("#pwCheck").val();
+			if (pw == pwCheck && pw != ''&& pw.length > 6 && chk1.test(pw) &&chk2.test(pw)) {
+				$('#pw').css("background-color","#bcebad");
+				$('#pwCheck').css("background-color","#bcebad");
+			} else {
+				$('#pw').css("background-color","");
+				$('#pwCheck').css("background-color","");
+			}
+		});
+		$("#pw").change(function() {
+			$('#pw').css("background-color","");
+			$('#pwCheck').css("background-color","");
+		});
+		$("#pwCheck").change(function() {
+			$('#pw').css("background-color","");
+			$('#pwCheck').css("background-color","");
+		});
+		
+
+		$("#pic").on('change', function(){
+			var fileext = $('#pic').val();
+			fileext = fileext.slice(fileext.indexOf(".")+1).toLowerCase();
+			if(fileext != "jpg" && fileext != "png" && fileext != "gif" && fileext != "bmp"){
+				swal("에러", "이미지 파일을 올려주세요 ", "error");
+				$('#storefile').val("");
+				return false;
+			}else{
+            	readURL(this);				
+			}
+        });
+
 
 		$("#joinBtn").click(function() {
 			var pw = $("#pw").val();
@@ -101,6 +205,7 @@
 			var address = $("#sample4_roadAddress1").val();
 			var phone1 = $("#phone1").val();
 			var phone2 = $("#phone2").val();
+			var pic=$("#pic").val();
 
 			var chk1 = /[a-z]/i; //적어도 한개의 a-z가 있는지 확인
 			var chk2 = /\d/; //적어도 한개의 0-9가 있는지 확인
@@ -142,12 +247,30 @@
 			} else if (address == '') {
 				swal("에러", "주소를 입력하세요", "error");
 				return false;
-			} else {
+			}else if(pic==''){
+				swal("에러", "사진을 넣어주세요", "error");
+		  		return false;
+		  	} else {
 				$("#frm").submit();
 			}
 
 		});
+		$('#reset').click(function() {
+			$('#blah').addClass('hidden');
+		});
 	});
+	function readURL(input){
+        if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+        		$('#blah').removeClass('hidden');
+                $('#blah').attr('src', e.target.result);
+            }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 </head>
 <body>
@@ -189,32 +312,43 @@
 			<div class="media video-overlay" style="margin: 0">
 				<section>
 					<div class="container">
-						<div class="row" style="margin: 5%">
+						<div class="row">
 							<div class="col-lg-12 col-md-12">
 							<div id="content">
 								<div class="title text-center">
 									<h2>사용자 정보 입력하기</h2>
 								</div>
-								<form action="memberFirstMod" method="post" id="frm">
+								<form action="memberFirstMod" method="post" id="frm" enctype="multipart/form-data">
+									<input type="hidden" name="code" value="${member.code}" class="form-control" readonly>
 									<div class="col-lg-6 col-md-6">
-										<div class="form-group has-feedback text-left">
-											<label>사원 번호</label> <input type="text" name="code"
-												value="${member.code}" class="form-control" readonly>
+										<table>
+											<tr>
+										<td class="form-group has-feedback text-left col-md-4">
+											<label>사원 번호</label>
+											<p>${member.code}</p>
+										</td>
+										<td class="form-group has-feedback text-left col-md-4">
+											<label>부서</label>
+											<p>${member.department}</p>
+										</td>
+										<td class="form-group has-feedback text-left col-md-4">
+											<label>직급</label>
+											<p>${member.position}</p>
+										</td>
+											</tr>
+										</table>
+										<div class="text-left">
+											<label>프로필 사진</label>
 										</div>
-										<div class="form-group has-feedback text-left">
-											<label>부서</label> <input type="text" name="department"
-												value="${member.department}" class="form-control" readonly>
-										</div>
-										<div class="form-group has-feedback text-left">
-											<label>직급</label> <input type="text" name="position"
-												value="${member.position}" class="form-control" readonly>
+										<div class="form-group has-feedback text-left input-group form-inline">
+											<img id="blah" class="hidden" style="width:120px; height: 160px;"/>
+											<input type="file" id="pic" accept="image/*" name="pic">
 										</div>
 										<div class="text-left">
 											<label>아이디</label>
 										</div>
-										<div id="id"
-											class="form-group has-feedback text-left input-group form-inline">
-											<input type="text" name="id_1" class="form-control" id="id_1"
+										<div id="id" class="form-group has-feedback text-left input-group form-inline">
+											<input type="text" name="id_1" class="form-control" id="id_1" maxlength="12"
 												placeholder="아이디">
 											<div class="input-group-addon" id="basic-addon1">@</div>
 											<input type="text" class="form-control"
@@ -305,13 +439,13 @@
 												id="sample4_jibunAddress1" name="address2"> <input
 												class="join_text form-control" type="hidden"
 												id="sample4_jibunAddress2" placeholder="지번주소"
-												disabled="disabled">
+												disabled="disabled"><span id="guide" style="color:#999"></span>
 										</div>
 									</div>
 									<div class="row" style="margin-bottom: 15px">
 										<div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3 text-center">
 										<button class="btn btn-info" id="joinBtn">등록</button>
-										<button class="btn btn-defalut" type="reset">다시쓰기</button>
+										<button class="btn btn-defalut" type="reset" id="reset">다시쓰기</button>
 										<button class="btn btn-defalut" onclick="location.href='/erp/'; return false;">취소</button>
 										</div>
 									</div>
@@ -324,7 +458,7 @@
 			</div>
 		</div>
 	</div>
-	<footer id="footer">
+	<!-- <footer id="footer">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-6 col-sm-3 column">
@@ -375,36 +509,9 @@
 				href="http://www.bootstrapzero.com">Landing Zero by
 					BootstrapZero</a> ©2015 Company</span>
 		</div>
-	</footer>
+	</footer> -->
 	<div id="aboutModal" class="modal fade in" tabindex="-1" role="dialog"
 		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-body">
-					<h2 class="text-center">Landing Zero Theme</h2>
-					<h5 class="text-center">A free, responsive landing page theme
-						built by BootstrapZero.</h5>
-					<p class="text-justify">This is a single-page Bootstrap
-						template with a sleek dark/grey color scheme, accent color and
-						smooth scrolling. There are vertical content sections with subtle
-						animations that are activated when scrolled into view using the
-						jQuery WOW plugin. There is also a gallery with modals that work
-						nicely to showcase your work portfolio. Other features include a
-						contact form, email subscribe form, multi-column footer. Uses
-						Questrial Google Font and Ionicons.</p>
-					<p class="text-center">
-						<a href="http://www.bootstrapzero.com">Download at
-							BootstrapZero</a>
-					</p>
-					<br />
-					<button class="btn btn-primary btn-lg center-block"
-						data-dismiss="modal" aria-hidden="true">OK</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="messageModal" class="modal fade in" tabindex="-1"
-		role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
